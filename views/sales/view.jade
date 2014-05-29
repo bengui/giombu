@@ -1,0 +1,10 @@
+
+extends ../home
+
+block content
+	-if(typeof deal !== "undefined")
+		include ../partials/deals/deal
+		p #{deal.title}
+		-each sale in deal.sales
+			-if(sale._id == id)
+				p #{sale.status}
