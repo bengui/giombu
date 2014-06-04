@@ -8,7 +8,7 @@ var CommissionModel = require('../models/commission').CommissionModel;
 var EventModel = require('../models/event').EventModel;
 var Encrypter = require('../helpers/encryption');
 var PDFDocument = require('pdfkit');
-
+var CheckAuth = require('../middleware/checkAuth');
 
 module.exports = function(app){
 
@@ -76,13 +76,13 @@ module.exports = function(app){
 		 * @return void
 		 * @author Nicolas Ronchi
 	**/
-	app.get('/sales/:id', function (req, res, next) {
+	app.get('/sales/:id',CheckAuth.user , function (req, res, next) {
 		DealModel.findOne({"sales._id" :req.params.id}).populate("images").exec(function(err, deal){
 			if(!err){
 				if(deal){
 					res.render('sales/view', {title: 'Detalle de venta', deal : deal, id:req.params.id});
 				}else{
-				 // res.render('sales/checkout', {title: 'Error'});
+				 res.send("Compra no encontrada")
 				}
 			}else{
 			}

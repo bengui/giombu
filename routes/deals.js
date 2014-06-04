@@ -317,7 +317,8 @@ module.exports = function (app){
 	});
 
 	//Muestra la vista detallada de una deal en particular
-	app.get('/deals/:id', CheckAuth.user,  CheckAuth.seller, function(req, res, next){
+	//Si la ruta matchea entra por esta, necesitamos distintas rutas Nico 4/6
+	app.get('/deals/review/:id', CheckAuth.user,  CheckAuth.seller, function(req, res, next){
 		DealModel.findById( req.params.id )
 		.populate('store').populate("images")
 		.exec( function(err, deal){
