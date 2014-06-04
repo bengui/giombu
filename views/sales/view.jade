@@ -4,7 +4,13 @@ extends ../home
 block content
 	-if(typeof deal !== "undefined")
 		include ../partials/deals/deal
-		p #{deal.title}
-		-each sale in deal.sales
-			-if(sale._id == id)
-				p #{sale.status}
+		-var start =(new Date(deal.start_redeem))
+		-var end =(new Date(deal.end_redeem))
+		.well.well-sm.col-md-6
+			p Podrás canjearlo a partir del día #{start.getDate()} / #{start.getMonth()+1} / #{start.getFullYear()}  y hasta el día #{end.getDate()} / #{end.getMonth()+1} / #{end.getFullYear()} 
+			-each sale in deal.sales
+				-if(sale._id == id)
+					p La oferta se ejcuentra en estado: #{sale.status}
+					-each coupon in sale.coupons
+						.col-md-6
+							include ../partials/coupons/view

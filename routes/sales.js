@@ -77,7 +77,7 @@ module.exports = function(app){
 		 * @author Nicolas Ronchi
 	**/
 	app.get('/sales/:id', function (req, res, next) {
-		DealModel.findOne({"sales._id" :req.params.id}).exec(function(err, deal){
+		DealModel.findOne({"sales._id" :req.params.id}).populate("images").exec(function(err, deal){
 			if(!err){
 				if(deal){
 					res.render('sales/view', {title: 'Detalle de venta', deal : deal, id:req.params.id});
