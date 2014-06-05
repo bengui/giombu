@@ -365,7 +365,7 @@ module.exports = function (app){
 
 	app.get('/deals/:id', function(req, res, next){
 		DealModel.findById( req.params.id )
-		.populate('store').populate("images").populate("store")
+		.populate('store').populate("images")
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){

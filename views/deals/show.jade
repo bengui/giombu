@@ -9,52 +9,27 @@ block content
 		-var description = deal.characteristics
 		include ../partials/images/carousel
 		include ../partials/deals/checkout_link
-		table.table
-			tr
-				td Titulo:
-				td #{deal.title}
-			tr
-				td Subtitulo:
-				td #{deal.tagline}
-			tr
-				td Link:
-				td #{deal.slug}
-			tr
-				td Caracteristicas:
-				td #{deal.characteristics}
-			tr
-				td Condiciones:
-				td #{deal.conditions}
-
-		br
-		h3 Precios
-
-		table.table
-			tr
-				td Precio original:
-				td $ #{deal.price} 
-			tr
-				td Precio Final:
-				td $ #{deal.special_price} 
-			tr
-				td Descuento:
-				td $ #{deal.discount} 
-
-		br
-		h3 Fechas
-
-		table.table
-			tr
-				td Inicio de la oferta:
-				td #{deal.start_date}
-			tr
-				td Fin de la oferta:
-				td #{deal.end_date}
-			tr
-				td Inicio de canje:
-				td #{deal.start_redeem}
-			tr
-				td Fin de canje:
-				td #{deal.end_redeem}
-	-var store = deal.store 
-	include ../partials/store/store
+		.deal_body.col-md-9.container
+			.col-md-9.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+			table.table
+				tr
+					td Titulo:
+					td #{deal.title}
+				tr
+					td Subtitulo:
+					td #{deal.tagline}
+				tr
+					td Link:
+					td #{deal.slug}
+				tr
+					td Caracteristicas:
+					td #{deal.characteristics}
+				tr
+					td Condiciones:
+					td #{deal.conditions}
+			br
+			.alert.alert-info
+				p Podrás canjear esta oferta a partir del día #{deal.start_redeem.getDate()} / #{deal.start_redeem.getMonth()+1} / #{deal.start_redeem.getFullYear()}  y hasta el día #{deal.end_redeem.getDate()} / #{deal.end_redeem.getMonth()+1} / #{deal.end_redeem.getFullYear()} 
+			-var store = deal.store 
+			.col-sm-4
+				include ../partials/store/store

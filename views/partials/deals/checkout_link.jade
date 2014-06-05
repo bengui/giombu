@@ -1,5 +1,8 @@
 .well.pull-right.col-md-3
 	h3 $ #{deal.special_price}
-	p #{deal.end_date}
+	p Precio Original
+	p $ #{deal.price}
+	p Descuento
+	p #{deal.discount} %
 	p
 		a.btn.btn-primary.btn-lg(role="button", href="/sales/checkout/#{deal._id}") Comprar
