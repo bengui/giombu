@@ -9,8 +9,8 @@ block content
 		-var description = deal.characteristics
 		include ../partials/images/carousel
 		include ../partials/deals/checkout_link
-		.deal_body.col-md-9.container
-			.col-md-9.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+		.deal_body.col-md-9
+			.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
 			table.table
 				tr
 					td Titulo:

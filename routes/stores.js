@@ -479,8 +479,8 @@ module.exports = function(app){
 	});
 
 
-
-	app.get('/stores/:id', CheckAuth.user, function(req, res, next){
+	//Ver store sin ser usuario deberia ser posible. No?. agregue review, si queres las sacamos.
+	app.get('/stores/review/:id', CheckAuth.user, function(req, res, next){
 
 		if(!Util.checkObjectId(req.params.id)){
 			goHome(res);
@@ -497,6 +497,27 @@ module.exports = function(app){
 				return;
 			}
 			res.render('stores/view', {title: 'store', store : store});
+
+		});
+	});
+
+	app.get('/stores/:id', function(req, res, next){
+
+		if(!Util.checkObjectId(req.params.id)){
+			goHome(res);
+			return;
+		}
+
+		StoreModel.findById( req.params.id )
+		.populate('images')
+		.populate('branches.partner')
+		.exec(function(err, store){
+			if(err) throw err;
+			if(!store){
+				goHome(res);
+				return;
+			}
+			res.render('stores/show', {title: 'store', store : store});
 
 		});
 	});
