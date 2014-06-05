@@ -501,6 +501,7 @@ module.exports = function(app){
 		});
 	});
 
+	//Lo podria ver cualquiera (supongamos un posible comprador que no esta logueado.)
 	app.get('/stores/:id', function(req, res, next){
 
 		if(!Util.checkObjectId(req.params.id)){
@@ -510,7 +511,6 @@ module.exports = function(app){
 
 		StoreModel.findById( req.params.id )
 		.populate('images')
-		.populate('branches.partner')
 		.exec(function(err, store){
 			if(err) throw err;
 			if(!store){
