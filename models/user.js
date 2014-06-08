@@ -27,7 +27,9 @@ var UserSchema = new mongoose.Schema({
 	zip						: { type: String},
 	created    			    : {type: Date, default: Date.now },
 	modified				: {type: Date, default: Date.now },
+	//Persona que te invitó.
 	promoter 				: { type: mongoose.Schema.ObjectId, ref: 'User' },
+
 	level					: { type: mongoose.Schema.ObjectId, ref: 'Level' },
 	//Relacionados
 	 invitation				: [InvitationSchema],

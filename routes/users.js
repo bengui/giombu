@@ -66,13 +66,19 @@ module.exports = function(app){
 		req.body.user.password = encrypter.encrypt(req.body.user.password);
 
 		var user = new UserModel(req.body.user);
-
-		console.log('New User');
-		console.log(user);
-
 		user.roles.push(UserRoles.getUser());
-		
-
+		if(req.body.invitation != ""){
+			switch(invitation_type){
+				//Ver donde vamos a manejar este evento.
+				app.emit("invitation_accepted", invitation)
+				case "seller":
+					user.roles.push(UserRoles.getSeller());
+				break;
+				case "promoter":
+					user.roles.push(UserRoles.getPromoter());
+				break;
+			}
+		}
 		UserModel.findOne({username: req.body.inviter}, function(err, inviter){
 
 			if (err) throw err;

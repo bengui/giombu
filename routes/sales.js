@@ -21,7 +21,7 @@ module.exports = function(app){
 					for (var i = 1; i <= deal.max_coupons_by_user ; i++) {
 						list[i-1] = i;
 					};
-					res.render('sales/checkout', {title: 'Detalle del pedido', deal : deal , list : list, user:req.session.user});
+					res.render('sales/checkout', {title: 'Detalle del pedido', deal : deal , list : list});
 				}else{
 				 // res.render('sales/checkout', {title: 'Error'});
 				}

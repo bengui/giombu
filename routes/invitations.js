@@ -1,6 +1,8 @@
 var InvitationModel = require('../models/invitation').InvitationModel;
 var Mailer = require('../helpers/mailer');
-
+var CountryModel = require('../models/country').CountryModel;
+var StateModel = require('../models/state').StateModel;
+var CityModel = require('../models/city').CityModel;
 
 module.exports = function (app){
  
@@ -11,7 +13,7 @@ module.exports = function (app){
 
   app.post('/invitations/add', function (req, res, next) {
    var invitation_new = new InvitationModel(req.param('invitation'));
-    invitation_new.user = req.session.user._id;
+    invitation_new.invite_user = req.session.user._id;
    // var invitation = new InvitationModel(req.param('invitation'));
 
     InvitationModel.findOne({ user: req.session.user._id }).where('email').equals(invitation_new.email).exec(function (err, invitation) {
@@ -21,13 +23,9 @@ module.exports = function (app){
         }else{
           invitation_new.save(function(err){
           if(!err){
-               var body = "Has sido invitado a formar parte de la comunidad Giombu, una comunidad de comercio electrónico en pleno crecimiento. ¡Esperamos que tu tambien quieras formar parte de esto! Para ingresar, por favor sigue el link debajo.";
+               var body = "<p>Has sido invitado a formar parte de la comunidad Giombu, una comunidad de comercio electrónico en pleno crecimiento. ¡Esperamos que tu tambien quieras formar parte de esto! Para ingresar, por favor sigue el link debajo.";
                body += '"'+ invitation_new.body +'"';
-               if(invitation_new.invitation_type == 'user'){
-                  var html_content = "<a href='"+req.headers.host+"/users/accept_invitation/"+invitation_new._id+"'>Click Aquí para comenzar a ser parte de GIOMBU</a>";
-               }else{
-                  var html_content = "<a href='"+req.headers.host+"/users/accept_promoter_invitation/"+invitation_new._id+"'>Click Aquí para comenzar a ser parte de GIOMBU</a>";
-               }
+               var html_content = "<a href='http://"+req.headers.host+"/users/accept_invitation/"+invitation_new._id+"'>Click Aquí para comenzar a ser parte de GIOMBU</a></p>";
                var subject = invitation_new.subject;
                var mails = invitation_new.email;
                var from_name = req.session.user.name ;
@@ -35,10 +33,11 @@ module.exports = function (app){
                Mailer.send_mail( mails , subject, body, from_name, from_mail, html_content);
                console.log(html_content)
               console.log(invitation_new);
-              res.render('invitations/create', {title: 'Cargar Invitacion' , user:req.session.user, messagge : "Invitacion enviada con éxito a: "+ invitation_new.email});
+              res.locals.expose.message = "La invitacion ha sido enviada con éxito a "+mails
+              res.redirect('/invitations');
             } else {
               console.log("Error: - " + err);
-              res.render('invitations/create', {title: 'Cargar Invitacion' , user:req.session.user, messagge : "Error: "+ err});
+              res.redirect('/invitations')
             }
           });
          }
@@ -52,16 +51,15 @@ module.exports = function (app){
   });
 
 
-
- app.get('/intranet/invitations/list_promoters', function(req, res, next){
-    InvitationModel.find().where('user').equals(req.session.user._id).where('invitation_type').equals('promoter').exec(function(err, invitations){
+  app.get('/invitations', function(req, res, next){
+    InvitationModel.find().where('invite_user').equals(req.session.user._id).exec(function(err, invitations){
       if(!err){
         if(invitations){
           console.log('invitation - list - Se envian los invitations encontrados');
           console.log(invitations);
-          res.render('invitations/list', {title: 'Lista de Invitaciones', user:req.session.user,invitations : invitations});
+          res.render('invitations/list', {title: 'Lista de Invitaciones',invitations : invitations});
         }else{
-          res.render('invitations/list', {title: 'Lista de Invitaciones', user:req.session.user, invitations: invitations, error: "No se han encontrado invitaciones"});
+          res.render('invitations/list', {title: 'Lista de Invitaciones', error: "No se han encontrado invitaciones"});
         }
       }else{
         console.log('invitation - list - '.red.bold + err);
@@ -69,32 +67,13 @@ module.exports = function (app){
     });
   });
 
-  app.get('/intranet/invitations/list_contacts', function(req, res, next){
-    InvitationModel.find().where('user').equals(req.session.user._id).where('invitation_type').equals('user').exec(function(err, invitations){
-      if(!err){
-        if(invitations){
-          console.log('invitation - list - Se envian los invitations encontrados');
-          console.log(invitations);
-          res.render('invitations/list', {title: 'Lista de Invitaciones', user:req.session.user,invitations : invitations});
-        }else{
-          res.render('invitations/list', {title: 'Lista de Invitaciones', user:req.session.user, invitations: invitations, error: "No se han encontrado invitaciones"});
-        }
-      }else{
-        console.log('invitation - list - '.red.bold + err);
-      }
-    });
-  });
-
-  app.get('/intranet/invitations/view',function(req, res, next){
-    console.log('invitations - view'.cyan.bold);
-    console.log('invitations - view - Busco el invitation ( ' + req.params.id +' )');
+  app.get('/invitations/:id',function(req, res, next){
     InvitationModel.findById( req.params.id , function(err, invitation){
       if(!err){
         if(invitation){
           console.log('invitations - view - Se encontro el invitation ( ' + req.params.id +' )');
           res.render('invitations/view', { title: 'invitation',
-                          invitation : invitation,
-                          user : req.session.user
+                          invitation : invitation
                         });
         }else{
           console.log('invitations - view - No se encontro el invitation ( ' + req.params.id +' )');
@@ -104,4 +83,36 @@ module.exports = function (app){
       }
     });
   });
+
+  app.get('/invitations/accept/:id' , function (req, res, next) {
+        InvitationModel.findOne({ _id: req.params.id }).populate("invite_user").exec(function (err, invitation) {
+            if (invitation){
+                console.log(invitation)
+                CountryModel.find({}, function(err, countries){
+                    if (err) throw err;
+
+                    StateModel.find({}, function(err, states){
+                        if (err) throw err;
+
+                        CityModel.find({}, function(err, cities){
+                            if (err) throw err;
+                            res.render('invitations/accept', {
+                                title: 'Ingresa tus Datos', 
+                                invitation  : invitation,
+                                countries   : countries,
+                                states      : states,
+                                cities      : cities
+                            });
+
+                        });
+                        
+                    });
+
+                });
+            }else{
+                console.log("Error: - " + err);
+            }
+        });
+    })
+
 }
