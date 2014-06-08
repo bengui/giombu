@@ -1,0 +1,55 @@
+extends ../layout
+
+//Bloque de contenido.
+block content
+	h3 Editar mi perfil
+	form(method='post',id="users_edit", action='/users/update/').form-horizontal
+		input(name='user_id', type="hidden", , value='#{user._id}')
+		.form-group
+			label.control-label.col-md-4 Nombre de Usuario:
+			.col-md-8
+				input(name='user[username]', type='text', value='#{user.username}' ,class="required").form-control
+		.form-group
+			label.control-label.col-md-4 Nombre completo:
+			.col-md-8
+				input(name='user[name]', type='text', value='#{user.name}' ,class="required").form-control
+		.form-group
+			label.control-label.col-md-4 Apellido(s):
+			.col-md-8
+				input(name='user[lname]', type='text', value='#{user.lname}' ,class="required").form-control
+		.form-group
+			label.control-label.col-md-4 Email:
+			.col-md-8
+				input(name='user[email]', type='text', value='#{user.email}'  ,class="required email").form-control
+		.form-group
+			label.control-label.col-md-4 Phone:
+			.col-md-8
+				input(name='user[phone]', type='text', value='#{user.phone}').form-control
+		.form-group
+			label.control-label.col-md-4 Cell Phone:
+			.col-md-8
+				input(name='user[mobile]', type='text', value='#{user.mobile}').form-control
+		.form-group
+			label.control-label.col-md-4 Direccion: 
+			.col-md-8
+				input(name='user[address]', type='text', value='#{user.address}').form-control
+		.form-group
+			label.control-label.col-md-4 Pais:
+			.col-md-8
+				input(name='user[country]', type='text', value='#{user.country}').form-control
+		.form-group
+			label.control-label.col-md-4 Provincia:
+			.col-md-8
+				input(name='user[state]', type='text', value='#{user.state}').form-control
+		.form-group
+			label.control-label.col-md-4 Ciudad:
+			.col-md-8
+				input(name='user[city]', type='text', value='#{user.city}' ,class="required").form-control
+		.form-group
+			label.control-label.col-md-4 Zip:
+			.col-md-8
+				input(name='user[zip]', type='text', value='#{user.zip}').form-control
+		br
+		.form-group
+			input.enviar(name='submit', type='submit').btn.btn-default
+		hr

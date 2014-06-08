@@ -8,7 +8,7 @@ var LevelModel = require('../models/level').LevelModel;
 var CountryModel = require('../models/country').CountryModel;
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
-
+var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
 
@@ -249,6 +249,63 @@ module.exports = function(app){
 		});
 	});
 		
+
+	app.get('/users/profile', CheckAuth.user, function(req, res){
+		UserModel.findById(req.session.user._id, function(err, user){
+			if (err) throw err;
+
+			if(!user){
+				redirect('/users/logout');
+			}
+
+			res.render('users/profile',{
+				title 	: 'Datos de usuario',
+				user 	: user
+			});
+		});
+	});
+
+
+	app.get('/users/profile/edit', CheckAuth.user, function(req, res){
+		UserModel.findById(req.session.user._id)
+		.populate('city')
+		.exec(function(err, user){
+			if (err) throw err;
+
+			if(!user){
+				redirect('/users/logout');
+			}
+
+			StateModel.findById( user.city._id, function(err, state){
+
+				if (err) throw err;
+
+				CountryModel.findById( state.country._id , function(err, country){
+					if (err) throw err;
+
+					res.render('users/edit_profile',{
+						title 	: 'Editar datos de usuario',
+						user 	: user
+					});
+					
+				});
+
+			});
+
+
+		});
+	});
+
+	app.post('/users/profile/edit', CheckAuth.user, function(req, res){
+		UserModel.findById(req.session.user._id, function(err, user){
+			
+
+			//Guardar datos editados
+
+		});
+	});
+
+
 
 
 	//Esta llamada es muy general es por eso que debe ir a lo ultimo.

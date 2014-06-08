@@ -1,0 +1,137 @@
+
+// my-template.jade
+extends ../layout
+
+//Bloque de contenido.
+block content
+	.img_profile
+		p #{user.username}
+		-if (contacts)
+			h5 Tenes #{contacts.length} contactos!
+	ul(class="nav nav-tabs")
+		li.active
+			a(href="#misdatos", data-toggle="tab") Datos
+		li
+			a(href="#missuscripciones", data-toggle="tab") Suscripciones
+		li
+			a(href="#miscontactos", data-toggle="tab") Contactos
+		li
+			a(href="#misofertas", data-toggle="tab") Ofertas
+		li
+			a(href="#miscomisiones", data-toggle="tab") Comisiones
+		li
+			a(href="#misbonos", data-toggle="tab") Bonos
+		li
+			a(href="#misimagenes", data-toggle="tab") Imagenes
+	.tab-content
+		.tab-pane.fade.active.in#misdatos
+			h3 Datos del usuario
+			table.misdatos
+				tr 
+					td.tdmisdatos Nombre:
+					td #{user.name} #{user.lname}
+				tr
+					td.tdmisdatos Email:
+					td #{user.email}
+				tr 
+					td.tdmisdatos Dirección:
+					td #{user.address} - #{user.state}, #{user.city} - #{user.country}
+				tr 
+					td.tdmisdatos Telefono:
+					td #{user.phone}
+				tr 
+					td.tdmisdatos Movil:
+					td #{user.mobile}
+		.tab-pane.fade.in#miscontactos
+			table.miscontactos
+				-if (contacts)
+					-each contact in contacts
+						tr 
+							td.tdmisdatos Nombre:
+							td
+								a(href="/users/profile/#{contact._id}") #{contact.name} #{contact.lname}
+		.tab-pane.fade.in#misofertas
+			table.misofertas
+				-if (deals)
+					-each deal in deals
+						tr 
+							td.tdmisdatos 
+							td
+								a(href="/deals/view/#{deal._id}") #{deal.title} 
+							td $  #{deal.special_price}	
+		.tab-pane.fade.in#missuscripciones
+			table.missuscripciones
+				-if (subscriptions)
+					-each subscription in subscriptions
+						tr 
+							td.tdmisdatos Nombre:
+							td #{subscription.franchise.name}
+						tr
+							td.tdmisdatos Email:
+							td #{subscription.created}
+		.tab-pane.fade.in#misbonos
+			table.misbonos
+				tr
+					th Monto
+					th Fecha
+				-if (bonuses)
+					-each bonus in bonuses
+						tr 
+							td #{bonus.amount}
+							td #{bonus.created}
+		.tab-pane.fade.in#misimagenes
+			- images = user.images
+			- param = "users"
+			- id = user._id
+			.images
+				-if (image)
+					include ../partials/images/carousel
+					include ../partials/images/media_list
+		-if (!(typeof user.promoter[0] === "undefined"))
+			h3 Promotor
+			table
+				tr
+					td Promotor:
+					td
+				tr
+					td Introduccion:
+					td #{user.promoter[0].page_title}
+				tr
+					td Cuerpo
+					td #{user.promoter[0].page_body}
+
+		-if (user.partner)
+			h3 Partner
+			table
+				tr
+					td	Tienda:
+					td	#{user.partner[0].email}
+		-if (user.seller)
+			h3 Vendedor
+			table
+				tr
+					td	Vendedor:
+					td
+//		.progress.progress-striped.active
+//			.bar(style="width: #{contacts}%;") 
+//			h6 #{contacts} Contactos
+		.results
+			h4 Suscripciones
+				-for (var i = subscriptions.length - 1; i >= 0; i--) {
+					p #{subscriptions[i].franchise.name}
+				-};
+			h4 Ofertas compradas
+		table.table
+			-each deal in deals
+				tr
+					td
+						span.label.pull-right #{deal.status}
+					td
+						img( src="/images/243_large_f4415b921f7e566042424fb70b1ba3a4.jpeg").span2
+					td
+						h5 #{deal.title}
+					td
+						p #{deal.tagline}
+					td.span1
+						a(href="/intranet/deals/view/#{deal._id}").btn.pull-right Ver
+	
