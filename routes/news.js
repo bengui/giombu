@@ -8,7 +8,7 @@ module.exports = function(app){
 	app.on('commission_event', function (deal , type, commission) {
 		var query = EventModel.findOne({ 'name': type });
 		query.exec(function (err, event) {
-			if (err) return handleError("Commission_Seller"+err);
+			if (err) return handleError("Event not found, error:"+err);
 			new_new.event = event._id;
 			new_new.to_user = deal.seller;
 			new_new.deal = deal._id;				
@@ -18,20 +18,18 @@ module.exports = function(app){
 		});
 	});
 
-	app.on('redeem_coupon', function(deal, sale, code ){
-		//Commission partner
-		StoreModel.find({"branches":{ $in : [sale.branch]}}).populate("branches").exec(function(err, store){
-			if(store){
-				var branch = store.branches.id(sale.branch)
-				var commission_new = new CommissionModel(); 
-				commission_new.user_id = deal.seller;
-				//MARCAR EL CUPON COMO CANJEADO
-				var coupon = deal.sales.coupon.id(code);
-				commission_new.sale = sale._id;
-				commission_new.currency = deal.currency
-				commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
-			}	
+	app.on('redeemed_coupon', function (sale , code) {
+		var query = EventModel.findOne({ 'name': type });
+		query.exec(function (err, event) {
+			if (err) return handleError("Event not found, error:"+err);
+			new_new.event = event._id;
+			new_new.to_user = deal.seller;
+			new_new.deal = deal._id;				
+			new_new.save(function(err){
+
+			});
 		});
-		
 	});
+
+
 }
