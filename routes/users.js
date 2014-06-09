@@ -11,6 +11,7 @@ var CityModel = require('../models/city').CityModel;
 var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
+var _ = require('underscore');
 
 module.exports = function(app){
 		
@@ -70,7 +71,7 @@ module.exports = function(app){
 		if(req.body.invitation != ""){
 			switch(invitation_type){
 				//Ver donde vamos a manejar este evento.
-				app.emit("invitation_accepted", invitation)
+				//app.emit("invitation_accepted", invitation)
 				case "seller":
 					user.roles.push(UserRoles.getSeller());
 				break;
@@ -251,17 +252,32 @@ module.exports = function(app){
 		
 
 	app.get('/users/profile', CheckAuth.user, function(req, res){
-		UserModel.findById(req.session.user._id, function(err, user){
+		UserModel.findById(req.session.user._id)
+		.populate('city')
+		.exec(function(err, user){
 			if (err) throw err;
 
 			if(!user){
 				redirect('/users/logout');
 			}
 
-			res.render('users/profile',{
-				title 	: 'Datos de usuario',
-				user 	: user
+			StateModel.findById( user.city.state , function(err, state){
+				if (err) throw err;
+
+				CountryModel.findById( state.country, function(err, country){
+					if (err) throw err;
+
+					res.render('users/profile',{
+						title 	: 'Datos de usuario',
+						user 	: user,
+						state 	: state,
+						country : country
+					});
+				});
+
+
 			});
+
 		});
 	});
 
@@ -276,31 +292,42 @@ module.exports = function(app){
 				redirect('/users/logout');
 			}
 
-			StateModel.findById( user.city._id, function(err, state){
-
+			StateModel.findById( user.city.state , function(err, state){
 				if (err) throw err;
 
-				CountryModel.findById( state.country._id , function(err, country){
+				CountryModel.find( {} , function(err, countries){
 					if (err) throw err;
 
-					res.render('users/edit_profile',{
-						title 	: 'Editar datos de usuario',
-						user 	: user
+					StateModel.find( { country : state.country }, function(err, states){
+						if (err) throw err;
+
+						CityModel.find( {state : state._id}, function(err, cities){
+							if (err) throw err;
+							res.render('users/edit_profile',{
+								title 		: 'Editar datos de usuario',
+								user 		: user,
+								state 		: state,
+								states 		: states,
+								countries 	: countries,
+								cities 		: cities
+							});													
+						});
 					});
-					
 				});
-
 			});
-
-
 		});
 	});
 
 	app.post('/users/profile/edit', CheckAuth.user, function(req, res){
 		UserModel.findById(req.session.user._id, function(err, user){
 			
+			_.extend(user, req.body.user);
 
-			//Guardar datos editados
+			user.save(function(err){
+				if (err) throw err;
+				res.redirect('/users/profile');
+			});
+
 
 		});
 	});
