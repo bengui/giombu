@@ -138,6 +138,12 @@ module.exports = function(app){
 				goHome(res);
 				return;
 			}
+			//Solo el creador del Store puede editarlo
+			if(store.creator != req.session.user._id){
+				goHome(res);
+				return;
+			}
+
 			var options = {
 				path	: 'country'
 			};
@@ -480,6 +486,9 @@ module.exports = function(app){
 
 
 	//Ver store sin ser usuario deberia ser posible. No?. agregue review, si queres las sacamos.
+
+	//Esta llamada creo que deberia ser la vista privada, que solo la puedan ver el que creo el store
+	//y sus partners.
 	app.get('/stores/review/:id', CheckAuth.user, function(req, res, next){
 
 		if(!Util.checkObjectId(req.params.id)){
@@ -496,12 +505,23 @@ module.exports = function(app){
 				goHome(res);
 				return;
 			}
-			res.render('stores/view', {title: 'store', store : store});
+
+			//Solo el creador del Store puede ver la vista de administracion
+			if(store.creator != req.session.user._id){
+				goHome(res);
+				return;
+			}
+
+			res.render('stores/view', {
+				title: 'store',
+				store : store
+			});
 
 		});
 	});
 
 	//Lo podria ver cualquiera (supongamos un posible comprador que no esta logueado.)
+	//Claro esta llamada es publica, la puede ver cualquiera, vendria a ser la fachada del store. - BENJI
 	app.get('/stores/:id', function(req, res, next){
 
 		if(!Util.checkObjectId(req.params.id)){

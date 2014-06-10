@@ -7,9 +7,9 @@ block content
 			-each store in stores
 				.media
 					.pull-left(href="#")
-						a(href="/stores/#{store._id}", rel="tooltip")
+						a(href="/stores/review/#{store._id}", rel="tooltip")
 							img(class="media-object", src="/img/check.png", style="width:100px" , alt="Just a Placeholder")
 					.media-body
 						h4.media-heading #{store.name}
 						.media-body
-							a(href="/stores/#{store._id}", rel="tooltip") #{store.name}
+							a(href="/stores/review/#{store._id}", rel="tooltip") #{store.name}
