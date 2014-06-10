@@ -11,7 +11,8 @@ module.exports = function(app){
 			if (err) return handleError("Event not found, error:"+err);
 			new_new.event = event._id;
 			new_new.to_user = deal.seller;
-			new_new.deal = deal._id;				
+			new_new.deal = deal._id;
+			new_new.commission = commission._id;				
 			new_new.save(function(err){
 
 			});
@@ -19,11 +20,21 @@ module.exports = function(app){
 	});
 
 	app.on('redeemed_coupon', function (sale , code) {
-		var query = EventModel.findOne({ 'name': type });
+		var query = EventModel.findOne({ 'name': 'Coupon_Redeemed' });
 		query.exec(function (err, event) {
 			if (err) return handleError("Event not found, error:"+err);
 			new_new.event = event._id;
 			new_new.to_user = deal.seller;
+			new_new.deal = deal._id;				
+			new_new.save(function(err){
+
+			});
+		});
+		var query = EventModel.findOne({ 'name': 'Your_Coupon_Redeemed' });
+		query.exec(function (err, event) {
+			if (err) return handleError("Event not found, error:"+err);
+			new_new.event = event._id;
+			new_new.to_user = sale.user;
 			new_new.deal = deal._id;				
 			new_new.save(function(err){
 
