@@ -7,6 +7,12 @@ block content
 		-var param = 'deals'
 		-var title = deal.title
 		-var description = deal.characteristics
+		p #{expose.user._id}
+		br
+		p pepe
+		p #{deal.creator}
+		-if(deal.creator == expose.user._id)
+			a(href="/deals/edit/#{deal._id}") Editar
 		include ../partials/images/carousel
 		include ../partials/deals/checkout_link
 		.deal_body.col-md-9
