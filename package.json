@@ -20,6 +20,7 @@
     "socket.io": "~0.9.16",
     "session.socket.io": "~0.1.6",
     "underscore": "~1.6.0",
-    "nodeletter": "~0.1.5"
+    "nodeletter": "~0.1.5",
+    "express-mailer": "~0.2.3"
   }
 }
