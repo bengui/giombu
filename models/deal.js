@@ -26,7 +26,7 @@ var DealSchema = new mongoose.Schema({
 	shipping_cost		: { type: Number},
 	branches   			: [{ type: mongoose.Schema.ObjectId, ref: 'Branch' }],
 	seller   			: { type: mongoose.Schema.ObjectId, ref: 'User' },
-	// franchises  		: [{ type: mongoose.Schema.ObjectId, ref: 'Franchise' }],
+	franchises  		: [{ type: mongoose.Schema.ObjectId, ref: 'Franchise' }],
 	store				: { type: mongoose.Schema.ObjectId, ref: 'Store' },
 	currency	   		: { type: mongoose.Schema.ObjectId, ref: 'Currency' },
 	//Peso para ordenarlas

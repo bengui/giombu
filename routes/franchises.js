@@ -67,7 +67,13 @@ module.exports = function(app){
 	});
 
 
-
+	app.get('/franchises', function(req, res, next){
+		FranchisorModel.find().sort("-name").exec( function(err, franchisors){
+			if (err) throw err;
+			res.json(franchisors);
+		});
+	});
+	
 	app.get('/franchises/:id:format(.json)?', function(req, res, next){
 		FranchiseModel.find({ franchisor : req.params.id}).sort("-name").exec( function(err, franchises){
 			if (err) throw err;

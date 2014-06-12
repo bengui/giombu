@@ -2,6 +2,7 @@ var path = require('path');
 var express = require('express');
 var SessionSockets = require('session.socket.io');
 var sessionSockets;
+var mailer = require('express-mailer');
 
 module.exports = function(app, io){
 
@@ -40,6 +41,17 @@ module.exports = function(app, io){
 		app.use(express.errorHandler());
 	}
 
+	mailer.extend(app, {
+		from: 'narc88@gmail.com',
+		host: 'smtp.gmail.com', // hostname
+		secureConnection: true, // use SSL
+		port: 465, // port for secure SMTP
+		transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
+		auth: {
+			user: 'narc88@gmail.com',
+			pass: 'lapaloma6786'
+		}
+	});
 
 	//Socket IO
 	sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
