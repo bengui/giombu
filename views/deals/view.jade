@@ -4,6 +4,8 @@ extends ../layout
 block content
 	.col-md-9
 		h2 Oferta
+		a(href='/deals/#{deal._id}' target="blank") vista previa
+		br
 		a(href='/deals/edit/#{deal._id}') editar
 		br
 		a(href='/deals/remove/#{deal._id}').text-danger eliminar

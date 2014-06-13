@@ -23,34 +23,47 @@ module.exports = function (app){
 
 	//Tenemos que agregar el filtro por franquicia por defecto, o seleccionada. Nico 21/04 - Si. Benji 12/05
 	//REVISADO
-	app.get('/deals', function(req, res, next){
-		DealModel.find( {} ).sort("-created").populate("images").exec(function(err, deals){
-			
-			if(err) throw err;
-
-			if(deals.length > 0){
-				res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
-			}else{
-				res.render('not_found', {title: 'Oferta'});
-			}
-	  	});
-	});
-
-
-	//Esta vista deberia mostrar todas las deals relacionadas con el user
-	//tanto si es seller partner o el creador de la deal
 	app.get('/deals', CheckAuth.user, function(req, res, next){
 		DealModel.find( {} ).sort("-created").populate("images").exec(function(err, deals){
 			
 			if(err) throw err;
 
-			if(deals.length > 0){
-				res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
-			}else{
-				res.render('not_found', {title: 'Oferta'});
-			}
+			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
+			
 	  	});
 	});
+
+	app.get('/deals/active', CheckAuth.user, function(req, res, next){
+		var today = new Date();
+		DealModel.find({})
+		.where('end_date').lte(today)
+		.sort("-created")
+		.populate("images")
+		.exec(function(err, deals){
+			
+			if(err) throw err;
+
+			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
+
+	  	});
+	});
+
+	app.get('/deals/future', CheckAuth.user, function(req, res, next){
+		var today = new Date();
+		DealModel.find({})
+		.where('start_date').gt(today)
+		.sort("-created")
+		.populate("images")
+		.exec(function(err, deals){
+			
+			if(err) throw err;
+
+			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
+			
+	  	});
+	});
+
+
 
 	//Llama a la vista de creacion de una nueva deal
 	//REVISADO

@@ -1,0 +1,12 @@
+extends ../layout
+
+block content
+	.span9
+		h3 Lista de Paises
+		table.table_deal_list
+			tr
+				th Nombre
+			-each country in countries
+				tr
+					td #{country.name}
+					

@@ -1,13 +1,13 @@
-a(href='/users/#{expose.user._id}') 
+a(href='/users/profile') 
 	#profile
 		.thumbnail 
 			if (typeof expose.user !== "undefined")
 				if (typeof expose.user.image === "undefined")
-					img(src="/images/mr_bean.jpg", class='img-thumbnail')
+					img(src="/img/mr_bean.png", class='img-thumbnail')
 				else
 					img(class='img-thumbnail', src="/images/"+user.image[0].filename.toString())
 			else
-				img(class='img-thumbnail', src="/images/mr_bean.jpg")
+				img(class='img-thumbnail', src="/img/mr_bean.png")
 		.data 
 			if (!(typeof expose.user === "undefined"))
 				p #{expose.user.username} #{expose.user.partner}

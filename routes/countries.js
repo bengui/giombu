@@ -2,6 +2,7 @@ var CountryModel = require('../models/country').CountryModel;
 var CurrencyModel = require('../models/currency').CurrencyModel;
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
+var _ = require('underscore');
 module.exports = function(app){
 
 
@@ -19,6 +20,21 @@ module.exports = function(app){
 				res.send(usernames)
 			}
 		});
+	});
+
+
+	app.get('/countries/list', function(req, res){
+
+		CountryModel.find({}, function(err, countries){
+			if (err) throw err;
+
+			res.render('countries/list', {
+				title 		: 'Lista de paises',
+				countries 	: countries
+			});
+
+		});
+
 	});
 
 	app.get('/countries/initialize', function(req, res){
