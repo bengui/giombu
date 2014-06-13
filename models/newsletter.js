@@ -10,10 +10,4 @@ var NewsletterSchema = new mongoose.Schema({
 	created    		    :  {type: Date, default: Date.now }
 })
 
-var NewsletterSendingSchema =  new mongoose.Schema({
-	datetime   		    :  {type: Date, default: Date.now },
-	newsletter 			:  { type: mongoose.Schema.ObjectId, ref: 'Newsletter' },
-	created    		    :  {type: Date, default: Date.now }
-})
-
 exports.NewsletterModel = mongoose.model('Newsletter', NewsletterSchema);

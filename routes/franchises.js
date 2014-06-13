@@ -68,9 +68,9 @@ module.exports = function(app){
 
 
 	app.get('/franchises', function(req, res, next){
-		FranchisorModel.find().sort("-name").exec( function(err, franchisors){
+		FranchiseModel.find().sort("-name").exec( function(err, franchises){
 			if (err) throw err;
-			res.json(franchisors);
+			res.json(franchises);
 		});
 	});
 	
