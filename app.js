@@ -9,10 +9,9 @@ var mongoose = require('mongoose');
 var private_config = require('./private_config');
 var EventEmitter = require('events').EventEmitter;
 
-
 mongoose.set('debug', true);
 
-mongoose.connect("mongodb://giombu:giombu@oceanic.mongohq.com:10021/giombu", function(err){
+mongoose.connect(private_config.connection_string, function(err){
 	if(err) throw err;
 	var app = express();
 	var server =  server = require('http').createServer(app);

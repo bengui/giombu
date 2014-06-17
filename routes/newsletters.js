@@ -18,12 +18,14 @@ module.exports = function (app){
 						if(err) throw err;
 						if(deals.length > 0){
 							email_recievers = [];
+							deals_newsletter = [];
 							for (var i = subscribers.length - 1; i >= 0; i--) {
 								email_recievers.push(subscribers[i].email)
 							};
 							for (var i = deals.length - 1; i >= 0; i--) {
 								deals_newsletter.push(deals[i]._id);
 							};
+							console.log(email_recievers);
 							app.mailer.send('newsletters/default_template', {
 						  		to: email_recievers,
 						  		subject: 'Newsletter '+franchise.name, 
@@ -37,7 +39,7 @@ module.exports = function (app){
 								      	return;
 								    }
 								    newsletter = new NewsletterModel();
-								    newsletter.franchise = 
+								    newsletter.franchise = franchise._id;
 								    newsletter.deals = deals_newsletter;
 								    newsletter.title = 'Newsletter '+franchise.name;
 								    newsletter.description = 'Newsletter para la franquicia'+ franchise.name;
@@ -79,5 +81,29 @@ module.exports = function (app){
 				});
 			}
 		});
+	});
+
+	app.get('/newsletters', function(req, res, next){
+		NewsletterModel.find().sort("-name").exec( function(err, newsletters){
+			if (err) throw err;
+			res.json(newsletters);
+		});
+	});
+
+	app.get('/newsletters/:id', function(req, res, next){
+		NewsletterModel.find({ _id : req.params.id}).sort("-created").exec( function(err, newsletter){
+			if(!err){
+	        if(newsletter){
+	          console.log('newsletter - view - Se encontro el newsletter ( ' + req.params.id +' )');
+	          res.render('newsletter/view', { title: 'Newsletter',
+	                          newsletter : newsletter
+	                        });
+	        }else{
+	          console.log('newsletter - view - No se encontro el newsletter ( ' + req.params.id +' )');
+	        }
+	      }else{
+	        console.log('newsletter - view - '.red.bold + err);
+	      }
+	    });
 	});
 }

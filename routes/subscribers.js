@@ -5,7 +5,10 @@ var mailer = require('../helpers/mailer');
 module.exports = function (app){
 
 	app.post('/subscribers/create', function (req, res, next) {
-		var subscriber_new = new SubscriberModel(req.param('subscriber'));
+		var subscriber_new = new SubscriberModel();
+		subscriber_new.email = req.body.email_subscriber;
+		subscriber_new.franchise = req.body.franchise_subscription;
+		subscriber_new.name = req.body.name_subscription;
 		console.log(subscriber_new)
 		subscriber_new.save(function (err) {
 		if (!err) {
@@ -19,7 +22,7 @@ module.exports = function (app){
 			res.redirect('/');
 		} else {
 		  
-		 console.log('error de suscripcion')
+		 	console.log('error de suscripcion'+err)
 		}
 		});
 	});

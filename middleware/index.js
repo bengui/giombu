@@ -2,6 +2,7 @@ var path = require('path');
 var express = require('express');
 var SessionSockets = require('session.socket.io');
 var sessionSockets;
+var private_config = require('../private_config');
 var mailer = require('express-mailer');
 
 module.exports = function(app, io){
@@ -42,14 +43,14 @@ module.exports = function(app, io){
 	}
 
 	mailer.extend(app, {
-		from: 'narc88@gmail.com',
+		from: private_config.mail_user,
 		host: 'smtp.gmail.com', // hostname
 		secureConnection: true, // use SSL
 		port: 465, // port for secure SMTP
 		transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts
 		auth: {
-			user: 'narc88@gmail.com',
-			pass: 'lapaloma6786'
+			user: private_config.mail_user,
+			pass:  private_config.mail_password,
 		}
 	});
 
