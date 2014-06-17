@@ -32,10 +32,26 @@ module.exports = function(app, io){
 		if(typeof req.session.expose === 'undefined'){
 			req.session.expose = {};
 		}
+
+		if(req.session.expose.message){
+			delete req.session.expose.message;
+		}
+		if(req.session.message){
+			req.session.expose.message = req.session.message;
+			delete req.session.message;	
+		}
+		if(req.session.expose.error){
+			delete req.session.expose.error;
+		}
+		if(req.session.error){
+			req.session.expose.error = req.session.error;
+			delete req.session.error;	
+		}
+
+
 		res.locals.expose = req.session.expose;
 		next();
 	});
-
 
 	// development only
 	if ('development' == app.get('env')) {

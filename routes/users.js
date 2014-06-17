@@ -118,6 +118,9 @@ module.exports = function(app){
 	app.post('/users/update', function(req, res){
 
 		UserModel.findById( req.body.user._id , function(err, user){
+
+			if (err) throw err;
+
 			user.username = req.body.username;
 			user.name = req.body.name;
 			user.lname = req.body.lname;
@@ -129,71 +132,69 @@ module.exports = function(app){
 			user.city = req.body.city;
 			user.state = req.body.state;
 			user.zip = req.body.zip;
-			console.log(user);
+			
 			user.save(function(err){
 
 				if (err) throw err;
+
+				req.session.message = 'Datos de usuario editados correctamente.'
 
 				res.redirect('/users/'+user_new._id);
 				
 			});
 		});
-		res.render('users/welcome', {title: 'Cargar Oferta'})	
 	});
 
 
 	app.get('/users/login', function (req, res, next){
-		res.render('users/login', { layout:true, title:'Autenticación'});
+		res.render('users/login', { title:'Autenticación'});
 	});
 
 
 	app.post('/users/login', function(req, res, next){
 		UserModel.findOne({username: req.body.username}, function(err, user){
-			if(!err){
-				if(!user){
-					res.redirect('/users/login');
+			if(err) throw err;
+
+			if(!user){
+				req.session.error = 'Usuario o contraseña incorrectos';
+				res.redirect('/');
+			}else{
+				if(user.password == encrypter.encrypt(req.body.password)){
+						
+						//Save the user in the session
+						req.session.user = user;
+						
+						//Expose some user data to the front-end
+						req.session.expose.selected_franchise = 'Guadalajara';
+						req.session.expose.user = {};
+						req.session.expose.user.username = user.username;
+						req.session.expose.user._id = user._id;
+						req.session.expose.user.name = user.name;
+						req.session.expose.user.lname = user.lname;
+
+						
+						updateUserLevel(req, res, function(){
+							req.session.message = 'Hola!';
+							res.redirect('/');
+						});
+						
+
 				}else{
-					if(user.password == encrypter.encrypt(req.body.password)){
-							
-							//Save the user in the session
-							req.session.user = user;
-							
-							//Expose some user data to the front-end
-							req.session.expose.selected_franchise = 'Guadalajara';
-							req.session.expose.user = {};
-							req.session.expose.user.username = user.username;
-							req.session.expose.user._id = user._id;
-							req.session.expose.user.name = user.name;
-							req.session.expose.user.lname = user.lname;
-
-							
-							updateUserLevel(req, res, function(){
-								console.log("Usuario logueado: ");
-								console.log(req.session.user);
-								res.redirect('/');
-							});
-							
-
-					}else{
-						res.redirect('/users/login');
-						console.log('Failed'.red);
-					}
-
+					req.session.error = 'Usuario o contraseña incorrectos';
+					res.redirect('/');
 				}
 
-			}else{
-				if (err) throw err;
-				res.redirect('/');
 			}
-			
+
 		});
 	});
 
 
 	app.get('/users/logout', function(req, res, next){
 		delete req.session.user;
-		req.session.messagge = 'Vuelva pronto';
-		res.redirect('/')
+		delete req.session.expose;
+		req.session.message = 'Vuelva pronto';
+		res.redirect('/');
 	});
 
 

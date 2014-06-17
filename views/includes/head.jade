@@ -46,9 +46,10 @@
 								|Salir
 						//.selected_franchise
 						//	a(href="/intranet/deals/list/#{user.selected_franchise}") #{user.selected_franchise}
-	.notification-message
-		-if(typeof message === "undefined")
-			p
-		-else
-			p #{message}
+	-if (expose.message)
+		.alert.alert-info
+			p #{expose.message}
+	-if (expose.error)
+		.alert.alert-danger
+			p #{expose.error}
 

@@ -1,3 +1,10 @@
 .col-md-12
 	a(href="/")
 		img(src="/img/logo_giombu.png")
+		
+	-if (expose.message)
+		.alert.alert-info
+			p #{expose.message}
+	-if (expose.error)
+		.alert.alert-danger
+			p #{expose.error}
