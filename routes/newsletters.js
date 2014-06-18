@@ -11,9 +11,8 @@ module.exports = function (app){
 	//
 	app.get('/newsletters/sendTest/:id', function(req, res, next){
 		SubscriberModel.find({ "franchise" : req.params.id}).exec( function(err, subscribers){
-			FranchiseModel.find({ _id : req.params.id}).exec( function(err, franchise){
-				if(err) throw err;
-				if(franchise){
+			FranchiseModel.findById(req.params.id).exec( function(err, franchise){
+				if(typeof franchise !== "undefined"){
 				  	DealModel.find( /*{"franchises": {$in: [req.body.id]}}*/ ).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
 						if(err) throw err;
 						if(deals.length > 0){
@@ -39,7 +38,7 @@ module.exports = function (app){
 								      	return;
 								    }
 								    newsletter = new NewsletterModel();
-								    newsletter.franchise = franchise._id;
+								    newsletter.franchise = req.params.id;
 								    newsletter.deals = deals_newsletter;
 								    newsletter.title = 'Newsletter '+franchise.name;
 								    newsletter.description = 'Newsletter para la franquicia'+ franchise.name;
@@ -84,26 +83,42 @@ module.exports = function (app){
 	});
 
 	app.get('/newsletters', function(req, res, next){
-		NewsletterModel.find().sort("-name").exec( function(err, newsletters){
-			if (err) throw err;
-			res.json(newsletters);
+		NewsletterModel.find().sort("-name").populate("franchise").populate("deals").exec( function(err, newsletters){
+			if(!err){
+		        if(newsletters.length > 0){
+		          console.log(newsletters);
+		          res.render('newsletters/list', { title: 'Newsletter',
+						                          newsletters : newsletters
+						                        });
+		        }else{
+		          console.log('newsletter - view - No se encontro el newsletter ( ' + req.params.id +' )');
+		        }
+	        }else{
+	            console.log('newsletter - view - '.red.bold + err);
+	        }
 		});
 	});
 
 	app.get('/newsletters/:id', function(req, res, next){
-		NewsletterModel.find({ _id : req.params.id}).sort("-created").exec( function(err, newsletter){
+		NewsletterModel.findById(req.params.id).populate("franchise").populate("deals").exec( function(err, newsletter){
 			if(!err){
-	        if(newsletter){
-	          console.log('newsletter - view - Se encontro el newsletter ( ' + req.params.id +' )');
-	          res.render('newsletter/view', { title: 'Newsletter',
-	                          newsletter : newsletter
-	                        });
+		        if(newsletter){
+		          console.log(newsletter);
+		          res.render('newsletters/view', { title: 'Newsletter',
+						                          newsletter : newsletter
+						                        });
+		        }else{
+		          console.log('newsletter - view - No se encontro el newsletter ( ' + req.params.id +' )');
+		        }
 	        }else{
-	          console.log('newsletter - view - No se encontro el newsletter ( ' + req.params.id +' )');
+	            console.log('newsletter - view - '.red.bold + err);
 	        }
-	      }else{
-	        console.log('newsletter - view - '.red.bold + err);
-	      }
 	    });
+	});
+
+	app.get('/newslettersDrop', function(req, res, next){
+		NewsletterModel.collection.drop(function (err) { 
+			res.redirect('/');
+		});
 	});
 }
