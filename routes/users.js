@@ -14,12 +14,7 @@ var encrypter = require('../helpers/encryption');
 var _ = require('underscore');
 
 module.exports = function(app){
-		
-
-	//DELETE ME!
-	app.get('/testRoles', function(req, res, next){
-		res.send(UserRoles.getAdmin());
-	});
+	
 	
 	//Este regex nos permite pedir la misma funcion como json, para usar donde necesitamos elegir quien nos invito y similar.
 	app.get('/users:format(.json)?', function(req, res, next){

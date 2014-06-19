@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+		h3 Lista de Paises
+		table
+			tr
+				th Nombre
+			tr
+				th Apellido
+			-each seller in sellers
+				tr
+					td #{seller.name}
+					td #{seller.lname}
+					

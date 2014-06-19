@@ -29,17 +29,16 @@ module.exports = function(app){
 
 
 	//Filtrar los que son vendedores.
-	app.get('/intranet/sellers/list', function (req, res, next) {
-		UserModel.find({}).where('roles').in('seller').exec(function(err, users){
-			if(!err){
-				if(users){
-					res.render('sellers/list', {title: 'Vendedores', users : users, user:req.session.user});
-				}else{
-					console.log('No hay vendedores');
-				}
-			}else{
-				console.log('No lo encontre');
-			}
+	app.get('/sellers/list', function (req, res, next) {
+		UserModel.find({})
+		.where('roles', UserRoles.getSeller())
+		.exec(function(err, sellers){
+			if (err) throw err;
+			res.render('sellers/list', {
+				title 		: 'Vendedores',
+				sellers 	: sellers, 
+				user 		: req.session.user
+			});
 		});
 	});
 
