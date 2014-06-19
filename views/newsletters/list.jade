@@ -19,5 +19,7 @@ block content
 					td 
 						-each deal in newsletter.deals
 							a(href="/deals/#{deal._id}") #{deal.title}
+					td
+						a(href="/newsletters/#{newsletter._id}") Ver
 		-else
 			p No hay newsletters

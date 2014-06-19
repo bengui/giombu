@@ -1,0 +1,20 @@
+// my-template.jade
+extends ../layout
+
+//Bloque de contenido.
+block content
+	h3 Crear Newsletter
+	.container
+		.form_container.offset3
+			form(method='post',id="newsletters_create" ,action='/newsletters/send')
+				label Franquicia:
+					select(name='newsletter[franchise]', type='text' ,class="required") 
+						-each franchise in franchises
+							option(value="#{franchise._id}") #{franchise.name}
+				-var i = 0
+				-each deal in deals
+					label
+						input(type="checkbox", name="newsletter[deals][#{i}]", value="#{deal._id}")
+						| #{deal.title} 
+					-i++
+				input(type='submit', value='Crear')

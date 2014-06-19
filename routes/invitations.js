@@ -8,7 +8,7 @@ module.exports = function (app){
  
   app.get('/invitations/create',  function (req, res, next) {
     console.log(req.headers.host)
-    res.render('invitations/create', {title: 'Invitar personas a unirse a giombu', user:req.session.user});
+    res.render('invitations/create', {title: 'Invitar personas a unirse a giombu'});
   });
 
   app.post('/invitations/add', function (req, res, next) {
@@ -19,7 +19,7 @@ module.exports = function (app){
     InvitationModel.findOne({ user: req.session.user._id }).where('email').equals(invitation_new.email).exec(function (err, invitation) {
        if(!err){
           if (invitation){
-         res.render('invitations/create', {title: 'Cargar Invitacion' , user:req.session.user, messagge : "Ya Has invitado a: "+ invitation_new.email});
+         res.render('invitations/create', {title: 'Cargar Invitacion' , messagge : "Ya Has invitado a: "+ invitation_new.email});
         }else{
           invitation_new.save(function(err){
           if(!err){

@@ -9,6 +9,59 @@ var mailer = require('express-mailer');
 
 module.exports = function (app){
 	//
+
+	app.get('/newsletters/create', function(req, res, next){
+		FranchiseModel.find().exec( function(err, franchises){
+			DealModel.find().exec( function(err, deals){
+				res.render('newsletters/create', {title: 'Crear newsletter', franchises:franchises, deals:deals});
+			});
+		});
+	});
+
+	app.post('/newsletters/send', function(req, res, next){
+		newsletter = new NewsletterModel(req.param("newsletter"));
+		SubscriberModel.find({ "franchise" : newsletter.franchise}).exec( function(err, subscribers){
+			FranchiseModel.findById(newsletter.franchise).exec( function(err, franchise){
+				if(typeof franchise !== "undefined"){
+				  	DealModel.find( /*{"franchises": {$in: [req.body.id]}}*/ ).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
+						if(err) throw err;
+						if(deals.length > 0){
+							email_recievers = [];
+							deals_newsletter = [];
+							for (var i = subscribers.length - 1; i >= 0; i--) {
+								email_recievers.push(subscribers[i].email)
+							};
+							for (var i = deals.length - 1; i >= 0; i--) {
+								deals_newsletter.push(deals[i]._id);
+							};
+							console.log(email_recievers);
+							app.mailer.send('newsletters/default_template', {
+						  		to: email_recievers,
+						  		subject: 'Newsletter '+franchise.name, 
+						  		deals: deals,
+						  		franchise: franchise,
+						  		host: "http://localhost:3000"
+								}, function (err) {
+							    	if (err) {
+								      	console.log(err);
+								      	res.send('There was an error sending the email');
+								      	return;
+								    }
+								    newsletter.deals = deals_newsletter;
+								    newsletter.title = 'Newsletter '+franchise.name;
+								    newsletter.description = 'Newsletter para la franquicia'+ franchise.name;
+								    newsletter.save(function(){
+								    	res.redirect('/newsletters/'+newsletter.id)
+								    });
+								    
+								});
+						}
+				  	});
+				}
+			});
+		});
+	});
+
 	app.get('/newsletters/sendTest/:id', function(req, res, next){
 		SubscriberModel.find({ "franchise" : req.params.id}).exec( function(err, subscribers){
 			FranchiseModel.findById(req.params.id).exec( function(err, franchise){
