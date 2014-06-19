@@ -16,8 +16,9 @@ mongoose.connect(private_config.connection_string, function(err){
 	var app = express();
 	var server =  server = require('http').createServer(app);
 	var io = require('socket.io').listen(server);
+	app.io = io;
 
-	require('./middleware')(app, io);
+	require('./middleware')(app);
 	util.inherits(app, EventEmitter);
 	require('./routes')(app);
 

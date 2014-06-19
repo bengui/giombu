@@ -5,7 +5,7 @@ var sessionSockets;
 var private_config = require('../private_config');
 var mailer = require('express-mailer');
 
-module.exports = function(app, io){
+module.exports = function(app){
 
 	var secret_sauce = 'this_is_my_secret_sauce';
 	var sessionStore = new express.session.MemoryStore();
@@ -73,9 +73,9 @@ module.exports = function(app, io){
 
 	//Socket IO
 	var socket = require('../socket');
-	socket.setIO(io);
+	socket.setIO(app.io);
 
-	sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
+	sessionSockets = new SessionSockets(app.io, sessionStore, cookieParser);
 	sessionSockets.on('connection', socket.handleSocketCalls);
 	
 }
