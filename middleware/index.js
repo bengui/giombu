@@ -70,8 +70,12 @@ module.exports = function(app, io){
 		}
 	});
 
-	//Socket IO
-	sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
-	sessionSockets.on('connection', require('../socket'));
 
+	//Socket IO
+	var socket = require('../socket');
+	socket.setIO(io);
+
+	sessionSockets = new SessionSockets(io, sessionStore, cookieParser);
+	sessionSockets.on('connection', socket.handleSocketCalls);
+	
 }

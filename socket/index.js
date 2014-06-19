@@ -1,19 +1,23 @@
 
+var io;
 
+exports.setIO = function(_io){
+	io = _io;
+}
 
-module.exports = function(err, socket, session){
+exports.handleSocketCalls = function(err, socket, session){
 
 	if (err) throw err;
 
-	//Ejemplo - hay que eliminarlo
-	socket.emit('news', { hello: 'world', session : session });
-	socket.on('my other event', function (data) {
+	socket.emit('news', { message: 'welcome'});
+	socket.on('log_this', function (data) {
 		console.log(data);
 	});
 
 
 	//Esta bueno distribuir las llamadas en modulos para evitar generar una tormenta de codigo
-	require('./users')(socket, session);
+	require('./users')(socket, session, io);
+	require('./news')(socket, session, io);
 
 
 };
