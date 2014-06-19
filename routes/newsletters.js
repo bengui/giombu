@@ -20,6 +20,9 @@ module.exports = function (app){
 
 	app.post('/newsletters/send', function(req, res, next){
 		newsletter = new NewsletterModel(req.param("newsletter"));
+		var time_frame = req.param.time_selector
+		var time_frame_init = req.param.start_timeframe
+		var time_frame_end = req.param.end_timeframe
 		SubscriberModel.find({ "franchise" : newsletter.franchise}).exec( function(err, subscribers){
 			FranchiseModel.findById(newsletter.franchise).exec( function(err, franchise){
 				if(typeof franchise !== "undefined"){
