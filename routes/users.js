@@ -277,6 +277,15 @@ module.exports = function(app){
 		});
 	});
 
+	app.post('/users/addRoles'), function(req, res){
+		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.rol } }, callback);
+
+		function callback (err, numAffected) {
+		  res.redirect('/users/'+req.body.id.toString());
+		}
+			
+	}
+
 
 	app.get('/users/profile/edit', CheckAuth.user, function(req, res){
 		UserModel.findById(req.session.user._id)

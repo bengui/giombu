@@ -2,113 +2,124 @@
 extends ../layout
 
 block content
-	.col-md-9
-		h2 Oferta
-		a(href='/deals/#{deal._id}' target="blank") vista previa
-		br
-		a(href='/deals/edit/#{deal._id}') editar
-		br
-		a(href='/deals/remove/#{deal._id}').text-danger eliminar
+	.nav.nav-tabs
+		li
+			a(href="#review", data-toggle="tab") Informacion
+		li
+			a(href="#coupons", data-toggle="tab") Cupones
+	.tab-content
+		.tab-pane(id="review")
+			h2 Oferta
+			a(href='/deals/#{deal._id}' target="blank") Vista Previa
+			br
+			a(href='/deals/edit/#{deal._id}') Editar
+			br
+			a(href='/deals/remove/#{deal._id}').text-danger eliminar
 
-		h3 Datos generales
+			h3 Datos generales
 
-		table.table
-			tr
-				td Estado:
-				td #{deal.status}
-			tr
-				td Titulo:
-				td #{deal.title}
-			tr
-				td Subtitulo:
-				td #{deal.tagline}
-			tr
-				td Link:
-				td #{deal.slug}
-			tr
-				td Caracteristicas:
-				td #{deal.characteristics}
-			tr
-				td Condiciones:
-				td #{deal.conditions}
+			table.table
+				tr
+					td Estado:
+					td #{deal.status}
+				tr
+					td Titulo:
+					td #{deal.title}
+				tr
+					td Subtitulo:
+					td #{deal.tagline}
+				tr
+					td Link:
+					td #{deal.slug}
+				tr
+					td Caracteristicas:
+					td #{deal.characteristics}
+				tr
+					td Condiciones:
+					td #{deal.conditions}
 
-		br
-		h3 Precios
+			br
+			h3 Precios
 
-		table.table
-			tr
-				td Precio original:
-				td $ #{deal.price} 
-			tr
-				td Precio Final:
-				td $ #{deal.special_price} 
-			tr
-				td Descuento:
-				td $ #{deal.discount} 
+			table.table
+				tr
+					td Precio original:
+					td $ #{deal.price} 
+				tr
+					td Precio Final:
+					td $ #{deal.special_price} 
+				tr
+					td Descuento:
+					td $ #{deal.discount} 
 
-		br
-		h3 Fechas
+			br
+			h3 Fechas
 
-		table.table
-			tr
-				td Inicio de la oferta:
-				td #{deal.start_date}
-			tr
-				td Fin de la oferta:
-				td #{deal.end_date}
-			tr
-				td Inicio de canje:
-				td #{deal.start_redeem}
-			tr
-				td Fin de canje:
-				td #{deal.end_redeem}
+			table.table
+				tr
+					td Inicio de la oferta:
+					td #{deal.start_date}
+				tr
+					td Fin de la oferta:
+					td #{deal.end_date}
+				tr
+					td Inicio de canje:
+					td #{deal.start_redeem}
+				tr
+					td Fin de canje:
+					td #{deal.end_redeem}
 
-		br
-		h3 Cantidad de cupones
+			br
+			h3 Cantidad de cupones
 
-		table.table
-			tr
-				td Cantidad maxima:
-				td #{deal.max_coupons}
-			tr
-				td Maxima por usuario:
-				td #{deal.max_coupons_by_user} 
+			table.table
+				tr
+					td Cantidad maxima:
+					td #{deal.max_coupons}
+				tr
+					td Maxima por usuario:
+					td #{deal.max_coupons_by_user} 
 
-		br
-		h3 Porcentajes
+			br
+			h3 Porcentajes
 
-		table.table
-			tr
-				td Vendedor:
-				td #{deal.seller_percentage}%
-			tr
-				td Giombu:
-				td #{deal.giombu_percentage}%
-			tr
-				td Promotor:
-				td #{deal.promoter_percentage}%
+			table.table
+				tr
+					td Vendedor:
+					td #{deal.seller_percentage}%
+				tr
+					td Giombu:
+					td #{deal.giombu_percentage}%
+				tr
+					td Promotor:
+					td #{deal.promoter_percentage}%
 
-		br
-		h3 Otras
+			br
+			h3 Otras
 
-		table.table
-			tr
-				td Costo de Envío:
-				td #{deal.shipping_cost} $
-			tr
-				td Tienda:
-				td #{deal.store.name} 
-			tr
-				td Vendedor:
-				td #{deal.seller}
-			tr
-				td Franquiciante:
-				td #{deal.franchisor}
-	-var route_name = "deals"
-	-var get_id = deal._id
-	include ../includes/image_upload
+			table.table
+				tr
+					td Costo de Envío:
+					td #{deal.shipping_cost} $
+				tr
+					td Tienda:
+					td #{deal.store.name} 
+				tr
+					td Vendedor:
+					td #{deal.seller}
+				tr
+					td Franquiciante:
+					td #{deal.franchisor}
+			-var route_name = "deals"
+			-var get_id = deal._id
+			include ../includes/image_upload
 
-	-for (var i = deal.images.length - 1; i >= 0; i--)
-		-var image = deal.images[i]
-		-var param ="deals"
-		include ../partials/deals/image_list
+			-for (var i = deal.images.length - 1; i >= 0; i--)
+				-var image = deal.images[i]
+				-var param ="deals"
+				include ../partials/deals/image_list
+		.tab-pane(id="coupons")
+			h3 Cupones
+			-each sale in deal.sales
+				-each coupon in sale.coupons
+					include ../partials/coupons/view
