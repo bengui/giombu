@@ -11,6 +11,7 @@ var CityModel = require('../models/city').CityModel;
 var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
+var RolesHelper	= require('../helpers/checkAuth');
 var _ = require('underscore');
 
 module.exports = function(app){
@@ -267,7 +268,8 @@ module.exports = function(app){
 						title 	: 'Datos de usuario',
 						user 	: user,
 						state 	: state,
-						country : country
+						country : country,
+						RolesHelper : RolesHelper
 					});
 				});
 
@@ -278,7 +280,7 @@ module.exports = function(app){
 	});
 
 	app.post('/users/addRoles'), function(req, res){
-		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.rol } }, callback);
+		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
 
 		function callback (err, numAffected) {
 		  res.redirect('/users/'+req.body.id.toString());
@@ -315,6 +317,7 @@ module.exports = function(app){
 								states 		: states,
 								countries 	: countries,
 								cities 		: cities
+
 							});													
 						});
 					});
@@ -354,7 +357,7 @@ module.exports = function(app){
 						if (err) return handleError(err);
 						BonusModel.find( {user : req.params.id}, function(err, bonuses){
 							if(!err){
-								console.log(user)
+								console.log(RolesHelper)
 								res.render('users/view', {title: 'Perfil', user: user,bonuses:bonuses, contacts:contacts,deals:deals,subscriptions:subscriptions});
 							}else{
 								if (err) return handleError(err);

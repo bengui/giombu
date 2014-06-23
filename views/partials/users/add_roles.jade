@@ -1,0 +1,8 @@
+form(action="/users/addRole", method="post")
+	.form-group
+		label.col-md-4.control-label Rol a agregar.
+		.col-md-8
+			select(name='role', type='text' ,class="required") 
+				-each role in roles
+					option(value="#{role}") #{role}
+		input(type="submit") Agregar
