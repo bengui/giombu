@@ -18,7 +18,7 @@ body {
 }
 
 #left {
-	width: 15%; 
+	width: 15%;
 	height: auto;
 	position: relative;
 	margin-left: 30px;
@@ -27,6 +27,9 @@ body {
 
 
 #center {width: 60%; padding: 20px 10px 0 20px;}
-#news {width: 20%} 
+#news {width: 20%}
 
-
+.feed_container{
+	height:500px;
+	overflow-y:scroll;
+}

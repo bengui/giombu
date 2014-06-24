@@ -15,8 +15,8 @@ var RolesHelper	= require('../helpers/checkAuth');
 var _ = require('underscore');
 
 module.exports = function(app){
-	
-	
+
+
 	//Este regex nos permite pedir la misma funcion como json, para usar donde necesitamos elegir quien nos invito y similar.
 	app.get('/users:format(.json)?', function(req, res, next){
 		UserModel.find().exec( function(err, users){
@@ -31,7 +31,7 @@ module.exports = function(app){
 			res.render('users/list', {title: 'Lista de usuarios', users:users});
 		});
 	});
-	
+
 
 	app.get('/users/create', function(req, res){
 		CountryModel.find({}, function(err, countries){
@@ -51,7 +51,7 @@ module.exports = function(app){
 					});
 
 				});
-				
+
 			});
 
 		});
@@ -89,7 +89,7 @@ module.exports = function(app){
 				res.redirect('/');
 			});
 		});
-		
+
 	});
 
 	//Habria que agregar validaciones a esta llamada.
@@ -105,7 +105,7 @@ module.exports = function(app){
 				user 	: user
 			});
 		});
-			
+
 	});
 
 	//Habria que agregar validaciones a esta llamada.
@@ -128,7 +128,7 @@ module.exports = function(app){
 			user.city = req.body.city;
 			user.state = req.body.state;
 			user.zip = req.body.zip;
-			
+
 			user.save(function(err){
 
 				if (err) throw err;
@@ -136,7 +136,7 @@ module.exports = function(app){
 				req.session.message = 'Datos de usuario editados correctamente.'
 
 				res.redirect('/users/'+user_new._id);
-				
+
 			});
 		});
 	});
@@ -156,10 +156,10 @@ module.exports = function(app){
 				res.redirect('/');
 			}else{
 				if(user.password == encrypter.encrypt(req.body.password)){
-						
+
 						//Save the user in the session
 						req.session.user = user;
-						
+
 						//Expose some user data to the front-end
 						req.session.expose.selected_franchise = 'Guadalajara';
 						req.session.expose.user = {};
@@ -168,12 +168,12 @@ module.exports = function(app){
 						req.session.expose.user.name = user.name;
 						req.session.expose.user.lname = user.lname;
 
-						
+
 						updateUserLevel(req, res, function(){
 							req.session.message = 'Hola!';
 							res.redirect('/');
 						});
-						
+
 
 				}else{
 					req.session.error = 'Usuario o contraseña incorrectos';
@@ -210,11 +210,11 @@ module.exports = function(app){
 						req.session.expose.user.level = level;
 
 						req.session.user.save(function(err){
-							if (err) throw err;	
-							callback();						
+							if (err) throw err;
+							callback();
 						});
 
-						
+
 					}else{
 						LevelModel.findOne({'number' : LevelModel.MAX_LEVEL}, function(err, level){
 
@@ -223,7 +223,7 @@ module.exports = function(app){
 							req.session.user.level = level._id;
 
 							req.session.user.save(function(err){
-								if (err) throw err;							
+								if (err) throw err;
 								callback();
 							});
 
@@ -238,7 +238,7 @@ module.exports = function(app){
 	app.get('/users/validate/:username', function(req, res){
 		UserModel.findOne( { username : req.params.username }, function(err, user){
 			if (err) throw err;
-			
+
 			if(user){
 				res.json(true);
 			}else{
@@ -246,7 +246,70 @@ module.exports = function(app){
 			}
 		});
 	});
-		
+
+
+
+	app.post('/users/addRole', function(req, res){
+		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
+
+		function callback (err, numAffected) {
+		  res.redirect('/users/'+req.body.id.toString());
+		}
+
+	});
+
+
+	app.get('/users/profile/edit', CheckAuth.user, function(req, res){
+		UserModel.findById(req.session.user._id)
+		.populate('city')
+		.exec(function(err, user){
+			if (err) throw err;
+
+			if(!user){
+				redirect('/users/logout');
+			}
+
+			StateModel.findById( user.city.state , function(err, state){
+				if (err) throw err;
+
+				CountryModel.find( {} , function(err, countries){
+					if (err) throw err;
+
+					StateModel.find( { country : state.country }, function(err, states){
+						if (err) throw err;
+
+						CityModel.find( {state : state._id}, function(err, cities){
+							if (err) throw err;
+							res.render('users/edit_profile',{
+								title 		: 'Editar datos de usuario',
+								user 		: user,
+								state 		: state,
+								states 		: states,
+								countries 	: countries,
+								cities 		: cities
+
+							});
+						});
+					});
+				});
+			});
+		});
+	});
+
+	app.post('/users/profile/edit', CheckAuth.user, function(req, res){
+		UserModel.findById(req.session.user._id, function(err, user){
+
+			_.extend(user, req.body.user);
+
+			user.save(function(err){
+				if (err) throw err;
+				res.redirect('/users/profile');
+			});
+
+
+		});
+	});
+
 
 	app.get('/users/profile/:id?*', CheckAuth.user, function(req, res){
 		var id;
@@ -280,72 +343,9 @@ module.exports = function(app){
 				redirect('/users/logout');
 			}
 
-			
-		});
-	});
-
-	app.post('/users/addRole', function(req, res){
-		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
-
-		function callback (err, numAffected) {
-		  res.redirect('/users/'+req.body.id.toString());
-		}
-			
-	});
-
-
-	app.get('/users/profile/edit', CheckAuth.user, function(req, res){
-		UserModel.findById(req.session.user._id)
-		.populate('city')
-		.exec(function(err, user){
-			if (err) throw err;
-
-			if(!user){
-				redirect('/users/logout');
-			}
-
-			StateModel.findById( user.city.state , function(err, state){
-				if (err) throw err;
-
-				CountryModel.find( {} , function(err, countries){
-					if (err) throw err;
-
-					StateModel.find( { country : state.country }, function(err, states){
-						if (err) throw err;
-
-						CityModel.find( {state : state._id}, function(err, cities){
-							if (err) throw err;
-							res.render('users/edit_profile',{
-								title 		: 'Editar datos de usuario',
-								user 		: user,
-								state 		: state,
-								states 		: states,
-								countries 	: countries,
-								cities 		: cities
-
-							});													
-						});
-					});
-				});
-			});
-		});
-	});
-
-	app.post('/users/profile/edit', CheckAuth.user, function(req, res){
-		UserModel.findById(req.session.user._id, function(err, user){
-			
-			_.extend(user, req.body.user);
-
-			user.save(function(err){
-				if (err) throw err;
-				res.redirect('/users/profile');
-			});
-
 
 		});
 	});
-
-
 
 
 	//Esta llamada es muy general es por eso que debe ir a lo ultimo.

@@ -1,5 +1,7 @@
 var UserModel = require('../models/user').UserModel;
 
+cleanSockets();
+
 module.exports = function(socket, session, io){
 
 	//Si el usuario esta logueado, actualizo su socket.id para poder enviar
@@ -8,7 +10,7 @@ module.exports = function(socket, session, io){
 		UserModel.findById(session.user._id, function(err, user){
 			if (err) throw err;
 			if(user){
-				user.socket_id = socket.id;
+				user.sockets_list.push(socket.id);
 				user.save(function(err){
 					if (err) throw err;
 				});
@@ -23,7 +25,8 @@ module.exports = function(socket, session, io){
 				if (err) throw err;
 
 				if(user){
-					user.socket_id = null;
+					var index = user.sockets_list.indexOf(socket.id);
+					user.sockets_list.splice(index, 1);
 					user.save(function(err){
 						if (err) throw err;
 					});
@@ -32,13 +35,6 @@ module.exports = function(socket, session, io){
 		}
 	});
 
-
-	socket.on('LoggedInSocketId', function (user) {
-		session.expose.socket_id = socket.id;
-		console.log("Socket");
-		console.log(req.session.expose.socket_id);
-	});
-	
 
 	socket.on('personal_echo', function(){
 		if(session.user){
@@ -54,4 +50,22 @@ module.exports = function(socket, session, io){
 			});
 		}
 	});
+
+}
+
+
+
+//Esta funcion limpia la lista de sockets de cada usuario para evitar que
+//queden sockets viejos cuando reiniciamos el server
+function cleanSockets(){
+
+	UserModel.find({}, function(err, users){
+		users.forEach(function(user){
+			user.sockets_list = [];
+			user.save(function(err){
+				if (err) throw err;
+			});
+		});
+	});
+
 }

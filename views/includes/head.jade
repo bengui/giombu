@@ -10,21 +10,21 @@
 					-if((typeof expose.user) !== "undefined")
 						-if(typeof expose.user.selected_franchise === "undefined")
 							li
-								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad 
+								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad
 									icon.icon-chevron-down
 						-else
 							li
-								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") #{expose.user.selected_franchise.name} 
+								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") #{expose.user.selected_franchise.name}
 									icon.icon-chevron-down
 					-else
 						li
-							a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad 
+							a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad
 								icon.icon-chevron-down
 				ul.nav.navbar-nav
 					li
 						a(href='/deals/home') Ofertas de hoy
-					li 
-						a(href='/deals/travel') Descuentos en viajes	
+					li
+						a(href='/deals/travel') Descuentos en viajes
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")
 						li
@@ -37,19 +37,20 @@
 								|Accede
 					-else
 						li
-							a(href="/users/profile" ) 
+							a(href="/users/profile" )
 								span.glyphicon.glyphicon-user.col-md-pull-1
 								|#{expose.user.name}
 						li
-							a(href="/users/logout" ) 
+							a(href="/users/logout" )
 								span.glyphicon.glyphicon-log-out.col-md-pull-1
 								|Salir
 						//.selected_franchise
 						//	a(href="/intranet/deals/list/#{user.selected_franchise}") #{user.selected_franchise}
 	-if (expose.message)
-		.alert.alert-info
+		.alert.alert-info.alert-dismissable
+			button(type="button" class="close" data-dismiss="alert" aria-hidden="true")&times;
 			p #{expose.message}
 	-if (expose.error)
-		.alert.alert-danger
+		.alert.alert-danger.alert-dismissable
+			button(type="button" class="close" data-dismiss="alert" aria-hidden="true")&times;
 			p #{expose.error}
-
