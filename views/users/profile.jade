@@ -4,7 +4,6 @@ extends ../layout
 
 //Bloque de contenido.
 block content
-	p #{RolesHelper.member(user)}
 	.img_profile
 		p #{user.username}
 		-if (contacts)
@@ -24,6 +23,9 @@ block content
 			a(href="#misbonos", data-toggle="tab") Bonos
 		li
 			a(href="#misimagenes", data-toggle="tab") Imagenes
+		-if(RolesHelper.member(user)|| RolesHelper.franchisorAdministrator(user) || RolesHelper.generalAdministrator(user)|| RolesHelper.admin(user))
+			li
+				a(href="#administration", data-toggle="tab") Administración
 	.tab-content
 		.tab-pane.fade.active.in#misdatos
 			h3 Datos del usuario
@@ -44,6 +46,9 @@ block content
 					td.tdmisdatos Movil:
 					td #{user.mobile}
 			a(href="/users/profile/edit") Editar datos
+		-if(RolesHelper.member(user)|| RolesHelper.franchisorAdministrator(user) || RolesHelper.generalAdministrator(user)|| RolesHelper.admin(user))
+			.tab-pane.fade.in#administration
+				include ../partials/users/add_roles
 		.tab-pane.fade.in#miscontactos
 			table.miscontactos
 				-if (contacts)

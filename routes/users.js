@@ -248,45 +248,50 @@ module.exports = function(app){
 	});
 		
 
-	app.get('/users/profile', CheckAuth.user, function(req, res){
-		UserModel.findById(req.session.user._id)
+	app.get('/users/profile/:id?*', CheckAuth.user, function(req, res){
+		var id;
+		if(req.params.id){
+			id = req.params.id
+		}else{
+			id = req.session.user._id
+		}
+		UserModel.findOne({"_id" : id})
 		.populate('city')
 		.exec(function(err, user){
 			if (err) throw err;
+			console.log(user)
+			if(user){
+				StateModel.findById( user.city.state , function(err, state){
+				if (err) throw err;
+					CountryModel.findById( state.country, function(err, country){
+						if (err) throw err;
 
-			if(!user){
+						res.render('users/profile',{
+							title 	: 'Datos de usuario',
+							user 	: user,
+							state 	: state,
+							country : country,
+							RolesHelper : RolesHelper,
+							id : id
+						});
+					});
+				});
+			}else{
 				redirect('/users/logout');
 			}
 
-			StateModel.findById( user.city.state , function(err, state){
-				if (err) throw err;
-
-				CountryModel.findById( state.country, function(err, country){
-					if (err) throw err;
-
-					res.render('users/profile',{
-						title 	: 'Datos de usuario',
-						user 	: user,
-						state 	: state,
-						country : country,
-						RolesHelper : RolesHelper
-					});
-				});
-
-
-			});
-
+			
 		});
 	});
 
-	app.post('/users/addRoles'), function(req, res){
+	app.post('/users/addRole', function(req, res){
 		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
 
 		function callback (err, numAffected) {
 		  res.redirect('/users/'+req.body.id.toString());
 		}
 			
-	}
+	});
 
 
 	app.get('/users/profile/edit', CheckAuth.user, function(req, res){

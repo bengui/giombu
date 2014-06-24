@@ -7,7 +7,6 @@ module.exports = function(socket, session, io){
 	if(session.user){
 		UserModel.findById(session.user._id, function(err, user){
 			if (err) throw err;
-
 			if(user){
 				user.socket_id = socket.id;
 				user.save(function(err){

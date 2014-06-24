@@ -7,7 +7,14 @@ exports.user = function (user) {
 		return true
 	}
 }
-
+exports.admin = function (user) {
+	var index = user.roles.indexOf(UserRoles.getAdmin());
+	if (index == -1) {
+		return false
+	} else {
+		return true
+	}
+}
 exports.promoter = function (user) {
 	var index = user.roles.indexOf(UserRoles.getPromoter());
 	if (index == -1) {
@@ -15,6 +22,10 @@ exports.promoter = function (user) {
 	} else {
 		return true
 	}
+}
+
+exports.list = function (user) {
+	return UserRoles.list()
 }
 
 exports.seller = function (user) {
