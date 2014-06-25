@@ -411,7 +411,45 @@ module.exports = function (app){
 		});
 	});
 
+	app.get('/deals/redeem_coupon/:sale_id/:coupon_code', function(req, res, next){
+		DealModel.findById({"sales._id":req.params.sale_id})
+		.populate('store').populate("images")
+		.exec( function(err, deal){
+			if(err) throw err;
+			if(deal){
+				var commission_new = new CommissionModel(); 
+				commission_new.user_id = deal.seller;
+				var sale_index = -1;
+				var code_index = -1;
+				for (var i = 0 ; i < deal.sales.length ; i++) {
+					if(deal.sales[i]._id === sale._id ){
+						sale_index = i;
+					}
+				};
+				for (var i = 0; deal.sales[sale_index].coupons ; i++) {
+					if(deal.sales[sale_index].coupons[i].code === req.params.coupon_code ){
+						code_index = i;
+					}
+				};
+				var update_string = "sales."+sale_index+".coupons."+code_index+".status";
+				DealModel.update( {"_id" : deal._id } , 
+				                {$set : {update_string : "redeemed"} } , 
+				                false , 
+				                true);
+				commission_new.sale = sale._id;
+				commission_new.currency = deal.currency
+				commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
+				commission_new.save(function(){
+					app.emit("redeemed_coupon", sale, req.params.coupon_code);
+					app.emit("commission_event", "Commission_Seller", deal, commission_new);
+				});
+			}else{
+				console.log('No se encontro el deal ( ' + req.body.deal_id +' )');
+				res.render('not_found', {title: 'Oferta', user: req.session.user});
+			}
 
+		});
+	});
 
 
 }

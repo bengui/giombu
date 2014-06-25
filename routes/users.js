@@ -251,9 +251,8 @@ module.exports = function(app){
 
 	app.post('/users/addRole', function(req, res){
 		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
-
 		function callback (err, numAffected) {
-		  res.redirect('/users/'+req.body.id.toString());
+		  	res.redirect('/users/profile/'+req.body.id.toString());
 		}
 
 	});
