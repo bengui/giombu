@@ -412,7 +412,7 @@ module.exports = function (app){
 	});
 
 	app.get('/deals/redeem_coupon/:sale_id/:coupon_code', function(req, res, next){
-		DealModel.findById({"sales._id":req.params.sale_id})
+		DealModel.findOne({"sales._id":req.params.sale_id})
 		.populate('store').populate("images")
 		.exec( function(err, deal){
 			if(err) throw err;
@@ -443,6 +443,7 @@ module.exports = function (app){
 					app.emit("redeemed_coupon", sale, req.params.coupon_code);
 					app.emit("commission_event", "Commission_Seller", deal, commission_new);
 				});
+				res.redirect("/deals/review/"+deal._id)
 			}else{
 				console.log('No se encontro el deal ( ' + req.body.deal_id +' )');
 				res.render('not_found', {title: 'Oferta', user: req.session.user});
