@@ -1,8 +1,11 @@
--if (coupon.status === "unredeemed")
-	.alert.alert-info
-		b #{coupon.code}
-		p No canjeado
--else
-	.alert.alert-success
-		b #{coupon.code}
-		p Canjeado 	
+.col-md-4
+	-if (coupon.status === "unredeemed")
+		.alert.alert-info(style="text-align:center")
+			b #{coupon.code}
+			p No canjeado
+			a(href="#", role="button", class="btn btn-sm btn-primary") Canjear
+			a(href="#", role="button", class="btn btn-sm btn-primary") Detalle
+	-else
+		.alert.alert-success
+			b #{coupon.code}
+			p Canjeado 	
