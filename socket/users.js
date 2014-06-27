@@ -51,6 +51,18 @@ module.exports = function(socket, session, io){
 		}
 	});
 
+	socket.on('message', function(data){
+		UserModel.findById(data.user_id, function(err, user){
+			if (err) throw err;
+
+			if(user){
+				user.sockets_list.forEach(function(socket_id){
+					io.sockets.socket(socket_id).emit('news.new', { message : data.message});
+				});
+			}
+		});
+	});
+
 }
 
 

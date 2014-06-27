@@ -257,6 +257,16 @@ module.exports = function(app){
 
 	});
 
+	app.get('/users/message', function(req, res){
+		UserModel.find({}, function(err, users){
+			if (err) throw err;
+
+			res.render('users/message', {
+				title 		: 'Enviar mensaje',
+				users 		: users
+			});
+		});
+	});
 
 	app.get('/users/profile/edit', CheckAuth.user, function(req, res){
 		UserModel.findById(req.session.user._id)
