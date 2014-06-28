@@ -12,7 +12,7 @@ $(document).ready(function(){
 
     setInterval(function(){
         socket.emit('news.random');
-    },10000);
+    },60000);
 
 
 });
