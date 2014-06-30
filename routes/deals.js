@@ -1,11 +1,13 @@
 var DealModel = require('../models/deal').DealModel;
 var QuestionModel = require('../models/question').QuestionModel;
 var StoreModel = require('../models/store').StoreModel;
+var SaleModel = require('../models/sale').SaleModel;
 var CurrencyModel = require('../models/currency').CurrencyModel;
 var Franchisor = require('./franchisors');
 var FranchisorModel = require('../models/franchisor').FranchisorModel;
 var FranchiseModel = require('../models/franchise').FranchiseModel;
 var ImageModel = require('../models/image').ImageModel;
+var CommissionModel = require('../models/commission').CommissionModel;
 var colors = require('colors');
 var util = require('../helpers/util');
 var mongoose = require('mongoose');
@@ -417,30 +419,31 @@ module.exports = function (app){
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
+				console.log(deal.sales)
 				var commission_new = new CommissionModel(); 
 				commission_new.user_id = deal.seller;
 				var sale_index = -1;
 				var code_index = -1;
+				var sale = new SaleModel();
 				for (var i = 0 ; i < deal.sales.length ; i++) {
-					if(deal.sales[i]._id === sale._id ){
+					if(deal.sales[i]._id == req.params.sale_id ){
 						sale_index = i;
+						sale = deal.sales[i];
 					}
 				};
-				for (var i = 0; deal.sales[sale_index].coupons ; i++) {
-					if(deal.sales[sale_index].coupons[i].code === req.params.coupon_code ){
+				for (var i = 0; i < deal.sales[sale_index].coupons.length ; i++) {
+					if(deal.sales[sale_index].coupons[i].code == req.params.coupon_code ){
 						code_index = i;
 					}
 				};
 				var update_string = "sales."+sale_index+".coupons."+code_index+".status";
 				DealModel.update( {"_id" : deal._id } , 
-				                {$set : {update_string : "redeemed"} } , 
-				                false , 
-				                true);
-				commission_new.sale = sale._id;
+				                {$set : {update_string : "redeemed"} } );
+				commission_new.sale = req.params.sale_id;
 				commission_new.currency = deal.currency
 				commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
 				commission_new.save(function(){
-					app.emit("redeemed_coupon", sale, req.params.coupon_code);
+					app.emit("redeemed_coupon",deal, sale, req.params.coupon_code, req.session.user._id);
 					app.emit("commission_event", "Commission_Seller", deal, commission_new);
 				});
 				res.redirect("/deals/review/"+deal._id)

@@ -1,8 +1,7 @@
 // Creación de la Conexión
 var mongoose = require('mongoose');
-var Schema = require('mongoose').Schema
 
-var NewSchema = new Schema({
+var NewSchema = new mongoose.Schema({
 	from_user  	: { type: mongoose.Schema.ObjectId, ref: 'User' },
 	to_user  	: { type: mongoose.Schema.ObjectId, ref: 'User' },
 	deal  		: { type: mongoose.Schema.ObjectId, ref: 'Deal' },

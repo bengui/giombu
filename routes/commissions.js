@@ -54,9 +54,9 @@ module.exports = function(app){
 		
 	});
 
-	app.on('redeemed_coupon',function(deal, sale, code ){
+	app.on('redeemed_coupon',function(deal, sale, code ,user_id){
 		var commission_new = new CommissionModel(); 
-		commission_new.user_id = req.session.user._id;
+		commission_new.user_id = user_id;
 		commission_new.sale = sale._id;
 		commission_new.currency = deal.currency
 		commission_new.amount = (deal.partner_percentage)/100*(deal.special_price);

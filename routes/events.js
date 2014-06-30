@@ -2,11 +2,15 @@ var EventModel = require('../models/event').EventModel;
 
 module.exports = function (app){
  
-  app.on('invitation_accepted',  function (invitation) {
-     
-  });
+   app.get('/events', function(req, res, next){
+      EventModel.find().exec( function(err, events){
+        console.log(events)
+        if (err) throw err;
+        res.json(events);
+      });
+    });
 
-  app.get( "events/initialize" ,function (req, res, next) {
+  app.get( "/events/initialize" ,function (req, res, next) {
  
       var event_new = new EventModel();
      
@@ -103,6 +107,7 @@ module.exports = function (app){
           console.log("Error: - " + err);
         }
       });   
-    }
+    });
 
+   
 }
