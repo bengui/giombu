@@ -419,7 +419,6 @@ module.exports = function (app){
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
-				console.log(deal.sales)
 				var commission_new = new CommissionModel(); 
 				commission_new.user_id = deal.seller;
 				var sale_index = -1;
@@ -436,17 +435,22 @@ module.exports = function (app){
 						code_index = i;
 					}
 				};
-				var update_string = "sales."+sale_index+".coupons."+code_index+".status";
-				DealModel.update( {"_id" : deal._id } , 
-				                {$set : {update_string : "redeemed"} } );
-				commission_new.sale = req.params.sale_id;
-				commission_new.currency = deal.currency
-				commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
-				commission_new.save(function(){
-					app.emit("redeemed_coupon",deal, sale, req.params.coupon_code, req.session.user._id);
-					app.emit("commission_event", "Commission_Seller", deal, commission_new);
-				});
-				res.redirect("/deals/review/"+deal._id)
+				deal.sales[sale_index].coupons[code_index].status = "redeemed";
+				deal.save(function(err){
+					if(err){
+						console.log(err);
+					}
+					commission_new.sale = req.params.sale_id;
+					commission_new.currency = deal.currency
+					commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
+					commission_new.save(function(){
+						app.emit("redeemed_coupon",deal, sale, req.params.coupon_code, req.session.user._id);
+						app.emit("commission_event", "Commission_Seller", deal, commission_new);
+					});
+					res.redirect("/deals/review/"+deal._id)
+
+				})
+				
 			}else{
 				console.log('No se encontro el deal ( ' + req.body.deal_id +' )');
 				res.render('not_found', {title: 'Oferta', user: req.session.user});

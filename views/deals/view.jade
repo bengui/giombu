@@ -5,8 +5,9 @@ block content
 	.nav.nav-tabs
 		li
 			a(href="#review", data-toggle="tab") Informacion
-		li
-			a(href="#coupons", data-toggle="tab") Cupones
+		-if(deal.partner === expose.user._id) //Partner	
+			li
+				a(href="#coupons", data-toggle="tab") Cupones
 	.tab-content
 		.tab-pane(id="review").active
 			h2 Oferta
@@ -118,8 +119,9 @@ block content
 				-var image = deal.images[i]
 				-var param ="deals"
 				include ../partials/deals/image_list
-		.tab-pane(id="coupons")
-			h3 Cupones
-			-each sale in deal.sales
-				-each coupon in sale.coupons
-					include ../partials/coupons/view
+		-if(deal.partner === expose.user._id) //Partner	
+			.tab-pane(id="coupons")
+				h3 Cupones
+				-each sale in deal.sales
+					-each coupon in sale.coupons
+						include ../partials/coupons/view
