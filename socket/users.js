@@ -51,6 +51,7 @@ module.exports = function(socket, session, io){
 		}
 	});
 
+	//Ver para agregar en las news.
 	socket.on('message', function(data){
 		UserModel.findById(data.user_id, function(err, user){
 			if (err) throw err;

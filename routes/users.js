@@ -11,7 +11,6 @@ var CityModel = require('../models/city').CityModel;
 var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
-var RolesHelper	= require('../helpers/checkAuth');
 var _ = require('underscore');
 
 module.exports = function(app){
@@ -163,10 +162,7 @@ module.exports = function(app){
 						//Expose some user data to the front-end
 						req.session.expose.selected_franchise = 'Guadalajara';
 						req.session.expose.user = {};
-						req.session.expose.user.username = user.username;
-						req.session.expose.user._id = user._id;
-						req.session.expose.user.name = user.name;
-						req.session.expose.user.lname = user.lname;
+						req.session.expose.user = user;
 
 
 						updateUserLevel(req, res, function(){
@@ -331,7 +327,6 @@ module.exports = function(app){
 		.populate('city')
 		.exec(function(err, user){
 			if (err) throw err;
-			console.log(user)
 			if(user){
 				StateModel.findById( user.city.state , function(err, state){
 				if (err) throw err;
@@ -343,13 +338,16 @@ module.exports = function(app){
 							user 	: user,
 							state 	: state,
 							country : country,
-							RolesHelper : RolesHelper,
 							id : id
 						});
 					});
 				});
 			}else{
-				redirect('/users/logout');
+				if(req.session.user._id){
+					redirect('/users/logout');
+				}else{
+					redirect('/');
+				}
 			}
 
 
@@ -371,7 +369,6 @@ module.exports = function(app){
 						if (err) return handleError(err);
 						BonusModel.find( {user : req.params.id}, function(err, bonuses){
 							if(!err){
-								console.log(RolesHelper)
 								res.render('users/view', {title: 'Perfil', user: user,bonuses:bonuses, contacts:contacts,deals:deals,subscriptions:subscriptions});
 							}else{
 								if (err) return handleError(err);
