@@ -73,3 +73,17 @@ exports.franchisorAdministrator = function (user) {
 		return true
 	}
 }
+
+//Funciones extra para chequear relacion con el deal, o similares
+
+//isPartner
+//Para ver si el usuario es partner de alguno de los branches asociados a la oferta.
+exports.isPartner = function (user, store) {
+	var found = false;
+	for (var i = store.branches.length - 1; i >= 0; i--) {
+		if(store.branches[i].partner == user._id){
+			return true
+		}
+	};
+	return false
+}

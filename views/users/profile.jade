@@ -22,7 +22,7 @@ block content
 			a(href="#misbonos", data-toggle="tab") Bonos
 		li
 			a(href="#misimagenes", data-toggle="tab") Imagenes
-		-if(RolesHelper.member(user)|| RolesHelper.franchisorAdministrator(user) || RolesHelper.generalAdministrator(user)|| RolesHelper.admin(user))
+		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
 			li
 				a(href="#administration", data-toggle="tab") Administración
 	.tab-content
@@ -50,9 +50,9 @@ block content
 				tr 
 					td.pull-right 
 						h5 Movil:
-					td #{user.mobile}	
-		-if(RolesHelper.member(user)|| RolesHelper.franchisorAdministrator(user) || RolesHelper.generalAdministrator(user)|| RolesHelper.admin(user))
-			.tab-pane.fade.in#administration
+					td #{user.mobile}
+		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
+		.tab-pane.fade.in#administration
 				include ../partials/users/add_roles
 		.tab-pane.fade.in#miscontactos
 			table.miscontactos

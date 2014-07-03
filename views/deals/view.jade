@@ -5,7 +5,7 @@ block content
 	.nav.nav-tabs
 		li
 			a(href="#review", data-toggle="tab") Informacion
-		-if(deal.partner === expose.user._id) //Partner	
+		-if(RolesHelper.isPartner(user._id, deal.store)) //Partner	
 			li
 				a(href="#coupons", data-toggle="tab") Cupones
 	.tab-content

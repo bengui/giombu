@@ -4,6 +4,7 @@ var SessionSockets = require('session.socket.io');
 var sessionSockets;
 var private_config = require('../private_config');
 var mailer = require('express-mailer');
+var RolesHelper	= require('../helpers/checkAuth');
 
 module.exports = function(app){
 
@@ -47,8 +48,7 @@ module.exports = function(app){
 			req.session.expose.error = req.session.error;
 			delete req.session.error;	
 		}
-
-
+		res.locals.RolesHelper = RolesHelper;
 		res.locals.expose = req.session.expose;
 		next();
 	});
