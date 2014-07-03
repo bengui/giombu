@@ -73,10 +73,10 @@
 					label.col-md-5.control-label Usuario Que te Invito: 
 					.col-md-7
 						-var username = ""
-						-if (typeof invitation.invite_user !== "undefined")
+						-if (typeof invitation !== "undefined")
 							-username = invitation.invite_user.username ;
+							input(type='hidden', name="invitation", value="#{invitation._id}" ,class="form-control input-sm")
 						input(type='text', name="user[inviter]",placeholder="Usuario", value="#{username}" ,class="form-control input-sm users_input typeahead" , data-provide="typeahead", data-items="4")
-						input(type='hidden', name="invitation", value="#{invitation._id}" ,class="form-control input-sm")
 				.form-group
 					.col-md-offset-5.col-md-7
 						button(name='submit', type='submit').btn.btn-info Registrarme

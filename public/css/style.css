@@ -8,8 +8,6 @@ body {
 
 .space{margin: 5px !important}
 
-/* Intranet */
-
 .header_franchise_layout {background-color: #fff; height: 80px; border-bottom: 1px solid #e5e5e5;}
 .header_franchise_layout img {
 	padding: 8px 10px 6px;
@@ -17,19 +15,12 @@ body {
 	margin-right: 5px;
 }
 
-#left {
-	width: 15%;
-	height: auto;
-	position: relative;
-	margin-left: 30px;
-	padding: 20px 0 0 0;
-}
-
-
+#left {width: 15%;height:auto;position:relative;margin-left: 30px;padding: 20px 0 0 0;}
 #center {width: 60%; padding: 20px 10px 0 20px;}
 #news {width: 20%}
 
-.feed_container{
-	height:500px;
-	overflow-y:scroll;
-}
+.feed_container{height:500px;overflow-y:scroll;}
+.original {font: normal 18px 'robotolight', Arial, Helvetica, sans-serif;color: #666;text-decoration: line-through; }
+.dto {margin: 0 10px;padding: 0;font: normal 20px 'robotobold', Arial, Helvetica, sans-serif;color: #333; font-weight: bold;}
+.price {margin: 0;font: normal 24px 'robotobold', Arial, Helvetica, sans-serif;color: #690; font-weight: bold;}
+.data {float: right; padding:8px 15px 0 0; }

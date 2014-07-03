@@ -2,6 +2,7 @@
 .hasCountdown {
 	border: 1px solid #ccc;
 	background-color: #eee;
+	height: 30px;
 }
 .countdown_rtl {
 	direction: rtl;
@@ -11,9 +12,14 @@
 }
 .countdown_row {
 	clear: both;
-	width: 100%;
-	padding: 0px 2px;
+	width: 100%;;
+	padding: 0px 0px;
 	text-align: center;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.1;
+	color: inherit;	
+	font-size: 12px;
 }
 .countdown_show1 .countdown_section {
 	width: 98%;

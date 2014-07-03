@@ -5,10 +5,9 @@ extends ../layout
 //Bloque de contenido.
 block content
 	.img_profile
-		p #{user.username}
 		-if (contacts)
 			h5 Tenes #{contacts.length} contactos!
-	ul(class="nav nav-tabs")
+	ul(class="nav nav-tabs nav-justified")
 		li.active
 			a(href="#misdatos", data-toggle="tab") Datos
 		li
@@ -28,24 +27,30 @@ block content
 				a(href="#administration", data-toggle="tab") Administración
 	.tab-content
 		.tab-pane.fade.active.in#misdatos
-			h3 Datos del usuario
-			table.misdatos
+			h3 Datos del usuario: #{user.username}
+			span.glyphicon.glyphicon-pencil
+			a(href="/users/profile/edit") Editar datos
+			table.table-condensed
 				tr 
-					td.tdmisdatos Nombre:
+					td.pull-right
+						h5 Nombre:
 					td #{user.name} #{user.lname}
 				tr
-					td.tdmisdatos Email:
+					td.pull-right 
+						h5 Email:
 					td #{user.email}
 				tr 
-					td.tdmisdatos Dirección:
+					td.pull-right 
+						h5 Dirección:
 					td #{user.address} - #{user.city.name}, #{state.name} - #{country.name}
 				tr 
-					td.tdmisdatos Telefono:
+					td.pull-right 
+						h5 Telefono:
 					td #{user.phone}
 				tr 
-					td.tdmisdatos Movil:
-					td #{user.mobile}
-			a(href="/users/profile/edit") Editar datos
+					td.pull-right 
+						h5 Movil:
+					td #{user.mobile}	
 		-if(RolesHelper.member(user)|| RolesHelper.franchisorAdministrator(user) || RolesHelper.generalAdministrator(user)|| RolesHelper.admin(user))
 			.tab-pane.fade.in#administration
 				include ../partials/users/add_roles

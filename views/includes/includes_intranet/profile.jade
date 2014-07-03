@@ -1,14 +1,14 @@
 a(href='/users/profile') 
 	#profile
-		.thumbnail 
-			if (typeof expose.user !== "undefined")
-				if (typeof expose.user.image === "undefined")
-					img(src="/img/mr_bean.png", class='img-thumbnail')
-				else
-					img(class='img-thumbnail', src="/images/"+user.image[0].filename.toString())
+		if (typeof expose.user !== "undefined")
+			if (typeof expose.user.image === "undefined")
+				img(src="/img/mr_bean.png", class='img-thumbnail', style="width:40%; height:40%; margin-bottom:10px;")
 			else
-				img(class='img-thumbnail', src="/img/mr_bean.png")
-		.data 
+				img(class='img-thumbnail', src="/images/"+user.image[0].filename.toString())
+		else
+			img(class='img-thumbnail', src="/img/mr_bean.png")
+		.data
 			if (!(typeof expose.user === "undefined"))
-				p #{expose.user.username} #{expose.user.partner}
-				a(href='/users/profile/edit/') Editar Perfil
+				h6 #{expose.user.username} #{expose.user.partner}
+				h6
+					a(href='/users/profile/edit/') Editar Perfil

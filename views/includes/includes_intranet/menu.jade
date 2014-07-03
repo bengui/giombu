@@ -1,7 +1,8 @@
 .menu
 	include profile
-	ul(class="nav nav-pills nav-stacked")
-		li.nav-header Ofertas
+	ul(class="nav nav-pills small nav-stacked")
+		li.nav-header
+			span.glyphicon.glyphicon-star Ofertas
 		li
 			a(href='/deals/active') Ver Activas
 		li
@@ -9,7 +10,8 @@
 		li
 			a(href='/deals/create') Crear Oferta
 
-		li.nav-header Menu
+		li.nav-header 
+			span.glyphicon.glyphicon-th Menu
 		li
 			a(href='/news') Noticias
 		//-if (!(typeof user.promoter === "undefined"))
@@ -32,12 +34,14 @@
 				a(href='/sellers/list') Ventas
 			li
 				a(href='h1') Comisiones	
-		li.nav-header Contactos
+		li.nav-header 
+			span.glyphicon.glyphicon-user Contactos
 		li
 			a(href='/intranet/users/contacts/0') Listado
 		li
 			a(href='/invitations') Invitaciones
-		li.nav-header Administración
+		li.nav-header 
+			span.glyphicon.glyphicon-signal Administración
 		li
 			a(href='/intranet/stats') Estadísticas
 		li
@@ -61,7 +65,8 @@
 		li
 			a(href="/bankAccount/list") Cuentas Bancarias
 			
-		li.nav-header Email Marketing
+		li.nav-header 
+			span.glyphicon.glyphicon-envelope Email-Marketing
 		li
 			a(href='/intranet/subscribers/list') Suscriptores
 		li

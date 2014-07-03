@@ -1,7 +1,7 @@
 
 // my-template.jade
 extends ../layout
-
+.feed_container
 //Bloque de contenido.
 block content
 	.img_profile
@@ -25,21 +25,21 @@ block content
 	.tab-content
 		.tab-pane.fade.active.in#misdatos
 			h3 Datos del usuario
-			table.misdatos
+			table.table-striped
 				tr 
-					td.tdmisdatos Nombre:
+					td Nombre:
 					td #{user.name} #{user.lname}
 				tr
-					td.tdmisdatos Email:
+					td Email:
 					td #{user.email}
 				tr 
-					td.tdmisdatos Dirección:
+					td Dirección:
 					td #{user.address} - #{user.state}, #{user.city} - #{user.country}
 				tr 
-					td.tdmisdatos Telefono:
+					td Telefono:
 					td #{user.phone}
 				tr 
-					td.tdmisdatos Movil:
+					td Movil:
 					td #{user.mobile}
 		.tab-pane.fade.in#miscontactos
 			table.miscontactos

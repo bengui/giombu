@@ -1,33 +1,23 @@
-.col-md-4.well.well-sm
+.col-md-3.well
 	.thumbnail
 		a(href="/deals/view/#{deal._id}")
 			if(typeof deal.images[0] !== "undefined" )
 				img( src="/photos/deals/#{deal.images[0].filename}", class="image")
 	.caption
-		h3
+		h4
 			a(href="/deals/#{deal._id}") #{deal.title}
 		p
 			a(href="/deals/#{deal._id}") #{deal.tagline}
-		table.table
-			tr
-				th
-					p Normal
-				th
-					p Descuento
-				th
-					p Oferta
-			tr
-				td
-					p $ #{deal.price}
-				td
-					p #{deal.discount} %
-				td
-					p $ #{deal.special_price}
-		.col-sm-1
-				img(src="img/clock.png", style="width:30px;")
-		.col-sm-6
-			.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
-		.col-sm-5
-			a(href="/deals/#{deal._id}")
-				button.btn.btn-primary Ver Oferta
+		p.fright
+			span.original $ #{deal.price}
+			span.dto #{deal.discount} %
+			span.price $ #{deal.special_price}
+		.col-sm-12
+			.col-sm-1
+				img(src="img/clock.png", style="width:25px; height:30px")
+			.col-sm-8
+				.countdown(id='Deal#{i}',data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+			.col-sm-1
+				a(href="/deals/#{deal._id}")
+					button.btn.btn-sm.btn-primary Ver!
 			
