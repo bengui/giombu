@@ -1,8 +1,13 @@
 .col-md-3.well
 	.thumbnail
 		a(href="/deals/view/#{deal._id}")
-			if(typeof deal.images[0] !== "undefined" )
-				img( src="/photos/deals/#{deal.images[0].filename}", class="image")
+			if(typeof deal.images!== "undefined" )
+				if(typeof deal.images[0] !== "undefined" )
+					img( src="/photos/deals/#{deal.images[0].filename}", class="image")
+				else
+					p Foto
+			else
+				p Foto
 	.caption
 		h4
 			a(href="/deals/#{deal._id}") #{deal.title}
