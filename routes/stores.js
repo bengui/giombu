@@ -19,7 +19,6 @@ var createStoreBranch = function(req, res, message){
 
 			res.render('stores/create_store_branch', {
 				title 			: 'Cargar tienda',
-				user 			: req.session.user,
 				countries 		: countries,
 				message 		: message
 			});
@@ -76,6 +75,8 @@ module.exports = function(app){
 
 	app.post('/stores/add_store_branch', CheckAuth.user, CheckAuth.seller, function (req, res, next) {
 		//and add the Franchise adn City to the Branch
+
+		//Me tendria que cargar a mi mismo si es que es para mi, que es la opcion mas logica.
 		UserModel.findOne({ username : req.body.branch.partner }, function(err, partner){
 
 			if (err) throw err;

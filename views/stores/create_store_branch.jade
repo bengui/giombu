@@ -84,7 +84,7 @@ block content
 			.form-group
 				label.col-md-4 Usuario que tiene la sucursal asignada: 
 				.col-md-8
-					input(type='text', name="branch[partner]", id='branch_partner', placeholder="Usuario" ,class="users_input typeahead" , data-provide="typeahead", data-items="4").form-control.input-sm
+					input(type='text', name="branch[partner]", id='branch_partner', placeholder="Usuario" ,class="users_input typeahead", value="#{expose.user.username}" , data-provide="typeahead", data-items="4").form-control.input-sm
 			.form-group
 				button(type='submit' id='submit_btn').btn.btn-default Save
 

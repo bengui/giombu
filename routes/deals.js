@@ -69,6 +69,7 @@ module.exports = function (app){
 
 	//Llama a la vista de creacion de una nueva deal
 	//REVISADO
+	//Estamos filtrando solo para las stores cargadas por ese usuario
 	app.get('/deals/create', CheckAuth.user, CheckAuth.seller, function (req, res, next) {
 		console.log('deals - create'.cyan.bold);
 		StoreModel.find( { creator : req.session.user._id })
@@ -78,7 +79,6 @@ module.exports = function (app){
 
 			res.render('deals/create', {
 				title: 'Cargar Oferta',
-				user 			: req.session.user,
 				stores 			: stores,
 				deal_status		: DealStatus.list()
 			});

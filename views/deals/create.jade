@@ -33,10 +33,13 @@ block content
 		.form-group
 			label.col-md-4.control-label Tienda:
 			.col-md-8
-				select(name='deal[store]', type='text').input-sm#store_selector
-					-each store in stores
-						option(value="#{store._id}") #{store.name} - #{store.franchisor.name}
-
+				if(stores.length > 0)
+					select(name='deal[store]', type='text').input-sm#store_selector
+						-each store in stores
+							option(value="#{store._id}") #{store.name} - #{store.franchisor.name}
+				else
+					p No tiene Tiendas cargadas, por favor cree una utilizando el link debajo
+					a(href="/stores/create_store_branch") Crear Tienda 
 		.form-group
 			label.col-md-4.control-label Precio:
 			.col-md-8
@@ -117,7 +120,11 @@ block content
 						-i++
 		.form-group
 			.col-sm-offset-4.col-sm-8
-				button(type='submit').btn.btn-default Cargar
+				if(stores.length > 0)
+					button(type='submit').btn.btn-default Cargar
+				else
+					button(disabled="disabled", type="submit").btn.btn-default Cargar
+				
 			
 
 	script(type="text/javascript", src="/js/deals/create.js")

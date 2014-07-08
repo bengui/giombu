@@ -10,7 +10,6 @@ block content
 		br
 		a(href="/stores/edit/" + '#{store._id}' ).btn.btn-default 
 			span.glyphicon.glyphicon-pencil
-		a(href="/stores/add_image/" + '#{store._id}' ).btn.btn-default Agregar Imagen
 		a(href="/stores/assign_partner/" + '#{store._id}' ).btn.btn-default Seleccionar Usuario
 		a(data-toggle="modal", href="#myModal").btn.btn-default  Comisiones
 		a(href="/stores/remove/#{store._id}").btn.btn-danger  Eliminar 				
@@ -37,6 +36,7 @@ block content
 				button(class="close", data-dismiss="modal", aria-hidden="true") &times
 				h4 Comisiones
 			.modal-body
+		h3  Agregar Imagen
 		-var route_name = "stores"
 		-var get_id = store._id
 		include ../includes/image_upload
