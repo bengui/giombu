@@ -2,36 +2,35 @@
 extends ../home
 
 block content
-		-var images = deal.images
-		-var id = deal._id
-		-var param = 'deals'
-		-var title = deal.title
-		-var description = deal.characteristics
-		include ../partials/images/carousel
-		include ../partials/deals/checkout_link
-		.deal_body.col-md-9
-			.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
-			table.table
-				tr
-					td Titulo:
-					td #{deal.title}
-				tr
-					td Subtitulo:
-					td #{deal.tagline}
-				tr
-					td Link:
-					td #{deal.slug}
-				tr
-					td Caracteristicas:
-					td #{deal.characteristics}
-				tr
-					td Condiciones:
-					td #{deal.conditions}
-			br
-			.alert.alert-info
-				p Podrás canjear esta oferta a partir del día #{deal.start_redeem.getDate()} / #{deal.start_redeem.getMonth()+1} / #{deal.start_redeem.getFullYear()}  y hasta el día #{deal.end_redeem.getDate()} / #{deal.end_redeem.getMonth()+1} / #{deal.end_redeem.getFullYear()} 
-			-var store = deal.store 
-			.col-sm-4
-				include ../partials/store/store
-			-var questions = deal.questions
-			include ../partials/questions/container
+	-var images = deal.images
+	-var id = deal._id
+	-var param = 'deals'
+	-var title = deal.title
+	-var description = deal.characteristics
+	include ../partials/images/carousel
+	.deal_body.col-md-9.pull-left
+		.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+		table.table
+			tr
+				td Titulo:
+				td #{deal.title}
+			tr
+				td Subtitulo:
+				td #{deal.tagline}
+			tr
+				td Link:
+				td #{deal.slug}
+			tr
+				td Caracteristicas:
+				td #{deal.characteristics}
+			tr
+				td Condiciones:
+				td #{deal.conditions}
+		br
+		.alert.alert-info
+			p Podrás canjear esta oferta a partir del día #{deal.start_redeem.getDate()} / #{deal.start_redeem.getMonth()+1} / #{deal.start_redeem.getFullYear()}  y hasta el día #{deal.end_redeem.getDate()} / #{deal.end_redeem.getMonth()+1} / #{deal.end_redeem.getFullYear()} 
+		include ../partials/questions/container
+	include ../partials/deals/checkout_link
+	-var store = deal.store 
+	.col-md-3.pull-right
+		include ../partials/store/store

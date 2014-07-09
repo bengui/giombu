@@ -38,7 +38,7 @@ module.exports = function (app){
 				    question_new.save(function(err){
 				    if(!err){
 				        console.log(question_new);
-				  	  res.redirect("/deals/view/"+req.params.id)
+				  	  res.redirect("/deals/"+req.params.id)
 						
 					} else {
 						console.log(err);
@@ -63,7 +63,7 @@ module.exports = function (app){
 					question.save(function(err) {
 					      if (!err){
 					      	console.log(question)
-					       	res.redirect("/deals/view/"+question.deal)
+					       	res.redirect("/deals/"+question.deal)
 					      }else{
 					        console.log('error' + err)
 					    	}
@@ -85,7 +85,7 @@ module.exports = function (app){
 					question.save(function(err) {
 					      if (!err){
 					      	console.log(question)
-					       	 res.redirect("/deals/view/"+question.deal)
+					       	 res.redirect("/deals/"+question.deal)
 					      }else{
 					        console.log('error' + err)
 					    	}
