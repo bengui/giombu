@@ -92,12 +92,18 @@ block content
 							td #{bonus.amount}
 							td #{bonus.created}
 		.tab-pane.fade.in#misimagenes
+			h3 Agregar Imagenes
+			-var route_name = "users"
+			-var get_id = user._id
+			include ../includes/image_upload
 			- images = user.images
 			- param = "users"
 			- id = user._id
 			.images
-				-if (image)
+				-if (images.length > 0)
 					include ../partials/images/carousel
+				-for (var i = images.length - 1; i >= 0; i--)
+					-var image = images[i]
 					include ../partials/images/media_list
 		-if (!(typeof user.promoter[0] === "undefined"))
 			h3 Promotor

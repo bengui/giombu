@@ -147,7 +147,7 @@ module.exports = function(app){
 
 
 	app.post('/users/login', function(req, res, next){
-		UserModel.findOne({username: req.body.username}, function(err, user){
+		UserModel.findOne({username: req.body.username}).populate("images").exec(function(err, user){
 			if(err) throw err;
 
 			if(!user){
@@ -324,10 +324,11 @@ module.exports = function(app){
 			id = req.session.user._id
 		}
 		UserModel.findOne({"_id" : id})
-		.populate('city')
+		.populate('city').populate("images")
 		.exec(function(err, user){
 			if (err) throw err;
 			if(user){
+				console.log(user)
 				StateModel.findById( user.city.state , function(err, state){
 				if (err) throw err;
 					CountryModel.findById( state.country, function(err, country){
@@ -360,6 +361,7 @@ module.exports = function(app){
 	//toma 'login' como si fuese un ID de algun user. Este caso es valido para llamadas similares.
 	app.get('/users/:id', function(req, res){
 		UserModel.findById(req.params.id).populate('images').exec( function(err, user){
+			console.log(user.images)
 			if (err) throw err;
 			UserModel.find({'promoter_id':req.params.id}, function (err, contacts) {
 				if (err) return handleError(err);

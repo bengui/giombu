@@ -1,10 +1,11 @@
 a(href='/users/profile') 
 	#profile
 		if (typeof expose.user !== "undefined")
-			if (typeof expose.user.image === "undefined")
-				img(src="/img/mr_bean.png", class='img-thumbnail', style="width:40%; height:40%; margin-bottom:10px;")
-			else
-				img(class='img-thumbnail', src="/images/"+user.image[0].filename.toString())
+			if (typeof expose.user.images !== "undefined")
+				if (typeof expose.user.images[0] === "undefined")
+					img(src="/img/mr_bean.png", class='img-thumbnail', style="width:40%; height:40%; margin-bottom:10px;")
+				else
+					img(class='img-thumbnail', src="/photos/users/"+user.images[0].filename.toString())
 		else
 			img(class='img-thumbnail', src="/img/mr_bean.png")
 		.data

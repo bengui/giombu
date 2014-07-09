@@ -379,7 +379,7 @@ module.exports = function (app){
 
 	app.get('/deals/:id', function(req, res, next){
 		DealModel.findById( req.params.id )
-		.populate('store').populate("images")
+		.populate('store').populate("partner").populate("images")
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
@@ -392,6 +392,7 @@ module.exports = function (app){
 					.populate('user')
 					.populate('deal')
 					.exec( function(err, questions){
+						console.log(deal)
 						if(err) throw err;
 						var callback = function(){
 							res.render('deals/show', {
