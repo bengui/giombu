@@ -1,0 +1,56 @@
+-if(expose.user)	
+	div(class='well')
+		form(class="question", method="post", action="/questions/add/#{deal._id}")
+			label ¿Quieres realizar una pregunta?
+			input(type="text", name="question", id="question")
+			input(type="submit", class='btn btn-info') 
+	.other-questions
+		-if(typeof questions !== "undefined")
+			-for (var i = questions.length-1; i >= 0; i--)
+				.media
+					.user_question
+						a(class="pull-left", href="#") 
+							-if (questions[i].user)
+								-if (typeof questions[i].user.image !== "undefined")
+									-if (typeof questions[i].user.image[0] === "undefined")
+										img(class="user_img", src="/images/mr_bean.jpg")
+									-else
+										img(class="user_img", src="/photos/users/"+questions[i].user.image[0].filename.toString())
+								-else
+									img(class="user_img", src="/images/mr_bean.jpg")
+					.media-body
+						h4.media-heading 
+						p #{questions[i].user.username}: #{questions[i].question}
+					-if(questions[i].partner)
+					.answer
+						a(class="pull-left", href="#") 
+							-if (questions[i].partner)
+								-if (typeof questions[i].partner.image !== "undefined")
+									-if (typeof questions[i].partner.image[0] === "undefined")
+										img("user_img", src="/images/mr_bean.jpg")
+									-else
+										img("user_img", src="/photos/users/"+questions[i].partner.image[0].filename.toString())
+								-else
+									img("user_img", src="/images/mr_bean.jpg")
+								.media-body
+									h4.media-heading 
+										#{questions[i].partner.username}
+									-if(questions[i].answer)
+										p #{questions[i].answer}
+									-else
+										form(class="answer", method="post", action="/questions/answer/#{questions[i]._id}")
+											label Responder:
+											input(type="text", name="answer", id="©")
+											input(type="submit")
+						.media
+							.user_answer
+								a(class="pull-left", href="#") 
+									img(class= "answer_img", src="/img/logo_giombu.png")
+							.media-body
+								-if(questions[i].answer_admin)
+									p #{questions[i].answer_admin}
+								-else
+									form(class="answer_admin", method="post", action="/questions/admin_answer/#{questions[i]._id}")
+										label Responder:
+										input(type="text", name="answer_admin", id="answer_admin")
+										input(type="submit", class="btn btn-info")

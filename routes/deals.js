@@ -335,16 +335,13 @@ module.exports = function (app){
 	//Muestra la vista detallada de una deal en particular
 	//Si la ruta matchea entra por esta, necesitamos distintas rutas Nico 4/6
 	app.get('/deals/review/:id', CheckAuth.user,  CheckAuth.seller, function(req, res, next){
-		DealModel.findById( req.params.id )
+		DealModel.findOne({"_id": req.params.id })
 		.populate('store').populate("images")
 		.exec( function(err, deal){
-
 			if(err) throw err;
-
-			console.log(deal);
-
 			if(deal){
-
+				console.log("Deal?")
+				console.log(deal);
 				// TODO checkear estouy
 
 				DealModel.find()
