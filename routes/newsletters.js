@@ -30,58 +30,72 @@ module.exports = function (app){
 				    newsletter.save(function(){
 				    	res.render('newsletters/filter_deals', {title: 'Finalizar Newsletter', franchise:franchise , id:newsletter.id , deals:deals});
 					});
+				}else{
+					DealModel.find({}).sort("-created").populate("images").exec(function(err, deals){
+						console.log("No hay ofertas bajo esas condiciones")
+						if(err) throw err;
+						if(deals.length > 0){
+						    newsletter.description = 'Newsletter para la franquicia'+ franchise.name;
+						    newsletter.save(function(){
+						    	res.render('newsletters/finalize', {title: 'Finalizar Newsletter', franchise:franchise , id:newsletter.id , deals:deals});
+							});
+						}
+					});
 				}
 		  	});
 		});
 	});
 
 	app.post('/newsletters/send', function(req, res, next){
-		NewsletterModel.findOne({ "newsletter" : req.param.newsletter_id}).exec( function(err, newsletter){
-			if(err) throw err;
-			if(newsletter){
-				SubscriberModel.find({ "franchise" : newsletter.franchise}).exec( function(err, subscribers){
-					FranchiseModel.findById(newsletter.franchise).exec( function(err, franchise){
-						if(typeof franchise !== "undefined"){
-							console.log(deals)
-						  	DealModel.find( {"id": {$in: newsletter.deals }}).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
-								if(err) throw err;
-								if(deals.length > 0){
-									email_recievers = [];
-									deals_newsletter = [];
-									for (var i = subscribers.length - 1; i >= 0; i--) {
-										email_recievers.push(subscribers[i].email)
-									};
-									for (var i = deals.length - 1; i >= 0; i--) {
-										deals_newsletter.push(deals[i]._id);
-									};
-									console.log(email_recievers);
-									app.mailer.send('newsletters/default_template', {
-								  		to: email_recievers,
-								  		subject: 'Newsletter '+franchise.name, 
-								  		deals: deals,
-								  		franchise: franchise,
-								  		host: "http://localhost:3000"
-										}, function (err) {
-									    	if (err) {
-										      	console.log(err);
-										      	res.send('There was an error sending the email');
-										      	return;
-										    }
-										    newsletter.deals = deals_newsletter;
-										    newsletter.title = 'Newsletter '+franchise.name;
-										    newsletter.description = 'Newsletter para la franquicia'+ franchise.name;
-										    newsletter.save(function(){
-										    	res.redirect('/newsletters/'+newsletter.id)
-										    });
-										    
-										});
-								}
-						  	});
-						}
+		console.log(req.body.newsletter);
+		NewsletterModel.update( { _id : req.body.newsletter_id }, { $addToSet: { deals: { $each: req.body.newsletter.deals } } }, callback);
+		function callback (err, numAffected) {
+			NewsletterModel.findOne({ "newsletter" : req.body.newsletter_id}).exec( function(err, newsletter){
+				if(err) throw err;
+				if(newsletter){
+					SubscriberModel.find({ "franchise" : newsletter.franchise}).exec( function(err, subscribers){
+						FranchiseModel.findById(newsletter.franchise).exec( function(err, franchise){
+							if(typeof franchise !== "undefined"){
+							  	DealModel.find( {"id": {$in: newsletter.deals }}).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
+									if(err) throw err;
+									if(deals.length > 0){
+										email_recievers = [];
+										deals_newsletter = [];
+										for (var i = subscribers.length - 1; i >= 0; i--) {
+											email_recievers.push(subscribers[i].email)
+										};
+										for (var i = deals.length - 1; i >= 0; i--) {
+											deals_newsletter.push(deals[i]._id);
+										};
+										console.log(email_recievers);
+										app.mailer.send('newsletters/default_template', {
+									  		to: email_recievers,
+									  		subject: 'Newsletter '+franchise.name, 
+									  		deals: deals,
+									  		franchise: franchise,
+									  		host: "http://localhost:3000"
+											}, function (err) {
+										    	if (err) {
+											      	console.log(err);
+											      	res.send('There was an error sending the email');
+											      	return;
+											    }
+											    newsletter.deals = deals_newsletter;
+											    newsletter.title = 'Newsletter '+franchise.name;
+											    newsletter.description = 'Newsletter para la franquicia'+ franchise.name;
+											    newsletter.save(function(){
+											    	res.redirect('/newsletters/'+newsletter.id)
+											    });
+											    
+											});
+									}
+							  	});
+							}
+						});
 					});
-				});
-			}
-		});
+				}
+			});
+		}
 	});
 
 	app.get('/newsletters/sendTest/:id', function(req, res, next){
