@@ -5,28 +5,26 @@ extends ../layout
 block content
 	h3 Crear Newsletter
 	.col-md-8
-		form(method='post',id="newsletters_create" ,action='/newsletters/send').form-horizontal
+		form(method='post',id="newsletters_create" ,action='/newsletters/filter_deals').form-horizontal
 			.form-group
-				label.col-md-4.control-label Incluir Franquicias:
+				label.col-md-4.control-label Titulo:
+				.col-md-8
+					input(name='title', type='text' ,class="required")
+			.form-group
+				label.col-md-4.control-label Franquicia:
 				.col-md-8
 					select(name='newsletter[franchise]', type='text' ,class="required") 
 						-each franchise in franchises
 							option(value="#{franchise._id}") #{franchise.name}
-			-var i = 0
 			.form-group
-				label.col-md-4.control-label Incluir ofertas:
+				label.col-md-4.control-label Cantidad de ofertas:
 				.col-md-8
-					-each deal in deals
-						label
-							input(type="checkbox", name="newsletter[deals][#{i}]", value="#{deal._id}")
-							| #{deal.title} 
-						-i++
-			.form-group
-				label.col-md-4.control-label Incluir ofertas:
-				.col-md-8
-					select(name='time_selector', type='text' ,class="required") 
-						option(value="end_near") Proximas a vencerse.
-						option(value="recently_created") Creadas ultimamente.
+					select(name='max_deals', type='text' ,class="required") 
+						option(value="1") 1
+						option(value="5") 5
+						option(value="10") 10
+						option(value="15") 15
+						option(value="20") 20
 			.form-group
 				label.col-md-4.control-label Fecha de inicio:
 				.col-md-8
@@ -34,4 +32,4 @@ block content
 				label.col-md-4.control-label Fecha de fin:
 				.col-md-8
 					input(name='end_timeframe', type='date', placeholder="dd/mm/yyyy" ,class="required date").form-control.input-sm
-			input(type='submit', value='Crear')
+			input(type='submit', value='Paso siguiente')
