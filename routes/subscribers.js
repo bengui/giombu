@@ -1,4 +1,5 @@
 var SubscriberModel = require('../models/subscriber').SubscriberModel;
+var FranchiseModel = require('../models/franchise').FranchiseModel;
 var mailer = require('../helpers/mailer');
 
 
@@ -29,30 +30,34 @@ module.exports = function (app){
 
 	//BORRA TODAS LAS SUSCRIPCIONES de ese mail
 	app.post('/subscribers/erase_subscriber/:email', function (req, res, next) {
-	   SubscriberModel.find({ email:req.params.email }).remove();
+	   SubscriberModel.find({ "email":req.params.email }).remove();
+	   res.redirect("/subscribers")
 	});
 
 	//Borra la suscripcion de la franquicia en cuestión.
 	app.get('/subscribers/erase_subscriber/:email/:franchise', function (req, res, next) {
-	   SubscriberModel.find({ email:req.params.email , franchise:req.params.franchise}).remove();
+	   SubscriberModel.find({ "email":req.params.email , "franchise":req.params.franchise}).remove();
+	   res.redirect("/subscribers")
 	});
 
 	app.get('/subscribers', function(req, res, next){
 
 		console.log('subscriber - list'.cyan.bold);
 		console.log(req.session.selected_franchise)
-		SubscriberModel.find( {} , function(err, subscribers){
-			if(!err){
-				if(subscribers){
-					console.log('subscriber - list - Se envian los subscribers encontrados');
-					res.render('subscribers/list', {title: 'Lista de subscribers', subscribers : subscribers, user: req.session.user, franchise : req.session.selected_franchise});
+		FranchiseModel.find( {} , function(err, franchises){
+			SubscriberModel.find( {} ).populate("franchise").exec(function(err, subscribers){
+				if(!err){
+					if(subscribers){
+						console.log('subscriber - list - Se envian los subscribers encontrados');
+						res.render('subscribers/list', {title: 'Lista de subscribers', subscribers : subscribers, franchises:franchises, franchise : req.session.selected_franchise});
+					}else{
+						console.log('subscriber - list - No hay subscribers');
+					}
 				}else{
-					console.log('subscriber - list - No hay subscribers');
+					console.log('subscriber - list - '.red.bold + err);
 				}
-			}else{
-				console.log('subscriber - list - '.red.bold + err);
-			}
 
-	  });
+		 	});
+		 });
 	});
 }
