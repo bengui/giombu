@@ -50,13 +50,13 @@ module.exports = function (app){
 		console.log(req.body.newsletter);
 		NewsletterModel.update( { _id : req.body.newsletter_id }, { $addToSet: { deals: { $each: req.body.newsletter.deals } } }, callback);
 		function callback (err, numAffected) {
-			NewsletterModel.findOne({ "newsletter" : req.body.newsletter_id}).exec( function(err, newsletter){
+			NewsletterModel.findById(req.body.newsletter_id).exec( function(err, newsletter){
 				if(err) throw err;
 				if(newsletter){
 					SubscriberModel.find({ "franchise" : newsletter.franchise}).exec( function(err, subscribers){
 						FranchiseModel.findById(newsletter.franchise).exec( function(err, franchise){
 							if(typeof franchise !== "undefined"){
-							  	DealModel.find( {"id": {$in: newsletter.deals }}).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
+							  	DealModel.find( {"_id": {$in: newsletter.deals }}).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
 									if(err) throw err;
 									if(deals.length > 0){
 										email_recievers = [];
