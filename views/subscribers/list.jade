@@ -10,11 +10,11 @@ block content
 	table.table
 		-each item in subscribers
 			tr
-				td.well
+				td.well.franchise_subscription
 					h5 #{item.name} #{item.email}
 						if(item.franchise)
-							h5 #{item.franchise.name}
-						span.pull-right
-							a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}") Borrar
+							h5.franchise_name #{item.franchise.name}
+					span.pull-right
+						a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}") Borrar
 					
 					

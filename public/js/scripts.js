@@ -34,11 +34,14 @@ function inicio(){
         $("#franchise_filter").change(function(){
             $(".franchise_subscription").each(function( index ) {
                 $(this).show();
-                if($( this ).val() !== $("#franchise_filter").val()){
+                if(typeof $( this ).find(".franchise_name").html() !== "undefined"){
+                    if($( this ).find(".franchise_name").html().toString() !== $("#franchise_filter").val().toString()){
+                        $(this).hide();
+                    }
+                }else{
                     $(this).hide();
                 }
             });
-            $(".franchise_subscription").hide()
         })
     }
  }
