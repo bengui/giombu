@@ -26,3 +26,5 @@ body {
 .data {float: right; padding:8px 15px 0 0; }
 
 .user_img{ width:64px;}
+
+.carousel-inner .item.active img {width: 100%; overflow-y: hidden;}

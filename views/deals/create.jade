@@ -7,31 +7,31 @@ block content
 	script(type="text/javascript" src="/js/jquery.tagline.js")
 	link(rel="stylesheet", type="text/css", href="/css/jquery.tagline.css")
 	.col-md-8
-	h3 Cargar oferta
+	h3 Nueva Oferta
 	br
 	form(method='post', id="deal_create", action='/deals/add').form-horizontal
 		.form-group
-			label.col-md-4.control-label Titulo:
+			label.col-md-2.control-label Titulo:
 			.col-md-8
 				input(name='deal[title]', type='text').form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Tagline:
+			label.col-md-2.control-label Tagline:
 			.col-md-8
 				input(name='deal[tagline]',class="tags", id="tags", type='text').form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Slug:
+			label.col-md-2.control-label Slug:
 			.col-md-8
 				input(name='deal[slug]', type='text',class="required").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Características:
+			label.col-md-2.control-label Características:
 			.col-md-8
 				textarea(name='deal[characteristics]', type='text',class="required",rows="9", cols="70").form-control
 		.form-group
-			label.col-md-4.control-label Condiciones:
+			label.col-md-2.control-label Condiciones:
 			.col-md-8
 				textarea(name='deal[conditions]', type='text',class="required",rows="9", cols="70").form-control
 		.form-group
-			label.col-md-4.control-label Tienda:
+			label.col-md-2.control-label Tienda:
 			.col-md-8
 				if(stores.length > 0)
 					select(name='deal[store]', type='text').input-sm#store_selector
@@ -41,75 +41,75 @@ block content
 					p No tiene Tiendas cargadas, por favor cree una utilizando el link debajo
 					a(href="/stores/create_store_branch") Crear Tienda 
 		.form-group
-			label.col-md-4.control-label Precio:
-			.col-md-8
+			label.col-md-2.control-label Precio:
+			.col-md-2
 				input(name='deal[price]', type='text',class="required number" ,minlength="1",maxlength="6").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Descuento:
-			.col-md-8
+			label.col-md-2.control-label Descuento:
+			.col-md-2
 				input(name='deal[discount]', type='text',class="required number",minlength="1", maxlength="2").form-control.input-sm
 		.form-group 
-			label.col-md-4.control-label Precio especial:
-			.col-md-8
+			label.col-md-2.control-label Precio especial:
+			.col-md-2
 				input(name='deal[special_price]', type='text',class="required number" ,minlength="1",maxlength="6").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Fecha de comienzo:
-			.col-md-8
+			label.col-md-2.control-label Fecha de comienzo:
+			.col-md-3
 				input(name='deal[start_date]', type='date', placeholder="dd/mm/yyyy" ,class="required date").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Hora de comienzo:
-			.col-md-8
+			label.col-md-2.control-label Hora de comienzo:
+			.col-md-3
 				input(name='deal[start_time]', type='time', value="00:00",class="required").form-control#start_time.input-sm
 		.form-group
-			label.col-md-4.control-label Fecha de fin:
-			.col-md-8
+			label.col-md-2.control-label Fecha de fin:
+			.col-md-3
 				input(name='deal[end_date]', type='date', placeholder="dd/mm/yyyy" ,class="required date").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Hora de fin:
-			.col-md-8
+			label.col-md-2.control-label Hora de fin:
+			.col-md-3
 				input(name='deal[end_time]', type='time', value="00:00",class="required").form-control#end_time.input-sm
 		.form-group
-			label.col-md-4.control-label Inicio fecha de canje:
-			.col-md-8
+			label.col-md-2.control-label Inicio fecha de canje:
+			.col-md-3
 				input(name='deal[start_redeem]', type='date', placeholder="dd/mm/yyyy" ,class="required date").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Fin fecha de canje:
-			.col-md-8
+			label.col-md-2.control-label Fin fecha de canje:
+			.col-md-3
 				input(name='deal[end_redeem]', type='date', placeholder="dd/mm/yyyy" ,class="required date").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Max. de cupones:
-			.col-md-8
+			label.col-md-2.control-label Max. de cupones:
+			.col-md-2
 				input(name='deal[max_coupons]', type='text' ,class="required number" ,minlength="1",maxlength="3").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Max. por usuario:
-			.col-md-8
+			label.col-md-2.control-label Max. por usuario:
+			.col-md-2
 				input(name='deal[max_coupons_by_user]', type='text' ,class="required number" ,minlength="1",maxlength="3").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label % Vendedor:
-			.col-md-8
+			label.col-md-2.control-label % Vendedor:
+			.col-md-2
 				input(name='deal[seller_percentage]', type='text',class="required number",minlength="1", maxlength="2").form-control.input-sm
 		.form-group 
-			label.col-md-4.control-label % Giombu:
-			.col-md-8
+			label.col-md-2.control-label % Giombu:
+			.col-md-2
 				input(name='deal[giombu_percentage]', type='text',class="required number",minlength="1", maxlength="2").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label % Promotor:
-			.col-md-8
+			label.col-md-2.control-label % Promotor:
+			.col-md-2
 				input(name='deal[promoter_percentage]', type='text',class="required number",minlength="1", maxlength="2").form-control.input-sm
 		.form-group
-			label.col-md-4.control-label Estado:
+			label.col-md-2.control-label Estado:
 			.col-md-8
 				select(name='deal[status]').input-sm
 					option(value="draft") Borrador
 					option(value="active") Activa
 					option(value="closed") Cerrada
 		.form-group 
-			label.col-md-4.control-label Costo de envío:
-			.col-md-8
+			label.col-md-2.control-label Costo de envío:
+			.col-md-2
 				input(name='deal[shipping_cost]', type='text' ,minlength="1", maxlength="5").form-control.input-sm
 		-if (stores.length > 0)
 			.form-group 
-				label.col-md-4.control-labell Disponible en franquicias:
+				label.col-md-2.control-labell Disponible en franquicias:
 				.col-md-8#branches_list
 					-var i = 0
 					-each branch in stores[0].branches
@@ -119,7 +119,7 @@ block content
 								|#{branch.name} - #{branch.franchise.name}
 						-i++
 		.form-group
-			.col-sm-offset-4.col-sm-8
+			.col-sm-offset-2.col-sm-8
 				if(stores.length > 0)
 					button(type='submit').btn.btn-default Cargar
 				else

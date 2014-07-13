@@ -10,107 +10,133 @@ block content
 				a(href="#coupons", data-toggle="tab") Cupones
 	.tab-content
 		.tab-pane(id="review").active
-			h2 Oferta
-			a(href='/deals/#{deal._id}' target="blank") Vista Previa
+			h2 Oferta: #{deal.title}
+			.glyphicon.glyphicon-eye-open 
+			a(href='/deals/#{deal._id}' target="blank")  Vista Previa
 			br
-			a(href='/deals/edit/#{deal._id}') Editar
-			br
-			a(href='/deals/remove/#{deal._id}').text-danger eliminar
+			.icon.glyphicon.glyphicon-pencil
+			a(href='/deals/edit/#{deal._id}')  Editar
 
+			br
+			.glyphicon.glyphicon-remove
+			a(href='/deals/remove/#{deal._id}').text-danger  Eliminar
 			h3 Datos generales
 
-			table.table
+			table.table-condensed
 				tr
-					td Estado:
+					td.pull-right 
+						strong Estado:
 					td #{deal.status}
 				tr
-					td Titulo:
+					td.pull-right 
+						strong Titulo:
 					td #{deal.title}
 				tr
-					td Subtitulo:
+					td.pull-right 
+						strong Subtitulo:
 					td #{deal.tagline}
 				tr
-					td Link:
+					td.pull-right 
+						strong Link:
 					td #{deal.slug}
 				tr
-					td Caracteristicas:
+					td.pull-right 
+						strong Caracteristicas:
 					td #{deal.characteristics}
 				tr
-					td Condiciones:
+					td.pull-right 
+						strong Condiciones:
 					td #{deal.conditions}
 
 			br
 			h3 Precios
 
-			table.table
+			table.table-condensed
 				tr
-					td Precio original:
+					td.pull-right 
+						strong Precio original:
 					td $ #{deal.price} 
 				tr
-					td Precio Final:
+					td.pull-right 
+						strong Precio Final:
 					td $ #{deal.special_price} 
 				tr
-					td Descuento:
+					td.pull-right
+						strong Descuento:
 					td $ #{deal.discount} 
 
 			br
 			h3 Fechas
 
-			table.table
+			table.table-condensed
 				tr
-					td Inicio de la oferta:
+					td.pull-right 
+						strong Inicio de la oferta:
 					td #{deal.start_date}
 				tr
-					td Fin de la oferta:
+					td.pull-right
+						strong Fin de la oferta:
 					td #{deal.end_date}
 				tr
-					td Inicio de canje:
+					td.pull-right 
+						strong Inicio de canje:
 					td #{deal.start_redeem}
 				tr
-					td Fin de canje:
+					td.pull-right
+						strong Fin de canje:
 					td #{deal.end_redeem}
 
 			br
 			h3 Cantidad de cupones
 
-			table.table
+			table.table-condensed
 				tr
-					td Cantidad maxima:
+					td.pull-right 
+						strong Cantidad maxima:
 					td #{deal.max_coupons}
 				tr
-					td Maxima por usuario:
+					td.pull-right 
+						strong Maxima por usuario:
 					td #{deal.max_coupons_by_user} 
 
 			br
 			h3 Porcentajes
 
-			table.table
+			table.table-condensed
 				tr
-					td Vendedor:
+					td.pull-right
+						strong Vendedor:
 					td #{deal.seller_percentage}%
 				tr
-					td Giombu:
+					td.pull-right 
+						strong Giombu:
 					td #{deal.giombu_percentage}%
 				tr
-					td Promotor:
+					td.pull-right
+						strong Promotor:
 					td #{deal.promoter_percentage}%
 
 			br
 			h3 Otras
 
-			table.table
+			table.table-condensed
 				tr
-					td Costo de Envío:
+					td.pull-right 
+						strong Costo de Envío:
 					td #{deal.shipping_cost} $
 				tr
-					td Tienda:
+					td.pull-right 
+						strong Tienda:
 					td #{deal.store.name} 
 				tr
-					td Vendedor:
+					td.pull-right 
+						strong Vendedor:
 					td #{deal.seller}
 				tr
-					td Franquiciante:
+					td.pull-right 
+						strong Franquiciante:
 					td #{deal.franchisor}
+			br
 			-var route_name = "deals"
 			-var get_id = deal._id
 			include ../includes/image_upload
