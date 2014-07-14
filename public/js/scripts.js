@@ -34,12 +34,14 @@ function inicio(){
         $("#franchise_filter").change(function(){
             $(".franchise_subscription").each(function( index ) {
                 $(this).show();
-                if(typeof $( this ).find(".franchise_name").html() !== "undefined"){
-                    if($( this ).find(".franchise_name").html().toString() !== $("#franchise_filter").val().toString()){
-                        $(this).hide();
+                if($("#franchise_filter").val().toString() !== "Todas"){
+                    if(typeof $( this ).find(".franchise_name").html() !== "undefined"){
+                        if($( this ).find(".franchise_name").html().toString() !== $("#franchise_filter").val().toString()){
+                            $(this).hide();
+                        }
+                    }else{
+                        $(this).hide();                     
                     }
-                }else{
-                    $(this).hide();
                 }
             });
         })

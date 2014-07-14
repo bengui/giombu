@@ -5,6 +5,7 @@ block content
 	.well
 		p Filtros
 		select(type="text",name="filter", id="franchise_filter")
+			option(value="Todas") Todas
 			-each franchise in franchises
 				option(value="#{franchise.name}") #{franchise.name}
 	table.table
@@ -13,7 +14,7 @@ block content
 				td.well.franchise_subscription
 					h5 #{item.name} #{item.email}
 						if(item.franchise)
-							h5.franchise_name #{item.franchise.name}
+							span.pull-right.franchise_name #{item.franchise.name}
 					span.pull-right
 						a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}") Borrar
 					

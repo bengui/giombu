@@ -1,0 +1,11 @@
+// my-template.jade
+extends ../layout
+
+//Bloques de contenido.
+block content
+	h3 Mis Contactos
+	hr
+	-if(sons.length > 0)
+		-each promoter in sons
+			.col-sm-4
+				include ../partials/users/promoter_thumbnail

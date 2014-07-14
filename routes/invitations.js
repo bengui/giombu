@@ -25,7 +25,7 @@ module.exports = function (app){
           if(!err){
                var body = "<p>Has sido invitado a formar parte de la comunidad Giombu, una comunidad de comercio electrónico en pleno crecimiento. ¡Esperamos que tu tambien quieras formar parte de esto! Para ingresar, por favor sigue el link debajo.";
                body += '"'+ invitation_new.body +'"';
-               var html_content = "<a href='http://"+req.headers.host+"/users/accept_invitation/"+invitation_new._id+"'>Click Aquí para comenzar a ser parte de GIOMBU</a></p>";
+               var html_content = "<a href='http://"+req.headers.host+"/invitations/accept/"+invitation_new._id+"'>Click Aquí para comenzar a ser parte de GIOMBU</a></p>";
                var subject = invitation_new.subject;
                var mails = invitation_new.email;
                var from_name = req.session.user.name ;

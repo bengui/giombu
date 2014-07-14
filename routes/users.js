@@ -8,6 +8,7 @@ var LevelModel = require('../models/level').LevelModel;
 var CountryModel = require('../models/country').CountryModel;
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
+var InvitationModel = require('../models/invitation').InvitationModel;
 var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
@@ -63,32 +64,43 @@ module.exports = function(app){
 
 		var user = new UserModel(req.body.user);
 		user.roles.push(UserRoles.getUser());
+		console.log(req.body.invitation)
 		if(req.body.invitation != ""){
-			switch(invitation_type){
-				//Ver donde vamos a manejar este evento.
-				//app.emit("invitation_accepted", invitation)
-				case "seller":
-					user.roles.push(UserRoles.getSeller());
-				break;
-				case "promoter":
-					user.roles.push(UserRoles.getPromoter());
-				break;
-			}
-		}
-		UserModel.findOne({username: req.body.inviter}, function(err, inviter){
+			InvitationModel.findOne({ "_id": req.body.invitation }).populate("invite_user").exec(function (err, invitation) {
+				if(typeof invitation.invitation_type !== "undefined"){
+					switch(invitation.invitation_type){
+						//Ver donde vamos a manejar este evento.
+					    //app.emit("invitation_accepted", invitation)
+						case "seller":
+							user.roles.push(UserRoles.getSeller());
+						break;
+						case "promoter":
+							user.roles.push(UserRoles.getPromoter());
+						break;
+					}
+				}
+				if (invitation) {
+					UserModel.findOne({username: req.body.user.inviter}, function(err, inviter){
+						if (err) throw err;
+						if(inviter){
+							user.promoter_id = inviter._id;
+							user.invitation.push(invitation)
+						}
 
-			if (err) throw err;
-
-			if(inviter){
-				user.promoter_id = inviter._id;
-			}
-
-			user.save(function(err){
-				if (err) throw err;
-				res.redirect('/');
+						user.save(function(err){
+							if (err) throw err;
+							res.redirect('/');
+						});
+					});
+				}else{
+					user.save(function(err){
+						if (err) throw err;
+						res.redirect('/');
+					});
+				}
 			});
-		});
-
+			
+		}
 	});
 
 	//Habria que agregar validaciones a esta llamada.
@@ -243,7 +255,20 @@ module.exports = function(app){
 		});
 	});
 
-
+	app.get('/users/contacts', function(req, res){
+		UserModel.find({ 'promoter_id': req.session.user._id}).populate("images").exec( function(err, sons){
+			console.log(sons)
+			if(sons){
+				res.render('users/contacts', {title: 'Tus Contactos', sons:sons});
+			}else{
+				var sons = new Array(1);
+				sons[0] = req.session.user;
+				console.log(sons);
+				res.render('users/contacts', {title: 'Tus Contactos',sons:sons});
+			}
+			console.log(sons);
+		});
+	});
 
 	app.post('/users/addRole', function(req, res){
 		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);

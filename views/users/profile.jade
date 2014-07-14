@@ -13,8 +13,6 @@ block content
 		li
 			a(href="#missuscripciones", data-toggle="tab") Suscripciones
 		li
-			a(href="#miscontactos", data-toggle="tab") Contactos
-		li
 			a(href="#misofertas", data-toggle="tab") Ofertas
 		li
 			a(href="#miscomisiones", data-toggle="tab") Comisiones
@@ -52,16 +50,8 @@ block content
 						h5 Movil:
 					td #{user.mobile}
 		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
-		.tab-pane.fade.in#administration
+			.tab-pane.fade.in#administration
 				include ../partials/users/add_roles
-		.tab-pane.fade.in#miscontactos
-			table.miscontactos
-				-if (contacts)
-					-each contact in contacts
-						tr 
-							td.tdmisdatos Nombre:
-							td
-								a(href="/users/profile/#{contact._id}") #{contact.name} #{contact.lname}
 		.tab-pane.fade.in#misofertas
 			table.misofertas
 				-if (deals)
