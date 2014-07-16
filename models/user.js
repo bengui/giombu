@@ -5,6 +5,8 @@ var mongoose = require('mongoose');
 var PromoterSchema = require('./promoter').PromoterSchema
 var ImageSchema = require('./image').ImageSchema;
 var InvitationSchema = require('./invitation').InvitationSchema;
+var NewSchema = require('./new').NewSchema;
+
 
 var UserSchema = new mongoose.Schema({
 	username				: { type: String, unique:true, required: true},
@@ -38,6 +40,7 @@ var UserSchema = new mongoose.Schema({
 	 promoter 				: [PromoterSchema],
 	 roles 					: [{type:String}],
 	 franchisor				: [{ type: mongoose.Schema.ObjectId, ref: 'Franchisor' }],
+	news_list				: [NewSchema],
 	//Verificar estos campos
 });
 
