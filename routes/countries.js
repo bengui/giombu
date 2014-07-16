@@ -37,6 +37,52 @@ module.exports = function(app){
 
 	});
 
+
+	app.get('/countries/create', function(req, res){
+		res.render('countries/create', {
+			title 		: 'Cargar pais'
+		});
+	});
+
+	app.post('/countries/create', function(req, res){
+		var country = new CountryModel(req.body.country);
+		country.save(function(err){
+			if (err) throw err;
+			res.redirect('/countries');
+		});
+
+	});
+
+	app.get('/countries/edit/:id', function(req, res){
+		CountryModel.findById(req.params.id, function(err, country){
+			if (err) throw err;
+			if(country){
+				res.render('countries/edit', {
+					title 		: 'Editar pais',
+					country 	: country
+				});
+			}else{
+				res.redirect('/countries/list');
+			}
+		});
+	});
+
+	app.post('/countries/edit', function(req, res){
+		CountryModel.findById(req.body.country_id, function(err, country){
+			if (err) throw err;
+			if(country){
+				country.name = req.body.country.name;
+				country.modified = new Date();
+				country.save(function(err){
+					if (err) throw err;
+					res.redirect('/countries/list');
+				});
+			}
+		})
+
+	});
+
+
 	app.get('/countries/initialize', function(req, res){
 		CurrencyModel.findOne().exec(function(err,currency){
 			CountryModel.remove().exec(function(err,country){

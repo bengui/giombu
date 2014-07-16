@@ -1,12 +1,20 @@
 extends ../layout
 
 block content
-	.span9
+	.col-md-12
+		a(href="/countries/create") Cargar pais
 		h3 Lista de Paises
 		table.table_deal_list
 			tr
 				th Nombre
+				th
+				th 
 			-each country in countries
 				tr
-					td #{country.name}
+					td.col-md-4
+						|#{country.name}
+					td.col-md-4
+						a(href="/countries/edit/#{country._id}") Editar
+					td.col-md-4
+						a(href="#") Eliminar
 					
