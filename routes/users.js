@@ -172,7 +172,7 @@ module.exports = function(app){
 						req.session.user = user;
 
 						//Expose some user data to the front-end
-						req.session.expose.selected_franchise = 'Guadalajara';
+						
 						req.session.expose.user = {};
 						req.session.expose.user = user;
 
