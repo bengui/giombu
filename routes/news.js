@@ -14,7 +14,7 @@ module.exports = function(app){
 			new_new.event = event._id;
 			new_new.to_user = deal.seller;
 			new_new.deal = deal._id;
-			new_new.commission = commission._id;				
+			new_new.commission = commission._id;
 			new_new.save(function(err){
 
 			});
@@ -28,7 +28,7 @@ module.exports = function(app){
 			var new_new = new NewModel();
 			new_new.event = event._id;
 			new_new.to_user = deal.seller;
-			new_new.deal = deal._id;				
+			new_new.deal = deal._id;
 			new_new.save(function(err){
 
 			});
@@ -39,10 +39,30 @@ module.exports = function(app){
 			var new_new = new NewModel();
 			new_new.event = event._id;
 			new_new.to_user = sale.user;
-			new_new.deal = deal._id;				
+			new_new.deal = deal._id;
 			new_new.save(function(err){
 
 			});
+		});
+	});
+
+	app.on('add_new_to_user', function(newModel){
+		//La variable new es una instancia de NewModel
+		UserModel.findById( newModel.to_user, function(err, user){
+			if(err) throw err;
+
+			if(user){
+				user.news_list.push(newModel);
+				user.save(function(err){
+					if(user.sockets_list.length > 0){
+						user.sockets_list.forEach(function(socket_id){
+							app.io.sockets.socket(socket_id).emit('new', newModel);
+						});
+					}
+				});
+
+
+			}
 		});
 	});
 

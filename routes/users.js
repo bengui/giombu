@@ -60,6 +60,16 @@ module.exports = function(app){
 
 	app.post('/users/save', function(req, res){
 
+		function finishRegistration(user){
+			req.session.message = 'Te has registrado correctamente';
+			//Save the user in the session
+			req.session.user = user;
+			req.session.expose.user = user;
+			req.session.expose.selected_franchise = 'Guadalajara';
+
+			res.redirect('/');
+		}
+
 		req.body.user.password = encrypter.encrypt(req.body.user.password);
 
 		var user = new UserModel(req.body.user);
@@ -67,19 +77,21 @@ module.exports = function(app){
 		console.log(req.body.invitation)
 		if(req.body.invitation != ""){
 			InvitationModel.findOne({ "_id": req.body.invitation }).populate("invite_user").exec(function (err, invitation) {
-				if(typeof invitation.invitation_type !== "undefined"){
-					switch(invitation.invitation_type){
-						//Ver donde vamos a manejar este evento.
-					    //app.emit("invitation_accepted", invitation)
-						case "seller":
-							user.roles.push(UserRoles.getSeller());
-						break;
-						case "promoter":
-							user.roles.push(UserRoles.getPromoter());
-						break;
-					}
-				}
 				if (invitation) {
+
+					if(typeof invitation.invitation_type !== "undefined"){
+						switch(invitation.invitation_type){
+							//Ver donde vamos a manejar este evento.
+						    //app.emit("invitation_accepted", invitation)
+							case "seller":
+								user.roles.push(UserRoles.getSeller());
+							break;
+							case "promoter":
+								user.roles.push(UserRoles.getPromoter());
+							break;
+						}
+					}
+
 					UserModel.findOne({username: req.body.user.inviter}, function(err, inviter){
 						if (err) throw err;
 						if(inviter){
@@ -89,17 +101,17 @@ module.exports = function(app){
 
 						user.save(function(err){
 							if (err) throw err;
-							res.redirect('/');
+							finishRegistration(user);
 						});
 					});
 				}else{
 					user.save(function(err){
 						if (err) throw err;
-						res.redirect('/');
+						finishRegistration(user);
 					});
 				}
 			});
-			
+
 		}
 	});
 
@@ -118,40 +130,6 @@ module.exports = function(app){
 		});
 
 	});
-
-	//Habria que agregar validaciones a esta llamada.
-	//un usuario comun solo debe poder editar sus datos.
-	//y solo el admin debe poder editar los datos de cualquier usuario.
-	app.post('/users/update', function(req, res){
-
-		UserModel.findById( req.body.user._id , function(err, user){
-
-			if (err) throw err;
-
-			user.username = req.body.username;
-			user.name = req.body.name;
-			user.lname = req.body.lname;
-			user.email = req.body.email;
-			user.phone = req.body.phone;
-			user.mobile = req.body.mobile;
-			user.address = req.body.address;
-			user.country = req.body.country;
-			user.city = req.body.city;
-			user.state = req.body.state;
-			user.zip = req.body.zip;
-
-			user.save(function(err){
-
-				if (err) throw err;
-
-				req.session.message = 'Datos de usuario editados correctamente.'
-
-				res.redirect('/users/'+user_new._id);
-
-			});
-		});
-	});
-
 
 	app.get('/users/login', function (req, res, next){
 		res.render('users/login', { title:'Autenticación'});
@@ -172,8 +150,8 @@ module.exports = function(app){
 						req.session.user = user;
 
 						//Expose some user data to the front-end
-						
 						req.session.expose.user = {};
+						req.session.expose.selected_franchise = 'Guadalajara';
 						req.session.expose.user = user;
 
 
@@ -257,7 +235,7 @@ module.exports = function(app){
 
 	app.get('/users/contacts', function(req, res){
 		UserModel.find({ 'promoter_id': req.session.user._id}).populate("images").exec( function(err, sons){
-			console.log(sons)
+			console.log(sons);
 			if(sons){
 				res.render('users/contacts', {title: 'Tus Contactos', sons:sons});
 			}else{
