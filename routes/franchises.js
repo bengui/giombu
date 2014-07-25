@@ -66,9 +66,29 @@ module.exports = function(app){
 			
 	});
 
+	app.get('/franchises/change_franchise/:slug',function (req, res,  next){
+		FranchiseModel.findOne({"slug": req.params.slug}).exec(function(err, franchise){
+			req.session.user = req.session.user || new Object();
+			req.session.user.selected_franchise = franchise;
+			res.redirect('/');
+		});
+	});
+
+	app.post('/franchises', function(req, res, next){
+		franchisor = '53554009974bf07454b08ed8'
+		if(typeof req.session.user !== "undefined"){
+			if(typeof req.session.user.franchisor !== "undefined"){
+				franchisor = req.session.user.franchisor[0]._id
+			}
+		}
+		FranchiseModel.find({'franchisor':franchisor}).sort("-name").exec( function(err, franchises){
+			if (err) throw err;
+			res.json(franchises);
+		});
+	});
 
 	app.get('/franchises', function(req, res, next){
-		FranchiseModel.find().sort("-name").exec( function(err, franchises){
+		FranchiseModel.find({'franchisor':franchisor}).sort("-name").exec( function(err, franchises){
 			if (err) throw err;
 			res.json(franchises);
 		});

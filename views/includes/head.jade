@@ -25,6 +25,9 @@
 						a(href='/deals/home') Ofertas de hoy
 					li
 						a(href='/deals/travel') Descuentos en viajes
+					li
+						a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Franquicias
+						include ../partials/franchises/franchise_selector_modal
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")
 						li
