@@ -78,7 +78,9 @@ module.exports = function(app){
 		franchisor = '53554009974bf07454b08ed8'
 		if(typeof req.session.user !== "undefined"){
 			if(typeof req.session.user.franchisor !== "undefined"){
-				franchisor = req.session.user.franchisor[0]._id
+				if(req.session.user.franchisor.length>0){
+					franchisor = req.session.user.franchisor[0]._id
+				}
 			}
 		}
 		FranchiseModel.find({'franchisor':franchisor}).sort("-name").exec( function(err, franchises){

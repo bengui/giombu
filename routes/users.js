@@ -9,6 +9,7 @@ var CountryModel = require('../models/country').CountryModel;
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
 var InvitationModel = require('../models/invitation').InvitationModel;
+var CommissionModel = require('../models/commission').CommissionModel;
 var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
@@ -336,13 +337,27 @@ module.exports = function(app){
 				if (err) throw err;
 					CountryModel.findById( state.country, function(err, country){
 						if (err) throw err;
-
-						res.render('users/profile',{
-							title 	: 'Datos de usuario',
-							user 	: user,
-							state 	: state,
-							country : country,
-							id : id
+						BonusModel.find( {"user" : id}, function(err, bonuses){
+							if(!err){
+								CommissionModel.find( {"user" : id}, function(err, commissions){
+									console.log(commissions)
+									if(!err){
+										res.render('users/profile',{
+											title 	: 'Datos de usuario',
+											user 	: user,
+											state 	: state,
+											country : country,
+											bonuses : bonuses,
+											commissions : commissions,
+											id : id
+										});
+									}else{
+										if (err) return handleError(err);
+									}
+								});
+							}else{
+								if (err) return handleError(err);
+							}
 						});
 					});
 				});

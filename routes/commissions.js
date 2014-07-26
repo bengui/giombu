@@ -63,5 +63,7 @@ module.exports = function(app){
 		commission_new.save(function(){
 			app.emit("commission_event", "Commission_Partner", deal, commission_new);
 		});
-	})
+	});
+
+
 }
