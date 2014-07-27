@@ -138,7 +138,7 @@ module.exports = function(app){
 
 
 	app.post('/users/login', function(req, res, next){
-		UserModel.findOne({username: req.body.username}).populate("images").exec(function(err, user){
+		UserModel.findOne({username: req.body.username}).populate("images").populate("promoter_id").exec(function(err, user){
 			if(err) throw err;
 
 			if(!user){
@@ -328,7 +328,7 @@ module.exports = function(app){
 			id = req.session.user._id
 		}
 		UserModel.findOne({"_id" : id})
-		.populate('city').populate("images")
+		.populate('city').populate("images").populate("promoter_id")
 		.exec(function(err, user){
 			if (err) throw err;
 			if(user){

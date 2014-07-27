@@ -51,7 +51,6 @@ module.exports = function(app){
 						coupon_new.code = Encrypter.random_text_code();
 						coupon_new.status = 'unredeemed';
 						sale_new.coupons.push(coupon_new);
-						
 					}
 					//Llamo al servicio del banco.
 					//UN request a alguna url que responda con un json de confirmacion, nada mas.
