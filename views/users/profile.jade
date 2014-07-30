@@ -88,9 +88,7 @@ block content
 					th Fecha
 				-if (commissions)
 					-each commission in commissions
-						tr 
-							td #{commission.amount}
-							td #{commission.created}
+						include ../partials/commissions/commission
 		.tab-pane.fade.in#misimagenes
 			h3 Agregar Imagenes
 			-var route_name = "users"

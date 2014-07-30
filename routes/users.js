@@ -339,7 +339,7 @@ module.exports = function(app){
 						if (err) throw err;
 						BonusModel.find( {"user" : id}, function(err, bonuses){
 							if(!err){
-								CommissionModel.find( {"user" : id}, function(err, commissions){
+								CommissionModel.find( {"user" : id}).exec( function(err, commissions){
 									console.log(commissions)
 									if(!err){
 										res.render('users/profile',{

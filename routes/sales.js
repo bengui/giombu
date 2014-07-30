@@ -56,7 +56,8 @@ module.exports = function(app){
 					//UN request a alguna url que responda con un json de confirmacion, nada mas.
 					deal.sales.push(sale_new);
 					deal.save(function (err) {
-							app.emit("sale", deal, req.session.user, sale_new)
+							app.emit("sale", deal, req.session.user, sale_new);
+							res.redirect('/sales/'+sale_new._id);
 						});						
 								
 				 }else{

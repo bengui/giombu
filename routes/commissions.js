@@ -10,8 +10,7 @@ module.exports = function(app){
 
 		//user es el usuario que la compró
 		//Necesitamos usuarios para comparar los niveles
-		console.log("Evento")
-		console.log(user)
+		
 		//Bonus.
 		if(typeof user.promoter_id !== "undefined"){
 			console.log(user)
@@ -29,7 +28,8 @@ module.exports = function(app){
 			bonus_new.save(function(err){
 				app.emit("new_bonus_event", deal);
 			});
-
+			console.log("sale")
+			console.log(sale)
 			//Commision al promoter
 			var commission_new = new CommissionModel();          
 			commission_new.user = user.promoter_id._id;
@@ -39,6 +39,8 @@ module.exports = function(app){
 			commission_new.save(function(err){
 				app.emit("commission_event", "Commission", deal, commission_new);
 			});
+			console.log("commission_event")
+			console.log(commission_new)
 		}
 		
 		if(typeof deal.seller !== "undefined"){
@@ -51,6 +53,8 @@ module.exports = function(app){
 			commission_new.save(function(err){
 				app.emit("commission_event", "Commission_Seller", deal, commission_new);
 			});
+			console.log("commission_event")
+			console.log(commission_new)
 		}
 		
 	});
