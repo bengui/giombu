@@ -104,7 +104,6 @@ module.exports = function (app){
 					if (err) return handleError(err);
 					if(deals){
 						
-						console.log(deals);
 					  res.render('deals/home', {title: 'Ofertas', deals:deals});
 					}else{
 					  res.render('not_found', {title: 'No se encuentran ofertas'});

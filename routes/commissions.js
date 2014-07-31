@@ -3,6 +3,7 @@ var CouponModel = require('../models/coupon').CouponModel;
 var BonusModel = require('../models/bonus').BonusModel;
 var DealModel = require('../models/deal').DealModel;
 var CommissionModel = require('../models/commission').CommissionModel;
+var UserModel 	= require('../models/user').UserModel;
 
 module.exports = function(app){
 
@@ -13,23 +14,6 @@ module.exports = function(app){
 		
 		//Bonus.
 		if(typeof user.promoter_id !== "undefined"){
-			console.log(user)
-			var bonus_new = new BonusModel();
-			var level_multiplicator;
-			if(user.level.bonus <= user.promoter_id.level.bonus){
-				level_multiplicator = user.level.bonus
-			}else{
-				level_multiplicator = user.promoter_id.level.bonus
-			}
-			bonus_new.amount = 8*level_multiplicator*deal.special_price
-			bonus_new.user = user._id
-			bonus_new.promoter = user.promoter_id._id
-			bonus_new.currency = deal.currency
-			bonus_new.save(function(err){
-				app.emit("new_bonus_event", deal);
-			});
-			console.log("sale")
-			console.log(sale)
 			//Commision al promoter
 			var commission_new = new CommissionModel();          
 			commission_new.user = user.promoter_id._id;
@@ -39,8 +23,21 @@ module.exports = function(app){
 			commission_new.save(function(err){
 				app.emit("commission_event", "Commission", deal, commission_new);
 			});
-			console.log("commission_event")
-			console.log(commission_new)
+			UserModel.findById(user.promoter_id.promoter_id).populate("level").exec(function(err, parent_promoter){
+				if (err) throw err;
+				if(parent_promoter){
+					var bonus_new = new BonusModel();
+					var level_multiplicator;
+					level_multiplicator = parent_promoter.level.bonus
+					bonus_new.amount = 8*level_multiplicator*commission_new.amount
+					bonus_new.user = parent_promoter._id
+					bonus_new.promoter = user.promoter_id._id
+					bonus_new.currency = deal.currency
+					bonus_new.save(function(err){
+						app.emit("new_bonus_event", deal);
+					});
+				}
+			});			
 		}
 		
 		if(typeof deal.seller !== "undefined"){
@@ -53,8 +50,6 @@ module.exports = function(app){
 			commission_new.save(function(err){
 				app.emit("commission_event", "Commission_Seller", deal, commission_new);
 			});
-			console.log("commission_event")
-			console.log(commission_new)
 		}
 		
 	});

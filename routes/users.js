@@ -138,7 +138,7 @@ module.exports = function(app){
 
 
 	app.post('/users/login', function(req, res, next){
-		UserModel.findOne({username: req.body.username}).populate("images").populate("promoter_id").exec(function(err, user){
+		UserModel.findOne({username: req.body.username}).populate("images").populate("promoter_id").populate("level").exec(function(err, user){
 			if(err) throw err;
 
 			if(!user){
@@ -146,7 +146,7 @@ module.exports = function(app){
 				res.redirect('/');
 			}else{
 				if(user.password == encrypter.encrypt(req.body.password)){
-
+						
 						//Save the user in the session
 						req.session.user = user;
 
