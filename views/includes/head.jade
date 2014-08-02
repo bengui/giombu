@@ -10,23 +10,21 @@
 					-if((typeof expose.user) !== "undefined")
 						-if(typeof expose.user.selected_franchise === "undefined")
 							li
-								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad
+								a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
 									icon.icon-chevron-down
 						-else
 							li
-								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") #{expose.user.selected_franchise.name}
+								a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") #{expose.user.selected_franchise.name}
 									icon.icon-chevron-down
 					-else
 						li
-							a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad
+							a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
 								icon.icon-chevron-down
 				ul.nav.navbar-nav
 					li
 						a(href='/deals/home') Ofertas de hoy
 					li
 						a(href='/deals/travel') Descuentos en viajes
-					li
-						a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Franquicias
 						include ../partials/franchises/franchise_selector_modal
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")

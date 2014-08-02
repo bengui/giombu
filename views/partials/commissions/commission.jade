@@ -1,0 +1,6 @@
+tr 
+	td $ #{commission.amount}
+	td #{commission.created.getDate()} / #{commission.created.getMonth()+1} / #{commission.created.getFullYear()}
+	td 
+		-if(typeof commission.sale !== "undefined")
+			a(href="/sales/#{commission.sale}") Ver
