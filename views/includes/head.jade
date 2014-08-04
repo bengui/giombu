@@ -7,25 +7,18 @@
 		.container-fluid
 			.collapse.navbar-collapse
 				ul.nav.navbar-nav.navbar-left
-					-if((typeof expose.user) !== "undefined")
-						-if(typeof expose.user.selected_franchise === "undefined")
-							li
-								a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
-									icon.icon-chevron-down
-						-else
-							li
-								a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") #{expose.user.selected_franchise.name}
-									icon.icon-chevron-down
-					-else
-						li
-							a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
-								icon.icon-chevron-down
+					li
+						a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
+							icon.icon-chevron-down
 				ul.nav.navbar-nav
 					li
 						a(href='/deals/home') Ofertas de hoy
 					li
 						a(href='/deals/travel') Descuentos en viajes
 						include ../partials/franchises/franchise_selector_modal
+					li
+						a(href="#") 
+							strong Ofertas de:  #{expose.selected_franchise.name}
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")
 						li
@@ -45,8 +38,6 @@
 							a(href="/users/logout" )
 								span.glyphicon.glyphicon-log-out.col-md-pull-1
 								|Salir
-						//.selected_franchise
-						//	a(href="/intranet/deals/list/#{user.selected_franchise}") #{user.selected_franchise}
 	-if (expose.message)
 		.alert.alert-info.alert-dismissable
 			button(type="button" class="close" data-dismiss="alert" aria-hidden="true")&times;

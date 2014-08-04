@@ -89,7 +89,7 @@ module.exports = function (app){
 	//Muestra deals activos.
 	app.get('/', function(req, res, next){
 		if(req.session.selected_franchise){
-			DealModel.find( {} ).limit(10).where('franchises').populate("images").in([req.session.user.selected_franchise._id]).sort("-created")
+			DealModel.find( {} ).limit(10).where('franchises').populate("images").in([req.session.selected_franchise._id]).sort("-created")
 			.exec(function (err, deals) {
 				if (err) return handleError(err);
 				if(deals){

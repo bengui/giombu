@@ -69,7 +69,7 @@ module.exports = function(app){
 	app.get('/franchises/change_franchise/:slug',function (req, res,  next){
 		FranchiseModel.findOne({"slug": req.params.slug}).exec(function(err, franchise){
 			req.session.user = req.session.user || new Object();
-			req.session.user.selected_franchise = franchise;
+			req.session.expose.selected_franchise = franchise;
 			res.redirect('/');
 		});
 	});
