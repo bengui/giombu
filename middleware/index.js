@@ -28,8 +28,8 @@ module.exports = function(app){
 		store :  sessionStore 
 	}));
 	app.use(express.bodyParser());
-	// expose session to views
 	app.use(function (req, res, next) {
+		// expose session to views
 		if(typeof req.session.expose === 'undefined'){
 			req.session.expose = {};
 		}

@@ -1,5 +1,6 @@
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
+var CountryModel = require('../models/country').CountryModel;
 
 module.exports = function(app){
 
@@ -8,6 +9,37 @@ module.exports = function(app){
 			if (err) throw err;
 			res.json(states);
 		});
+	});
+
+	app.get('/states/create/:country_id', function(req, res){
+
+		CountryModel.findById( req.params.country_id, function(err, country){
+			if (err) throw err;
+
+			if(country){
+				res.render('states/create', {
+						title 		: 'Crear Provincia',
+						country		: country
+						});
+			}else{
+				res.redirect('/countries/list');
+			}
+		});
+	});
+
+
+	app.post('/states/create', function(req, res){
+
+		var state = new StateModel(req.body.state);
+		state.save(function(err){
+			if(err) throw err;
+
+			req.session.message = 'Pais / Estado creado correctamente';
+
+			res.redirect('/countries/edit/' + state.country);
+			
+		});
+
 	});
 
 
