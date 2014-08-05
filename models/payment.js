@@ -1,6 +1,6 @@
 // Creación de la Conexión
 var mongoose = require('mongoose');
-
+var BonusModel = require('../models/bonus').BonusModel;
 var CommissionSchema = require('./commission').CommissionSchema;
 //Puede ir embebido dentro del promotor
 var PaymentSchema = new mongoose.Schema({
@@ -10,6 +10,7 @@ var PaymentSchema = new mongoose.Schema({
 	bank_account		: { type: mongoose.Schema.ObjectId, ref: 'BankAccount'},
 	currency			: { type: mongoose.Schema.ObjectId, ref: 'Currency'},
 	commissions			: [{ type: mongoose.Schema.ObjectId, ref: 'Commissions'}],
+	bonuses				: [{ type: mongoose.Schema.ObjectId, ref: 'Bonuses'}],
 	created				: { type: Date, default:Date.now },
 	modified			: { type: Date, default:Date.now}
 });

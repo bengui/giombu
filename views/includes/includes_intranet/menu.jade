@@ -20,14 +20,10 @@
 			li.nav-header Promotores
 			li
 				a(href='/intranet/promoters/list_sons/0') Listado
-			li
-				a(href='/intranet/bonuses/my_bonuses') Mis Bonos
 		-if(RolesHelper.partner(expose.user))
 			li.nav-header Socios
 			li
 				a(href='h1') Mi Tienda
-			li
-				a(href='h1') Mis Comisiones
 		-if(RolesHelper.seller(expose.user))
 			li.nav-header Vendedores
 			li
@@ -47,7 +43,7 @@
 		li
 			a(href='/intranet/sales/list_all') Ventas
 		li
-			a(href='h1') Pagos
+			a(href='/payments/create') Pagos
 		li
 			a(href='/intranet/products/list') Productos
 		li

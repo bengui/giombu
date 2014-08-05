@@ -27,11 +27,9 @@ block content
 							td
 								label #{bonus.created} $ #{bonus.amount}
 									input(type="checkbox",class="select_list", name="bonuses", amount="#{bonus.amount}" ,value="#{bonus._id}") 
-						
-			-if(typeof user.promoter[0] !== "undefined")
 				h3 Comisiones promotor
 				table
-					-each commission in user.promoter[0].commissions	
+					-each commission in commissions	
 						tr
 							td
 								-if(commission.paid_date)
@@ -40,20 +38,7 @@ block content
 									span.label No cobrado
 							td
 								label #{commission.created} $ #{commission.amount}
-									input(type="checkbox",class="select_list", name="commissionsPromoter", amount="#{commission.amount}", value="#{commission._id}")
-			-if(typeof user.promoter[0] !== "undefined")
-				h3 Comisiones vendedor
-				table
-					-each commission in user.seller[0].commissions	
-						tr
-							td
-								-if(commission.paid_date)
-									span.label.label-success Cobrado
-								-else
-									span.label No cobrado
-							td
-								label #{commission.created} $ #{commission.amount}
-									input(type="checkbox",class="select_list", name="commissionsSeller", amount="#{commission.amount}", value="#{commission._id}") 
+									input(type="checkbox",class="select_list", name="commissions", amount="#{commission.amount}", value="#{commission._id}")
 			input(type="button", value="Crear pago" , class="create_payment") 
 				
 

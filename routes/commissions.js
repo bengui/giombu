@@ -29,7 +29,7 @@ module.exports = function(app){
 					var bonus_new = new BonusModel();
 					var level_multiplicator;
 					level_multiplicator = parent_promoter.level.bonus
-					bonus_new.amount = 8*level_multiplicator*commission_new.amount
+					bonus_new.amount = 0.08*level_multiplicator*commission_new.amount
 					bonus_new.user = parent_promoter._id
 					bonus_new.promoter = user.promoter_id._id
 					bonus_new.currency = deal.currency

@@ -72,20 +72,20 @@ block content
 							td.tdmisdatos Email:
 							td #{subscription.created}
 		.tab-pane.fade.in#misbonos
-			table.misbonos
+			table.table.misbonos
 				tr
 					th Monto
 					th Fecha
+					th 
 				-if (bonuses)
 					-each bonus in bonuses
-						tr 
-							td #{bonus.amount}
-							td #{bonus.created}
+						include ../partials/bonuses/bonus
 		.tab-pane.fade.in#miscomisiones
-			table.miscomisiones
+			table.table.miscomisiones
 				tr
 					th Monto
 					th Fecha
+					th  
 				-if (commissions)
 					-each commission in commissions
 						include ../partials/commissions/commission
