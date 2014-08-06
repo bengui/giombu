@@ -21,7 +21,7 @@ module.exports = function(app){
 			commission_new.currency = deal.currency
 			commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
 			commission_new.save(function(err){
-				app.emit("commission_event", "Commission", deal, commission_new);
+				app.emit("commission_event", "Commission", deal, commission_new, user);
 			});
 			UserModel.findById(user.promoter_id.promoter_id).populate("level").exec(function(err, parent_promoter){
 				if (err) throw err;
@@ -48,7 +48,7 @@ module.exports = function(app){
 			commission_new.currency = deal.currency
 			commission_new.amount = (deal.seller_percentage)/100*(deal.special_price)*(sale.coupons.length);
 			commission_new.save(function(err){
-				app.emit("commission_event", "Commission_Seller", deal, commission_new);
+				app.emit("commission_event", "Commission_Seller", deal, commission_new, user);
 			});
 		}
 		
@@ -61,7 +61,7 @@ module.exports = function(app){
 		commission_new.currency = deal.currency
 		commission_new.amount = (deal.partner_percentage)/100*(deal.special_price);
 		commission_new.save(function(){
-			app.emit("commission_event", "Commission_Partner", deal, commission_new);
+			app.emit("commission_event", "Commission_Partner", deal, commission_new, user);
 		});
 	});
 
