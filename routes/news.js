@@ -75,10 +75,19 @@ module.exports = function(app){
 			new_new.save(function(err){
 				if (err) throw err;
 
-				UserModel.findById(new_new.to_user, function(err, user){
+				UserModel.findById(new_new.to_user, function(err, user_target){
 					if (err) throw err;
-					if(user){
-						sendNew(user, data);
+					if(user_target){
+						UserModel.findById(user_id, function(err, user)){
+							if (err) throw err;
+							if(user){
+								var data = {};
+								data.message = event.body
+									.replace('%f', user.name + ' ' + user.lname);
+								data.title = 'Cupón';
+								sendNew(user_target, data);
+							}
+						});
 					}
 				});
 			});
@@ -96,6 +105,10 @@ module.exports = function(app){
 				UserModel.findById(new_new.to_user, function(err, user){
 					if (err) throw err;
 					if(user){
+						var data = {};
+						data.message = event.body
+							.replace('%d', deal.title);
+						data.title = 'Cupón';
 						sendNew(user, data);
 					}
 				});
