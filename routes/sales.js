@@ -9,6 +9,7 @@ var EventModel = require('../models/event').EventModel;
 var Encrypter = require('../helpers/encryption');
 var PDFDocument = require('pdfkit');
 var CheckAuth = require('../middleware/checkAuth');
+var mongoose = require('mongoose');
 
 module.exports = function(app){
 
@@ -69,25 +70,24 @@ module.exports = function(app){
 		});
 		
 	});
-	
-	/**
-		 * Lista de ventas realizadas.
-		 * @id del la venta, no de la oferta
-		 * @return void
-		 * @author Nicolas Ronchi
-	**/
-	app.get('/sales/:id',CheckAuth.user , function (req, res, next) {
-		DealModel.findOne({"sales._id" :req.params.id}).populate("images").exec(function(err, deal){
-			if(!err){
-				if(deal){
-					res.render('sales/view', {title: 'Detalle de venta', deal : deal, id:req.params.id});
-				}else{
-				 res.send("Compra no encontrada")
-				}
-			}else{
-			}
+
+
+	//Muestra la lista de compras del usuario logueado
+	app.get('/sales/my', CheckAuth.user, function(req, res){
+		DealModel.aggregate()
+		.unwind('sales')
+		.match({ 'sales.user' : mongoose.Types.ObjectId(req.session.user._id)})
+		.exec(function(err, deals){
+			if (err) throw err;
+
+			res.render('sales/my', {
+				title 		: 'Mis Compras',
+				deals 		: deals
+			});
 		});
+
 	});
+	
 
 	app.get('/sales/view/:id', function (req, res, next) {
 		DealModel.find({}).sort({created:-1}).exec( function(err, deals){
@@ -196,6 +196,24 @@ module.exports = function(app){
 		});
 	});
 
+	/**
+		 * Lista de ventas realizadas.
+		 * @id del la venta, no de la oferta
+		 * @return void
+		 * @author Nicolas Ronchi
+	**/
+	app.get('/sales/:id',CheckAuth.user , function (req, res, next) {
+		DealModel.findOne({"sales._id" :req.params.id}).populate("images").exec(function(err, deal){
+			if(!err){
+				if(deal){
+					res.render('sales/view', {title: 'Detalle de venta', deal : deal, id:req.params.id});
+				}else{
+				 res.send("Compra no encontrada")
+				}
+			}else{
+			}
+		});
+	});
 
 	//ESTADISITICAS
 	//amount_per_month
