@@ -10,8 +10,8 @@ module.exports = function(app){
 		today = new Date()
 		month_ago = new Date()
 		month_ago.setMonth(today.getMonth()-1)
-		CommissionModel.find({user:req.session.user._id,  created : {"$gte": month_ago}}).exec(function(err, commissions ){
-			BonusModel.find({user:req.session.user._id,  created : {"$gte": month_ago}}).exec(function(err, bonuses ){
+		CommissionModel.find({user:req.session.user._id}).exec(function(err, commissions ){
+			BonusModel.find({user:req.session.user._id}).populate("promoter").exec(function(err, bonuses ){
 				BankAccountModel.find({user:req.session.user._id}).exec(function(err, account ){
 					res.render('payments/create', {title: 'Seccion de pagos' , account:account, bonuses:bonuses, commissions:commissions});
 				});

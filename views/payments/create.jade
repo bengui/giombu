@@ -16,29 +16,28 @@ block content
 		form(class="payment_selector",method="post", id="create_payment", name="create_payment", action="/payments/new")
 			-if(typeof bonuses !== "undefined")
 				h3 Bonos
-				table
-					-each bonus in bonuses
-						tr
-							td
-								-if(bonus.paid_date)
-									span.label.label-success Cobrado
-								-else
-									span.label No cobrado
-							td
-								label #{bonus.created} $ #{bonus.amount}
-									input(type="checkbox",class="select_list", name="bonuses", amount="#{bonus.amount}" ,value="#{bonus._id}") 
-				h3 Comisiones promotor
-				table
+				table.table.misbonos
+					tr
+						th
+						th Usuario
+						th Monto
+						th Estado
+						th Fecha
+						th 
+					-if (bonuses)
+						-each bonus in bonuses
+							include ../partials/bonuses/bonus_selector
+				h3 Comisiones
+				table.table.misbonos
+					tr
+						th
+						th Monto
+						th Estado
+						th Fecha
+						th 
 					-each commission in commissions	
 						tr
-							td
-								-if(commission.paid_date)
-									span.label.label-success Cobrado
-								-else
-									span.label No cobrado
-							td
-								label #{commission.created} $ #{commission.amount}
-									input(type="checkbox",class="select_list", name="commissions", amount="#{commission.amount}", value="#{commission._id}")
+							include ../partials/commissions/commission_selector
 			input(type="button", value="Crear pago" , class="create_payment") 
 				
 
