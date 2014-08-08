@@ -1,4 +1,3 @@
-// my-template.jade
 extends ../home
 
 block content
@@ -10,27 +9,29 @@ block content
 	include ../partials/images/carousel
 	.deal_body.col-md-9.pull-left
 		.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+		br
+		br
 		table.table
 			tr
-				td Titulo:
+				td Titulo
 				td #{deal.title}
 			tr
-				td Subtitulo:
+				td Subtitulo
 				td #{deal.tagline}
 			tr
-				td Link:
+				td Link
 				td #{deal.slug}
 			tr
-				td Caracteristicas:
+				td Caracteristicas
 				td #{deal.characteristics}
 			tr
-				td Condiciones:
+				td Condiciones
 				td #{deal.conditions}
 		br
 		.alert.alert-info
 			p Podrás canjear esta oferta a partir del día #{deal.start_redeem.getDate()} / #{deal.start_redeem.getMonth()+1} / #{deal.start_redeem.getFullYear()}  y hasta el día #{deal.end_redeem.getDate()} / #{deal.end_redeem.getMonth()+1} / #{deal.end_redeem.getFullYear()} 
+
 		include ../partials/questions/container
 	include ../partials/deals/checkout_link
 	-var store = deal.store 
-	.col-md-3.pull-right
-		include ../partials/store/store
+	include ../partials/store/store

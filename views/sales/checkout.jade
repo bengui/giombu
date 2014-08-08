@@ -7,6 +7,7 @@ block content
 			h4 ¿Estas Resgistrado?
 			br
 			form(method='post', action='/users/login/', role="form").form-horizontal
+				input(type="hidden", name="redirect_url", value="#{redirect_url}")
 				.form-group
 					label.col-md-4 Usuario
 					.col-md-8
@@ -101,7 +102,7 @@ block content
 			include ../partials/sale/checkout
 			h4 Forma de pago
 			br
-			.col-md-5
+			.col-md-5.well
 				.form-group
 					label.col-md-4 Medio de pago:
 					.col-md-8

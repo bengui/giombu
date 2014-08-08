@@ -28,3 +28,11 @@ body {
 .user_img{ width:64px;}
 
 .carousel-inner .item.active img {width: 100%; overflow-y: hidden;}
+
+.no-margin-top{
+	margin-top: 0px;
+}
+
+.no-margin-bottom{
+	margin-bottom: 0px;
+}

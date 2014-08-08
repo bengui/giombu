@@ -157,8 +157,16 @@ module.exports = function(app){
 
 						updateUserLevel(req, res, function(){
 							req.session.message = 'Hola!';
-							res.redirect('/');
+
+							if(req.body.redirect_url){
+								res.redirect(req.body.redirect_url);
+							}else{
+								res.redirect('/');
+							}
+
 						});
+
+
 
 
 				}else{
