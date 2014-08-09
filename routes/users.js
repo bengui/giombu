@@ -334,49 +334,54 @@ module.exports = function(app){
 		}else{
 			id = req.session.user._id
 		}
-		UserModel.findOne({"_id" : id})
-		.populate('city').populate("images").populate("promoter_id")
-		.exec(function(err, user){
-			if (err) throw err;
-			if(user){
-				console.log(user)
-				StateModel.findById( user.city.state , function(err, state){
+		
+			DealModel.find({"sales.user":id}).populate("images").exec(function(err, deals){
+			UserModel.findOne({"_id" : id})
+			.populate('city').populate("images").populate("promoter_id")
+			.exec(function(err, user){
 				if (err) throw err;
-					CountryModel.findById( state.country, function(err, country){
+				if(user){
+					SubscriberModel.find({"email":user.email}).exec(function(err, subscriptions){
+						console.log(user)
+						StateModel.findById( user.city.state , function(err, state){
 						if (err) throw err;
-						BonusModel.find( {"user" : id}, function(err, bonuses){
-							if(!err){
-								CommissionModel.find( {"user" : id}).exec( function(err, commissions){
-									console.log(commissions)
+							CountryModel.findById( state.country, function(err, country){
+								if (err) throw err;
+								BonusModel.find( {"user" : id}, function(err, bonuses){
 									if(!err){
-										res.render('users/profile',{
-											title 	: 'Datos de usuario',
-											user 	: user,
-											state 	: state,
-											country : country,
-											bonuses : bonuses,
-											commissions : commissions,
-											id : id
+										CommissionModel.find( {"user" : id}).exec( function(err, commissions){
+											console.log(commissions)
+											if(!err){
+												res.render('users/profile',{
+													title 	: 'Datos de usuario',
+													user 	: user,
+													state 	: state,
+													country : country,
+													bonuses : bonuses,
+													deals	: deals,
+													commissions : commissions,
+													subscriptions:subscriptions,
+													id : id
+												});
+											}else{
+												if (err) return handleError(err);
+											}
 										});
 									}else{
 										if (err) return handleError(err);
 									}
 								});
-							}else{
-								if (err) return handleError(err);
-							}
+							});
 						});
 					});
-				});
-			}else{
-				if(req.session.user._id){
-					redirect('/users/logout');
 				}else{
-					redirect('/');
+					if(req.session.user._id){
+						redirect('/users/logout');
+					}else{
+						redirect('/');
+					}
 				}
-			}
-
-
+			});
 		});
 	});
 

@@ -56,11 +56,7 @@ block content
 			table.misofertas
 				-if (deals)
 					-each deal in deals
-						tr 
-							td.tdmisdatos 
-							td
-								a(href="/deals/view/#{deal._id}") #{deal.title} 
-							td $  #{deal.special_price}	
+						include ../partials/deals/deal
 		.tab-pane.fade.in#missuscripciones
 			table.missuscripciones
 				-if (subscriptions)

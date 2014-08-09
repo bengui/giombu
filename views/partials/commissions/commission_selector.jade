@@ -1,6 +1,7 @@
 tr
 	td 
-		input(type="checkbox",class="select_list", name="commissions", amount="#{commission.amount}", value="#{commission._id}")
+		-if(!commission.paid_date)
+			input(type="checkbox",class="select_list", name="commissions", amount="#{commission.amount}", value="#{commission._id}")
 	td $ #{commission.amount}
 	td
 		-if(commission.paid_date)

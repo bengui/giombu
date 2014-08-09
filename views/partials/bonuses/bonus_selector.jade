@@ -1,6 +1,7 @@
 tr
 	td
-		input(type="checkbox",class="select_list", name="bonuses", amount="#{bonus.amount}" ,value="#{bonus._id}")
+		-if(!bonus.paid_date)
+			input(type="checkbox",class="select_list", name="bonuses", amount="#{bonus.amount}" ,value="#{bonus._id}")
 	td
 		a(href="/users/#{bonus.promoter._id}") #{bonus.promoter.username}
 	td $ #{bonus.amount}
