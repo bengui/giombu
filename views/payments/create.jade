@@ -16,9 +16,16 @@ block content
 		form(class="payment_selector",method="post", id="create_payment", name="create_payment", action="/payments/new")
 			-if(bankaccounts.length > 0)
 				h3 Cuenta Destino
-				-each bankaccount in bankaccounts
-					label(for="bank_account") #{bankaccount.bank_name} - #{bankaccount.bank_number}
-					input(type="checkbox", name="bank_account", id="bank_account", value="#{bankaccount._id}") 
+				table.table.misbonos
+					tr
+						th
+						th Banco - Nro Cuenta
+					-each bankaccount in bankaccounts
+						tr
+							td
+								input(type="checkbox", name="bank_account", id="bank_account", value="#{bankaccount._id}") 
+							td
+								label(for="bank_account") #{bankaccount.bank_name} - #{bankaccount.bank_number}
 			-if(typeof bonuses !== "undefined")
 				h3 Bonos
 				table.table.misbonos

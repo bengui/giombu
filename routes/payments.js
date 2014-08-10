@@ -5,6 +5,7 @@ var PaymentModel = require('../models/payment').PaymentModel;
 var BankAccountModel = require('../models/bank_account').BankAccountModel;
 var CommissionModel = require('../models/commission').CommissionModel;
 var mongoose = require('mongoose');
+var Encrypter = require('../helpers/encryption');
 
 module.exports = function(app){
 	app.get('/payments/create', function (req, res, next) {
@@ -12,12 +13,22 @@ module.exports = function(app){
 		month_ago = new Date()
 		var oneWeekAgo = new Date();
 		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-		CommissionModel.find({user:req.session.user._id}).exec(function(err, commissions ){
+		CommissionModel.find({"user":req.session.user._id}).exec(function(err, commissions ){
 			if (err) throw err;
 			BonusModel.find({user:req.session.user._id}).populate("promoter").exec(function(err, bonuses ){
 				if (err) throw err;
-				BankAccountModel.find({"user":req.session.user._id}).exec(function(err, bankaccounts ){
+				BankAccountModel.find({"user":req.session.user._id}).exec(function(err, bank_accounts ){
 					if (err) throw err;
+					bankaccounts = [];
+					for (var i = bank_accounts.length - 1; i >= 0; i--) {
+						bankaccounts[i] = new BankAccountModel();
+						bankaccounts[i].bank_name = Encrypter.decrypt(bank_accounts[i].bank_name);
+						bankaccounts[i].bank_clabe = Encrypter.decrypt(bank_accounts[i].bank_clabe);
+						bankaccounts[i].bank_rute = Encrypter.decrypt(bank_accounts[i].bank_rute);
+						bankaccounts[i].bank_number = Encrypter.decrypt(bank_accounts[i].bank_number);
+						bankaccounts[i].curp = Encrypter.decrypt(bank_accounts[i].curp);
+						bankaccounts[i].ife = Encrypter.decrypt(bank_accounts[i].ife);
+					};
 					PaymentModel.findOne({"user":req.session.user._id , "created": {$gte : oneWeekAgo}}).exec(function(err,payment){
 						if (err) throw err;
 						res.render('payments/create', {title: 'Seccion de pagos' ,bankaccounts:bankaccounts, bonuses:bonuses, commissions:commissions, payment:payment});
