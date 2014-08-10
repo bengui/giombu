@@ -1,0 +1,22 @@
+// template.jade
+extends ../layout
+
+//Bloque de contenido.
+block content
+	.container 
+		h3 Cuentas bancarias asociadas a #{expose.user.name} #{expose.user.lname}
+		-for (var i = bank_accounts.length - 1; i >= 0; i--) 
+			dl
+				dt Nombre del Banco
+					dd #{bank_accounts[i].bank_name}
+				dt Clabe
+					dd #{bank_accounts[i].bank_clabe}
+				dt Ruta
+					dd #{bank_accounts[i].bank_rute}
+				dt Numero de cuenta
+					dd #{bank_accounts[i].bank_number}
+				dt CURP
+					dd #{bank_accounts[i].curp}
+				dt IFE
+					dd #{bank_accounts[i].ife}
+		a(href="/bank_accounts/create") Crear Nueva

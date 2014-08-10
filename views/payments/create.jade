@@ -14,6 +14,11 @@ block content
 			input(type="checkbox", name="selectAll", id="selectAll")
 			.validation_message
 		form(class="payment_selector",method="post", id="create_payment", name="create_payment", action="/payments/new")
+			-if(bankaccounts.length > 0)
+				h3 Cuenta Destino
+				-each bankaccount in bankaccounts
+					label(for="bank_account") #{bankaccount.bank_name} - #{bankaccount.bank_number}
+					input(type="checkbox", name="bank_account", id="bank_account", value="#{bankaccount._id}") 
 			-if(typeof bonuses !== "undefined")
 				h3 Bonos
 				table.table.misbonos
@@ -38,12 +43,17 @@ block content
 					-each commission in commissions	
 						tr
 							include ../partials/commissions/commission_selector
-			-if (payment)
-				input(type="button", value="Crear pago" , disabled="true", class="create_payment")
-				span No puede crear nuevos pagos si ya ha realizado uno en la ultima semana.
-				span Ultimo pago creado el #{payment.created}
+			-if(bankaccounts.length !== 0)
+				-if (payment)
+					input(type="button", value="Crear pago" , disabled="true", class="create_payment")
+					div(class="alert alert-warning", role="alert")
+						span No puede crear nuevos pagos si ya ha realizado uno en la ultima semana.
+						span Ultimo pago creado el #{payment.created}
+				-else
+					input(type="button", value="Crear pago" , class="create_payment")
 			-else
-				input(type="button", value="Crear pago" , class="create_payment")
+				div(class="alert alert-danger", role="alert")
+						span No puede realizar el cobro. No posee una cuenta bancaria asociada a su cuenta de usuario. 
 				
 				
 

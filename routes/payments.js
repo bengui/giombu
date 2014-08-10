@@ -16,12 +16,11 @@ module.exports = function(app){
 			if (err) throw err;
 			BonusModel.find({user:req.session.user._id}).populate("promoter").exec(function(err, bonuses ){
 				if (err) throw err;
-				BankAccountModel.find({"user":req.session.user._id}).exec(function(err, account ){
+				BankAccountModel.find({"user":req.session.user._id}).exec(function(err, bankaccounts ){
 					if (err) throw err;
 					PaymentModel.findOne({"user":req.session.user._id , "created": {$gte : oneWeekAgo}}).exec(function(err,payment){
 						if (err) throw err;
-						console.log(payment)
-						res.render('payments/create', {title: 'Seccion de pagos' , account:account, bonuses:bonuses, commissions:commissions, payment:payment});
+						res.render('payments/create', {title: 'Seccion de pagos' ,bankaccounts:bankaccounts, bonuses:bonuses, commissions:commissions, payment:payment});
 					})
 				});
 			});
@@ -72,6 +71,7 @@ module.exports = function(app){
 						
 					}
 					payment_new = new PaymentModel();
+					payment_new.bank_account = req.param("bank_account")
 					payment_new.commissions = req.param('commissions');
 					payment_new.bonuses = req.param('bonuses');
 					payment_new.amount = amount;
