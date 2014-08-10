@@ -14,6 +14,7 @@ var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
 var _ = require('underscore');
+var mongoose = require('mongoose');
 
 module.exports = function(app){
 
@@ -334,20 +335,22 @@ module.exports = function(app){
 		}else{
 			id = req.session.user._id
 		}
-		
-			DealModel.find({"sales.user":id}).populate("images").exec(function(err, deals){
+	
+		DealModel.aggregate()
+		.unwind('sales')
+		.match({ 'sales.user' : mongoose.Types.ObjectId(id)}).exec(function(err, deals){
 			UserModel.findOne({"_id" : id})
 			.populate('city').populate("images").populate("promoter_id")
 			.exec(function(err, user){
 				if (err) throw err;
 				if(user){
-					SubscriberModel.find({"email":user.email}).exec(function(err, subscriptions){
+					SubscriberModel.find({"email":user.email}).populate("franchise").exec(function(err, subscriptions){
 						console.log(user)
 						StateModel.findById( user.city.state , function(err, state){
-						if (err) throw err;
+							if (err) throw err;
 							CountryModel.findById( state.country, function(err, country){
 								if (err) throw err;
-								BonusModel.find( {"user" : id}, function(err, bonuses){
+								BonusModel.find( {"user" : id}).populate("promoter").exec(function(err, bonuses){
 									if(!err){
 										CommissionModel.find( {"user" : id}).exec( function(err, commissions){
 											console.log(commissions)

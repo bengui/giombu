@@ -51,23 +51,37 @@ block content
 					td #{user.mobile}
 		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
 			.tab-pane.fade.in#administration
+				h3 Agregar Roles
 				include ../partials/users/add_roles
 		.tab-pane.fade.in#misofertas
-			table.misofertas
-				-if (deals)
+				h3 Lista de Compras
+				table.table
+					tr
+						th Oferta
+						th Estado
+						th Forma de Pago
+						th Fecha
 					-each deal in deals
-						include ../partials/deals/deal
-		.tab-pane.fade.in#missuscripciones
-			table.missuscripciones
-				-if (subscriptions)
-					-each subscription in subscriptions
-						tr 
-							td.tdmisdatos Nombre:
-							td #{subscription.franchise.name}
 						tr
-							td.tdmisdatos Email:
-							td #{subscription.created}
+							td
+								a(href="#{deal._id}") #{deal.title}
+							td #{deal.sales.status}
+							td #{deal.sales.payment_method}
+							td #{deal.sales.created}
+		.tab-pane.fade.in#missuscripciones
+			h3 Lista de Suscripciones
+			table.table.missuscripciones
+				-if (subscriptions)
+					tr 
+						th.tdmisdatos Nombre:
+						th.tdmisdatos Fecha de suscripcion:
+					-each subscription in subscriptions
+						-if(subscription.franchise)
+							tr 
+								td #{subscription.franchise.name}
+								td #{subscription.created}
 		.tab-pane.fade.in#misbonos
+			h3 Lista de Bonos
 			table.table.misbonos
 				tr
 					th Usuario
@@ -78,6 +92,7 @@ block content
 					-each bonus in bonuses
 						include ../partials/bonuses/bonus
 		.tab-pane.fade.in#miscomisiones
+			h3 Lista de Comisiones
 			table.table.miscomisiones
 				tr
 					th Monto
@@ -100,51 +115,3 @@ block content
 				-for (var i = images.length - 1; i >= 0; i--)
 					-var image = images[i]
 					include ../partials/images/media_list
-		-if (!(typeof user.promoter[0] === "undefined"))
-			h3 Promotor
-			table
-				tr
-					td Promotor:
-					td
-				tr
-					td Introduccion:
-					td #{user.promoter[0].page_title}
-				tr
-					td Cuerpo
-					td #{user.promoter[0].page_body}
-
-		-if (user.partner)
-			h3 Partner
-			table
-				tr
-					td	Tienda:
-					td	#{user.partner[0].email}
-		-if (user.seller)
-			h3 Vendedor
-			table
-				tr
-					td	Vendedor:
-					td
-//		.progress.progress-striped.active
-//			.bar(style="width: #{contacts}%;") 
-//			h6 #{contacts} Contactos
-		.results
-			h4 Suscripciones
-				-for (var i = subscriptions.length - 1; i >= 0; i--) {
-					p #{subscriptions[i].franchise.name}
-				-};
-			h4 Ofertas compradas
-		table.table
-			-each deal in deals
-				tr
-					td
-						span.label.pull-right #{deal.status}
-					td
-						img( src="/images/243_large_f4415b921f7e566042424fb70b1ba3a4.jpeg").span2
-					td
-						h5 #{deal.title}
-					td
-						p #{deal.tagline}
-					td.span1
-						a(href="/intranet/deals/view/#{deal._id}").btn.pull-right Ver
-	

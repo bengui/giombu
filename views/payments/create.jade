@@ -38,6 +38,12 @@ block content
 					-each commission in commissions	
 						tr
 							include ../partials/commissions/commission_selector
-			input(type="button", value="Crear pago" , class="create_payment") 
+			-if (payment)
+				input(type="button", value="Crear pago" , disabled="true", class="create_payment")
+				span No puede crear nuevos pagos si ya ha realizado uno en la ultima semana.
+				span Ultimo pago creado el #{payment.created}
+			-else
+				input(type="button", value="Crear pago" , class="create_payment")
+				
 				
 

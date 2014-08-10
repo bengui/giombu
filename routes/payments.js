@@ -4,35 +4,51 @@ var DealModel = require('../models/deal').DealModel;
 var PaymentModel = require('../models/payment').PaymentModel;
 var BankAccountModel = require('../models/bank_account').BankAccountModel;
 var CommissionModel = require('../models/commission').CommissionModel;
+var mongoose = require('mongoose');
 
 module.exports = function(app){
 	app.get('/payments/create', function (req, res, next) {
 		today = new Date()
 		month_ago = new Date()
-		month_ago.setMonth(today.getMonth()-1)
+		var oneWeekAgo = new Date();
+		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 		CommissionModel.find({user:req.session.user._id}).exec(function(err, commissions ){
+			if (err) throw err;
 			BonusModel.find({user:req.session.user._id}).populate("promoter").exec(function(err, bonuses ){
-				BankAccountModel.find({user:req.session.user._id}).exec(function(err, account ){
-					res.render('payments/create', {title: 'Seccion de pagos' , account:account, bonuses:bonuses, commissions:commissions});
+				if (err) throw err;
+				BankAccountModel.find({"user":req.session.user._id}).exec(function(err, account ){
+					if (err) throw err;
+					PaymentModel.findOne({"user":req.session.user._id , "created": {$gte : oneWeekAgo}}).exec(function(err,payment){
+						if (err) throw err;
+						console.log(payment)
+						res.render('payments/create', {title: 'Seccion de pagos' , account:account, bonuses:bonuses, commissions:commissions, payment:payment});
+					})
 				});
 			});
 		});
 	  
 	});
 
+	app.get('/payments', function(req, res, next){
+		PaymentModel.find({}).exec( function(err, payments){
+			if (err) throw err;
+			res.json(payments);
+		});
+	});
+
 	app.post('/payments/new', function (req, res, next) {
 		UserModel.findOne({_id:req.session.user._id}).exec(function(err, user ){
 			var amount = 0;
 			CommissionModel.find({ _id :{ $in : req.param('commissions') }}).exec(function(err, commissions ){
-			
+				console.log(commissions)
+			var date = Date.now()
 				for (var i = commissions.length - 1; i >= 0; i--) { //error aca y en el otro loop
 					amount = commissions[i].amount + amount;
-					commissions[i].paid_date = Date.now
+					commissions[i].paid_date = date
 					commissions[i].save(function(err){
 						if(err){
 							console.log("Error: - " + err);
 						}
-
 					})
 				};
 				var bonusesSelected = [];
@@ -55,18 +71,16 @@ module.exports = function(app){
 					}else{
 						
 					}
-					payment_new.commissions = req.param('commissions')
-					payment_new.bonuses = req.param('bonuses')
 					payment_new = new PaymentModel();
+					payment_new.commissions = req.param('commissions');
+					payment_new.bonuses = req.param('bonuses');
 					payment_new.amount = amount;
 					payment_new.user = req.session.user._id;
 					payment_new.save(function(){
 						req.session.messagge = "Pago creado, no podrá volver a realizar esta acción hasta dentro de 7 dias";
-						BonusModel.update({user:req.session.user._id, _id :{ $in : ids }}, { $set: { paid_date: Date.now }}, { multi: true },function (err, numberAffected, raw) {
-						 	req.session.user= user;
-						 	user.save(function(){
-						 		res.redirect('/payments/create');
-						 	})			
+						
+						BonusModel.update({"user":req.session.user._id, _id :{ $in : ids }}, { $set: { paid_date:  date}}, { multi: true },function (err, numberAffected, raw) {
+							res.redirect('/payments/create');			
 						});
 					})
 				});	
