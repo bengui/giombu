@@ -78,20 +78,23 @@ module.exports = function(app){
 
 
 	//Muestra la lista de compras del usuario logueado
-	app.get('/sales/my', CheckAuth.user, function(req, res){
-		DealModel.aggregate()
-		.unwind('sales')
-		.match({ 'sales.user' : mongoose.Types.ObjectId(req.session.user._id)})
-		.exec(function(err, deals){
-			if (err) throw err;
+	// YA EXISTE EN EL PROFILE
+	// NO ES NECESARIO 
+	// bengui
+	// app.get('/sales/my', CheckAuth.user, function(req, res){
+	// 	DealModel.aggregate()
+	// 	.unwind('sales')
+	// 	.match({ 'sales.user' : mongoose.Types.ObjectId(req.session.user._id)})
+	// 	.exec(function(err, deals){
+	// 		if (err) throw err;
 
-			res.render('sales/my', {
-				title 		: 'Mis Compras',
-				deals 		: deals
-			});
-		});
+	// 		res.render('sales/my', {
+	// 			title 		: 'Mis Compras',
+	// 			deals 		: deals
+	// 		});
+	// 	});
 
-	});
+	// });
 	
 
 	app.get('/sales/view/:id', function (req, res, next) {

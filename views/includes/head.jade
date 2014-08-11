@@ -19,9 +19,6 @@
 						li
 							a(href="#") 
 								strong Ofertas de:  #{expose.selected_franchise.name}
-					-if ((typeof expose.user) != "undefined")
-						li
-							a(href="/sales/my") Mis Compras
 
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")
