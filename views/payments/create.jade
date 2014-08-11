@@ -23,7 +23,10 @@ block content
 					-each bankaccount in bankaccounts
 						tr
 							td
-								input(type="checkbox", name="bank_account", id="bank_account", value="#{bankaccount._id}") 
+								-if(bankaccount._id === bankaccounts[0]._id)
+									input(type="radio", name="bank_account", id="bank_account",checked="true", value="#{bankaccount._id}") 
+								-else
+									input(type="radio", name="bank_account", id="bank_account", value="#{bankaccount._id}") 
 							td
 								label(for="bank_account") #{bankaccount.bank_name} - #{bankaccount.bank_number}
 			-if(typeof bonuses !== "undefined")

@@ -243,17 +243,19 @@ module.exports = function(app){
 	});
 
 	app.get('/users/contacts', function(req, res){
-		UserModel.find({ 'promoter_id': req.session.user._id}).populate("images").exec( function(err, sons){
-			console.log(sons);
-			if(sons){
-				res.render('users/contacts', {title: 'Tus Contactos', sons:sons});
-			}else{
-				var sons = new Array(1);
-				sons[0] = req.session.user;
-				console.log(sons);
-				res.render('users/contacts', {title: 'Tus Contactos',sons:sons});
-			}
-			console.log(sons);
+		UserModel.find({ 'promoter_id': req.session.user._id}).populate("images").populate("level").exec( function(err, sons){
+			var min =req.session.user.level.number -1;
+			var max =req.session.user.level.number +1;
+			LevelModel.findOne({"number": min}).exec( function(err, min_level){
+				LevelModel.findOne({"number": max}).exec( function(err, max_level){
+					if(sons){
+						res.render('users/contacts', {title: 'Tus Contactos', sons:sons, max_level:max_level, min_level:min_level});
+					}else{
+						res.render('users/contacts', {title: 'Tus Contactos',sons:sons });
+					}
+					console.log(sons);
+				});
+			});
 		});
 	});
 
