@@ -5,10 +5,11 @@ var PaymentModel = require('../models/payment').PaymentModel;
 var BankAccountModel = require('../models/bank_account').BankAccountModel;
 var CommissionModel = require('../models/commission').CommissionModel;
 var mongoose = require('mongoose');
+var CheckAuth = require('../middleware/checkAuth');
 var Encrypter = require('../helpers/encryption');
 
 module.exports = function(app){
-	app.get('/payments/create', function (req, res, next) {
+	app.get('/payments/create',CheckAuth.user, function (req, res, next) {
 		today = new Date()
 		month_ago = new Date()
 		var oneWeekAgo = new Date();
@@ -39,14 +40,14 @@ module.exports = function(app){
 	  
 	});
 
-	app.get('/payments', function(req, res, next){
+	app.get('/payments',CheckAuth.user, function(req, res, next){
 		PaymentModel.find({}).exec( function(err, payments){
 			if (err) throw err;
 			res.json(payments);
 		});
 	});
 
-	app.post('/payments/new', function (req, res, next) {
+	app.post('/payments/new',CheckAuth.user, function (req, res, next) {
 		UserModel.findOne({_id:req.session.user._id}).exec(function(err, user ){
 			var amount = 0;
 			CommissionModel.find({ _id :{ $in : req.param('commissions') }}).exec(function(err, commissions ){

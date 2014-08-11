@@ -5,22 +5,23 @@ var PaymentModel = require('../models/payment').PaymentModel;
 var BankAccountModel = require('../models/bank_account').BankAccountModel;
 var CommissionModel = require('../models/commission').CommissionModel;
 var mongoose = require('mongoose');
+var CheckAuth = require('../middleware/checkAuth');
 var Encrypter = require('../helpers/encryption');
 
 module.exports = function(app){
 	
-	app.get('/bank_accounts', function(req, res, next){
+	app.get('/bank_accounts',CheckAuth.user ,function(req, res, next){
 		BankAccountModel.find({}).exec( function(err, bank_accounts){
 			if (err) throw err;
 			res.json(bank_accounts);
 		});
 	});
 
-	app.get('/bank_accounts/create', function (req, res, next) {
+	app.get('/bank_accounts/create',CheckAuth.user, function (req, res, next) {
 		res.render('bank_accounts/create', {title: 'Informacion Bancaria'})
 	});
 
-	app.post('/bank_accounts/add', function (req, res, next) {
+	app.post('/bank_accounts/add',CheckAuth.user, function (req, res, next) {
 		var bank_account_new = new BankAccountModel();
 		bank_account_new.user = req.session.user._id;
 		bank_account_new.bank_name = Encrypter.encrypt(req.body.bank_account.bank_name);
@@ -38,7 +39,7 @@ module.exports = function(app){
 		});
 	});
 
-	app.get('/bank_accounts/view', function(req, res, next){
+	app.get('/bank_accounts/view',CheckAuth.user, function(req, res, next){
 		BankAccountModel.findOne( {_id: req.params.id} , function(err, bank_accounts){
 			if(!err){
 				if(bank_accounts){
@@ -60,7 +61,7 @@ module.exports = function(app){
 	  });
 	});
 
-	app.get('/bank_accounts/list', function(req, res, next){
+	app.get('/bank_accounts/list',CheckAuth.user, function(req, res, next){
 		BankAccountModel.find( {user: req.session.user._id} , function(err, bank_accounts){
 			if(!err){
 				if(bank_accounts){

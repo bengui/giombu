@@ -242,7 +242,7 @@ module.exports = function(app){
 		});
 	});
 
-	app.get('/users/contacts', function(req, res){
+	app.get('/users/contacts',CheckAuth.user, function(req, res){
 		UserModel.find({ 'promoter_id': req.session.user._id}).populate("images").populate("level").exec( function(err, sons){
 			var min =req.session.user.level.number -1;
 			var max =req.session.user.level.number +1;
