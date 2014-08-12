@@ -22,6 +22,7 @@ var commissions = require('./commissions');
 var news = require('./news');
 var events = require('./events');
 var newsletters = require('./newsletters');
+var bank_accounts = require('./bank_accounts');
 
 
 var errors = require('./errors');
@@ -59,6 +60,7 @@ module.exports = function(app){
 	news(app);
 	events(app);
 	newsletters(app);
+	bank_accounts(app);
 	// error handlers
 	errors(app);
 

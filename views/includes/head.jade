@@ -1,4 +1,4 @@
-#header
+#header.background-gradient
 	a(href="/")
 		img(src="/img/logo_giombu.png")
 	.pull-right
@@ -7,24 +7,19 @@
 		.container-fluid
 			.collapse.navbar-collapse
 				ul.nav.navbar-nav.navbar-left
-					-if((typeof expose.user) !== "undefined")
-						-if(typeof expose.user.selected_franchise === "undefined")
-							li
-								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad
-									icon.icon-chevron-down
-						-else
-							li
-								a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") #{expose.user.selected_franchise.name}
-									icon.icon-chevron-down
-					-else
-						li
-							a(class='accordion-toggle', data-toggle="collapse", data-parent="#accordion2", href="#collapseOne") Cambiar de cuidad
-								icon.icon-chevron-down
-				ul.nav.navbar-nav
+					li
+						a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
+							icon.icon-chevron-down
 					li
 						a(href='/deals/home') Ofertas de hoy
 					li
 						a(href='/deals/travel') Descuentos en viajes
+						include ../partials/franchises/franchise_selector_modal
+					-if(typeof expose.selected_franchise !== "undefined")
+						li
+							a(href="#") 
+								strong Ofertas de:  #{expose.selected_franchise.name}
+
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")
 						li
@@ -44,8 +39,6 @@
 							a(href="/users/logout" )
 								span.glyphicon.glyphicon-log-out.col-md-pull-1
 								|Salir
-						//.selected_franchise
-						//	a(href="/intranet/deals/list/#{user.selected_franchise}") #{user.selected_franchise}
 	-if (expose.message)
 		.alert.alert-info.alert-dismissable
 			button(type="button" class="close" data-dismiss="alert" aria-hidden="true")&times;

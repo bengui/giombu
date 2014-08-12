@@ -8,34 +8,41 @@ var LevelModel = require('../models/level').LevelModel;
 var CountryModel = require('../models/country').CountryModel;
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
+var InvitationModel = require('../models/invitation').InvitationModel;
+var CommissionModel = require('../models/commission').CommissionModel;
 var CheckAuth = require('../middleware/checkAuth');
 var util = require('../helpers/util');
 var encrypter = require('../helpers/encryption');
 var _ = require('underscore');
+var mongoose = require('mongoose');
 
 module.exports = function(app){
 
 
 	//Este regex nos permite pedir la misma funcion como json, para usar donde necesitamos elegir quien nos invito y similar.
-	app.get('/users:format(.json)?', function(req, res, next){
+	app.get('/users.json', function(req, res, next){
 		UserModel.find().exec( function(err, users){
 			if (err) throw err;
-			if(req.params.format){
 				usernames = [];
 				for (var i = users.length - 1; i >= 0; i--) {
 					usernames.push(users[i].username)
 				};
 				res.send(usernames)
-			}
+		});
+	});
+	app.get('/users', function(req, res, next){
+		UserModel.find().exec( function(err, users){
+			if (err) throw err;
+			
 			res.render('users/list', {title: 'Lista de usuarios', users:users});
 		});
 	});
 
 
-	app.get('/users/create', function(req, res){
+	app.get('/users/create/:username?', function(req, res){
 		CountryModel.find({}, function(err, countries){
 			if (err) throw err;
-
+			console.log(req.params.username)
 			StateModel.find({}, function(err, states){
 				if (err) throw err;
 
@@ -46,7 +53,8 @@ module.exports = function(app){
 						title 		: 'Registro',
 						countries 	: countries,
 						states		: states,
-						cities		: cities
+						cities		: cities,
+						username 	: req.params.username
 					});
 
 				});
@@ -59,36 +67,59 @@ module.exports = function(app){
 
 	app.post('/users/save', function(req, res){
 
+		function finishRegistration(user){
+			req.session.message = 'Te has registrado correctamente';
+			//Save the user in the session
+			req.session.user = user;
+			req.session.expose.user = user;
+			req.session.expose.selected_franchise = 'Guadalajara';
+
+			res.redirect('/');
+		}
+
 		req.body.user.password = encrypter.encrypt(req.body.user.password);
 
 		var user = new UserModel(req.body.user);
 		user.roles.push(UserRoles.getUser());
+		console.log(req.body.invitation)
 		if(req.body.invitation != ""){
-			switch(invitation_type){
-				//Ver donde vamos a manejar este evento.
-				//app.emit("invitation_accepted", invitation)
-				case "seller":
-					user.roles.push(UserRoles.getSeller());
-				break;
-				case "promoter":
-					user.roles.push(UserRoles.getPromoter());
-				break;
-			}
-		}
-		UserModel.findOne({username: req.body.inviter}, function(err, inviter){
+			InvitationModel.findOne({ "_id": req.body.invitation }).populate("invite_user").exec(function (err, invitation) {
+				if (invitation) {
 
-			if (err) throw err;
+					if(typeof invitation.invitation_type !== "undefined"){
+						switch(invitation.invitation_type){
+							//Ver donde vamos a manejar este evento.
+						    //app.emit("invitation_accepted", invitation)
+							case "seller":
+								user.roles.push(UserRoles.getSeller());
+							break;
+							case "promoter":
+								user.roles.push(UserRoles.getPromoter());
+							break;
+						}
+					}
 
-			if(inviter){
-				user.promoter_id = inviter._id;
-			}
+					UserModel.findOne({username: req.body.user.inviter}, function(err, inviter){
+						if (err) throw err;
+						if(inviter){
+							user.promoter_id = inviter._id;
+							user.invitation.push(invitation)
+						}
 
-			user.save(function(err){
-				if (err) throw err;
-				res.redirect('/');
+						user.save(function(err){
+							if (err) throw err;
+							finishRegistration(user);
+						});
+					});
+				}else{
+					user.save(function(err){
+						if (err) throw err;
+						finishRegistration(user);
+					});
+				}
 			});
-		});
 
+		}
 	});
 
 	//Habria que agregar validaciones a esta llamada.
@@ -107,47 +138,13 @@ module.exports = function(app){
 
 	});
 
-	//Habria que agregar validaciones a esta llamada.
-	//un usuario comun solo debe poder editar sus datos.
-	//y solo el admin debe poder editar los datos de cualquier usuario.
-	app.post('/users/update', function(req, res){
-
-		UserModel.findById( req.body.user._id , function(err, user){
-
-			if (err) throw err;
-
-			user.username = req.body.username;
-			user.name = req.body.name;
-			user.lname = req.body.lname;
-			user.email = req.body.email;
-			user.phone = req.body.phone;
-			user.mobile = req.body.mobile;
-			user.address = req.body.address;
-			user.country = req.body.country;
-			user.city = req.body.city;
-			user.state = req.body.state;
-			user.zip = req.body.zip;
-
-			user.save(function(err){
-
-				if (err) throw err;
-
-				req.session.message = 'Datos de usuario editados correctamente.'
-
-				res.redirect('/users/'+user_new._id);
-
-			});
-		});
-	});
-
-
 	app.get('/users/login', function (req, res, next){
 		res.render('users/login', { title:'Autenticación'});
 	});
 
 
 	app.post('/users/login', function(req, res, next){
-		UserModel.findOne({username: req.body.username}).populate("images").exec(function(err, user){
+		UserModel.findOne({username: req.body.username}).populate("images").populate("promoter_id").populate("level").exec(function(err, user){
 			if(err) throw err;
 
 			if(!user){
@@ -155,20 +152,27 @@ module.exports = function(app){
 				res.redirect('/');
 			}else{
 				if(user.password == encrypter.encrypt(req.body.password)){
-
+						
 						//Save the user in the session
 						req.session.user = user;
 
 						//Expose some user data to the front-end
-						req.session.expose.selected_franchise = 'Guadalajara';
 						req.session.expose.user = {};
 						req.session.expose.user = user;
 
-
+						console.log(user);
 						updateUserLevel(req, res, function(){
 							req.session.message = 'Hola!';
-							res.redirect('/');
+
+							if(req.body.redirect_url){
+								res.redirect(req.body.redirect_url);
+							}else{
+								res.redirect('/');
+							}
+
 						});
+
+
 
 
 				}else{
@@ -243,7 +247,22 @@ module.exports = function(app){
 		});
 	});
 
-
+	app.get('/users/contacts',CheckAuth.user, function(req, res){
+		UserModel.find({ 'promoter_id': req.session.user._id}).populate("images").populate("level").exec( function(err, sons){
+			var min =req.session.user.level.number -1;
+			var max =req.session.user.level.number +1;
+			LevelModel.findOne({"number": min}).exec( function(err, min_level){
+				LevelModel.findOne({"number": max}).exec( function(err, max_level){
+					if(sons){
+						res.render('users/contacts', {title: 'Tus Contactos', sons:sons, max_level:max_level, min_level:min_level});
+					}else{
+						res.render('users/contacts', {title: 'Tus Contactos',sons:sons });
+					}
+					console.log(sons);
+				});
+			});
+		});
+	});
 
 	app.post('/users/addRole', function(req, res){
 		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
@@ -323,35 +342,56 @@ module.exports = function(app){
 		}else{
 			id = req.session.user._id
 		}
-		UserModel.findOne({"_id" : id})
-		.populate('city').populate("images")
-		.exec(function(err, user){
-			if (err) throw err;
-			if(user){
-				console.log(user)
-				StateModel.findById( user.city.state , function(err, state){
+	
+		DealModel.aggregate()
+		.unwind('sales')
+		.match({ 'sales.user' : mongoose.Types.ObjectId(id)}).exec(function(err, deals){
+			UserModel.findOne({"_id" : id})
+			.populate('city').populate("images").populate("promoter_id")
+			.exec(function(err, user){
 				if (err) throw err;
-					CountryModel.findById( state.country, function(err, country){
-						if (err) throw err;
-
-						res.render('users/profile',{
-							title 	: 'Datos de usuario',
-							user 	: user,
-							state 	: state,
-							country : country,
-							id : id
+				if(user){
+					SubscriberModel.find({"email":user.email}).populate("franchise").exec(function(err, subscriptions){
+						console.log(user)
+						StateModel.findById( user.city.state , function(err, state){
+							if (err) throw err;
+							CountryModel.findById( state.country, function(err, country){
+								if (err) throw err;
+								BonusModel.find( {"user" : id}).populate("promoter").exec(function(err, bonuses){
+									if(!err){
+										CommissionModel.find( {"user" : id}).exec( function(err, commissions){
+											console.log(commissions)
+											if(!err){
+												res.render('users/profile',{
+													title 	: 'Datos de usuario',
+													user 	: user,
+													state 	: state,
+													country : country,
+													bonuses : bonuses,
+													deals	: deals,
+													commissions : commissions,
+													subscriptions:subscriptions,
+													id : id
+												});
+											}else{
+												if (err) return handleError(err);
+											}
+										});
+									}else{
+										if (err) return handleError(err);
+									}
+								});
+							});
 						});
 					});
-				});
-			}else{
-				if(req.session.user._id){
-					redirect('/users/logout');
 				}else{
-					redirect('/');
+					if(req.session.user._id){
+						redirect('/users/logout');
+					}else{
+						redirect('/');
+					}
 				}
-			}
-
-
+			});
 		});
 	});
 

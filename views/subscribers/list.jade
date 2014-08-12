@@ -2,14 +2,20 @@ extends ../layout
 
 block content
 	h3 Suscriptores
+	.well
+		p Filtros
+		select(type="text",name="filter", id="franchise_filter")
+			option(value="Todas") Todas
+			-each franchise in franchises
+				option(value="#{franchise.name}") #{franchise.name}
 	table.table
 		-each item in subscribers
 			tr
-				td.well
-					h5 #{item.name} | #{item.email}
-						p
-							a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}") Borrar Suscripción a franquicia activa
-							|
-							a(href="subscribers/erase_subscriber/#{item.email}") Borrar Todas las suscripciones
+				td.well.franchise_subscription
+					h5 #{item.name} #{item.email}
+						if(item.franchise)
+							span.pull-right.franchise_name #{item.franchise.name}
+					span.pull-right
+						a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}") Borrar
 					
 					

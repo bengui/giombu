@@ -89,7 +89,7 @@ module.exports = function (app){
 	//Muestra deals activos.
 	app.get('/', function(req, res, next){
 		if(req.session.selected_franchise){
-			DealModel.find( {} ).limit(10).where('franchises').populate("images").in([req.session.user.selected_franchise._id]).sort("-created")
+			DealModel.find( {} ).limit(10).where('franchises').populate("images").in([req.session.selected_franchise._id]).sort("-created")
 			.exec(function (err, deals) {
 				if (err) return handleError(err);
 				if(deals){
@@ -104,7 +104,6 @@ module.exports = function (app){
 					if (err) return handleError(err);
 					if(deals){
 						
-						console.log(deals);
 					  res.render('deals/home', {title: 'Ofertas', deals:deals});
 					}else{
 					  res.render('not_found', {title: 'No se encuentran ofertas'});
@@ -445,7 +444,7 @@ module.exports = function (app){
 					commission_new.amount = (deal.promoter_percentage)/100*(deal.special_price)*(sale.coupons.length);
 					commission_new.save(function(){
 						app.emit("redeemed_coupon",deal, sale, req.params.coupon_code, req.session.user._id);
-						app.emit("commission_event", "Commission_Seller", deal, commission_new);
+						app.emit("commission_event", "Commission_Seller", deal, commission_new, req.session.user);
 					});
 					res.redirect("/deals/review/"+deal._id)
 

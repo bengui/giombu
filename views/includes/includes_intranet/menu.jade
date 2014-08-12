@@ -16,21 +16,17 @@
 			span.glyphicon.glyphicon-th Menu
 		li
 			a(href='/news') Noticias
-		//-if (!(typeof user.promoter === "undefined"))
+		-if(RolesHelper.promoter(expose.user))
 			li.nav-header Promotores
 			li
-				a(href='/intranet/promoters/list_sons/0') Listado
+				a(href='/promoters/#{expose.user._id}') Ver
 			li
-				a(href='/intranet/invitations/list_promoters') Invitaciones
-			li
-				a(href='/intranet/bonuses/my_bonuses/') Mis Bonos
-		//-if (user.partner)
+				a(href='/promoters/register') Editar
+		-if(RolesHelper.partner(expose.user))
 			li.nav-header Socios
 			li
 				a(href='h1') Mi Tienda
-			li
-				a(href='h1') Mis Comisiones
-		//-if (!(typeof user.seller === "undefined"))
+		-if(RolesHelper.seller(expose.user))
 			li.nav-header Vendedores
 			li
 				a(href='/sellers/list') Ventas
@@ -39,7 +35,7 @@
 		li.nav-header 
 			span.glyphicon.glyphicon-user Contactos
 		li
-			a(href='/intranet/users/contacts/0') Listado
+			a(href='/users/contacts') Listado
 		li
 			a(href='/invitations') Invitaciones
 		li.nav-header 
@@ -49,28 +45,26 @@
 		li
 			a(href='/intranet/sales/list_all') Ventas
 		li
-			a(href='h1') Pagos
+			a(href='/payments/create') Pagos
 		li
-			a(href='/intranet/products/list') Productos
-		li
-			a(href='/intranet/users/list') Usuarios
+			a(href='/users') Usuarios
 		li
 			a(href='/countries/list') Paises
 		li
-			a(href='/intranet/franchisors/list') Franquiciantes
+			a(href='/franchisors/list') Franquiciantes
 		li
 			a(href='/stores/list') Comercios
 		li
-			a(href='/intranet/sellers/list') Vendedores
+			a(href='/sellers/list') Vendedores
 		li
-			a(href='/intranet/currencies/list') Monedas
+			a(href='/currencies/list') Monedas
 		li
-			a(href="/bankAccount/list") Cuentas Bancarias
+			a(href="/bank_accounts/list") Cuentas Bancarias
 			
 		li.nav-header 
 			span.glyphicon.glyphicon-envelope Email-Marketing
 		li
-			a(href='/intranet/subscribers/list') Suscriptores
+			a(href='/subscribers') Suscriptores
 		li
 			a(href='/newsletters/create') Newsletters
 		li

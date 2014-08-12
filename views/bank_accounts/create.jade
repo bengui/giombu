@@ -1,0 +1,33 @@
+// template.jade
+extends ../layout
+
+//Bloque de contenido.
+block content
+	.container
+		.form_container
+			form(method='post',id="bank_account_create" action='/bank_accounts/add')
+				label Nombre del Banco
+				br
+				input(name='bank_account[bank_name]', type='text' ,class="required") 
+				br
+				label Ife
+				br
+				input(name='bank_account[ife]', type='text') 
+				br
+				label Curp
+				br
+				input(name='bank_account[curp]', type='text') 
+				br
+				label CLABE
+				br
+				input(name='bank_account[bank_clabe]', type='text') 
+				br
+				label Ruta
+				br
+				input(name='bank_account[bank_rute]', type='text') 
+				br
+				label Numero de Cuenta
+				br
+				input(name='bank_account[bank_number]', type='text') 
+				br
+				input(type='submit', value='Guardar')

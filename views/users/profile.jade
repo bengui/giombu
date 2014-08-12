@@ -13,8 +13,6 @@ block content
 		li
 			a(href="#missuscripciones", data-toggle="tab") Suscripciones
 		li
-			a(href="#miscontactos", data-toggle="tab") Contactos
-		li
 			a(href="#misofertas", data-toggle="tab") Ofertas
 		li
 			a(href="#miscomisiones", data-toggle="tab") Comisiones
@@ -52,45 +50,57 @@ block content
 						h5 Movil:
 					td #{user.mobile}
 		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
-		.tab-pane.fade.in#administration
+			.tab-pane.fade.in#administration
+				h3 Agregar Roles
 				include ../partials/users/add_roles
-		.tab-pane.fade.in#miscontactos
-			table.miscontactos
-				-if (contacts)
-					-each contact in contacts
-						tr 
-							td.tdmisdatos Nombre:
-							td
-								a(href="/users/profile/#{contact._id}") #{contact.name} #{contact.lname}
 		.tab-pane.fade.in#misofertas
-			table.misofertas
-				-if (deals)
+				h3 Lista de Compras
+				table.table
+					tr
+						th Oferta
+						th Estado
+						th Forma de Pago
+						th Fecha
 					-each deal in deals
-						tr 
-							td.tdmisdatos 
-							td
-								a(href="/deals/view/#{deal._id}") #{deal.title} 
-							td $  #{deal.special_price}	
-		.tab-pane.fade.in#missuscripciones
-			table.missuscripciones
-				-if (subscriptions)
-					-each subscription in subscriptions
-						tr 
-							td.tdmisdatos Nombre:
-							td #{subscription.franchise.name}
 						tr
-							td.tdmisdatos Email:
-							td #{subscription.created}
+							td
+								a(href="#{deal._id}") #{deal.title}
+							td #{deal.sales.status}
+							td #{deal.sales.payment_method}
+							td #{deal.sales.created}
+		.tab-pane.fade.in#missuscripciones
+			h3 Lista de Suscripciones
+			table.table.missuscripciones
+				-if (subscriptions)
+					tr 
+						th.tdmisdatos Nombre:
+						th.tdmisdatos Fecha de suscripcion:
+					-each subscription in subscriptions
+						-if(subscription.franchise)
+							tr 
+								td #{subscription.franchise.name}
+								td #{subscription.created}
 		.tab-pane.fade.in#misbonos
-			table.misbonos
+			h3 Lista de Bonos
+			table.table.misbonos
+				tr
+					th Usuario
+					th Monto
+					th Fecha
+					th 
+				-if (bonuses)
+					-each bonus in bonuses
+						include ../partials/bonuses/bonus
+		.tab-pane.fade.in#miscomisiones
+			h3 Lista de Comisiones
+			table.table.miscomisiones
 				tr
 					th Monto
 					th Fecha
-				-if (bonuses)
-					-each bonus in bonuses
-						tr 
-							td #{bonus.amount}
-							td #{bonus.created}
+					th  
+				-if (commissions)
+					-each commission in commissions
+						include ../partials/commissions/commission
 		.tab-pane.fade.in#misimagenes
 			h3 Agregar Imagenes
 			-var route_name = "users"
@@ -105,51 +115,3 @@ block content
 				-for (var i = images.length - 1; i >= 0; i--)
 					-var image = images[i]
 					include ../partials/images/media_list
-		-if (!(typeof user.promoter[0] === "undefined"))
-			h3 Promotor
-			table
-				tr
-					td Promotor:
-					td
-				tr
-					td Introduccion:
-					td #{user.promoter[0].page_title}
-				tr
-					td Cuerpo
-					td #{user.promoter[0].page_body}
-
-		-if (user.partner)
-			h3 Partner
-			table
-				tr
-					td	Tienda:
-					td	#{user.partner[0].email}
-		-if (user.seller)
-			h3 Vendedor
-			table
-				tr
-					td	Vendedor:
-					td
-//		.progress.progress-striped.active
-//			.bar(style="width: #{contacts}%;") 
-//			h6 #{contacts} Contactos
-		.results
-			h4 Suscripciones
-				-for (var i = subscriptions.length - 1; i >= 0; i--) {
-					p #{subscriptions[i].franchise.name}
-				-};
-			h4 Ofertas compradas
-		table.table
-			-each deal in deals
-				tr
-					td
-						span.label.pull-right #{deal.status}
-					td
-						img( src="/images/243_large_f4415b921f7e566042424fb70b1ba3a4.jpeg").span2
-					td
-						h5 #{deal.title}
-					td
-						p #{deal.tagline}
-					td.span1
-						a(href="/intranet/deals/view/#{deal._id}").btn.pull-right Ver
-	

@@ -72,7 +72,7 @@
 				.form-group
 					label.col-md-5.control-label Usuario Que te Invito: 
 					.col-md-7
-						-var username = ""
+						-if(!username) username = ""
 						-if (typeof invitation !== "undefined")
 							-username = invitation.invite_user.username ;
 							input(type='hidden', name="invitation", value="#{invitation._id}" ,class="form-control input-sm")

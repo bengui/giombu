@@ -143,4 +143,10 @@ module.exports = function(app){
 			})
 		})
 });
+	app.get('/levels', function(req, res, next){
+		LevelModel.find({}).exec( function(err, levels){
+			if (err) throw err;
+			res.json(levels);
+		});
+	});
 }

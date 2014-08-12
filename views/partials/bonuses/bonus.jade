@@ -1,0 +1,8 @@
+tr 
+	td
+		a(href="/user/#{bonus.promoter._id}") #{bonus.promoter.username}
+	td $ #{bonus.amount}
+	td #{bonus.created.getDate()} / #{bonus.created.getMonth()+1} / #{bonus.created.getFullYear()}
+	td 
+		-if(typeof bonus !== "undefined")
+			a(href="/bonus/#{bonus._id}") Ver

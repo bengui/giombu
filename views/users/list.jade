@@ -1,12 +1,11 @@
 extends ../layout
 
 block content
-	.span9
+	.col-md-9
 		h3 Lista de Usuarios
-		table.table_user_list
+		table.table
 			-each user in users
 				tr.span3
-					td.thumbnail 
 					td
 						h5 #{user.name} #{user.lname}
 						a(href="/users/#{user._id}", rel="tooltip") #{user.username}

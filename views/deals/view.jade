@@ -72,19 +72,19 @@ block content
 				tr
 					td.pull-right 
 						strong Inicio de la oferta:
-					td #{deal.start_date}
+					td=util.date_time_string(deal.start_date)
 				tr
 					td.pull-right
 						strong Fin de la oferta:
-					td #{deal.end_date}
+					td=util.date_time_string(deal.end_date)
 				tr
 					td.pull-right 
 						strong Inicio de canje:
-					td #{deal.start_redeem}
+					td=util.date_time_string(deal.start_redeem)
 				tr
 					td.pull-right
 						strong Fin de canje:
-					td #{deal.end_redeem}
+					td=util.date_time_string(deal.end_redeem)
 
 			br
 			h3 Cantidad de cupones

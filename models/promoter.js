@@ -2,8 +2,6 @@
 var mongoose = require('mongoose');
 
 var PromoterSchema = exports.PromoterSchema = new mongoose.Schema({
-	page_visits				: { type: Number, min: 0},
-	level					: { type: mongoose.Schema.ObjectId, ref: 'Level' },
 	confirm_promoter_token	: { type: String},
 	page_title				: { type: String, required: true},
 	page_body				: { type: String, required: true},

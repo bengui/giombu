@@ -9,6 +9,7 @@ var EventModel = require('../models/event').EventModel;
 var Encrypter = require('../helpers/encryption');
 var PDFDocument = require('pdfkit');
 var CheckAuth = require('../middleware/checkAuth');
+var mongoose = require('mongoose');
 
 module.exports = function(app){
 
@@ -21,7 +22,12 @@ module.exports = function(app){
 					for (var i = 1; i <= deal.max_coupons_by_user ; i++) {
 						list[i-1] = i;
 					};
-					res.render('sales/checkout', {title: 'Detalle del pedido', deal : deal , list : list});
+					res.render('sales/checkout', {
+						title 				: 'Detalle del pedido', 
+						deal 				: deal , 
+						list 				: list,
+						redirect_url 		: '/sales/checkout/' + req.params.id
+					});
 				}else{
 				 // res.render('sales/checkout', {title: 'Error'});
 				}
@@ -51,13 +57,13 @@ module.exports = function(app){
 						coupon_new.code = Encrypter.random_text_code();
 						coupon_new.status = 'unredeemed';
 						sale_new.coupons.push(coupon_new);
-						
 					}
 					//Llamo al servicio del banco.
 					//UN request a alguna url que responda con un json de confirmacion, nada mas.
 					deal.sales.push(sale_new);
 					deal.save(function (err) {
-							app.emit("sale", deal, req.session.user, sale_new)
+							app.emit("sale", deal, req.session.user, sale_new);
+							res.redirect('/sales/'+sale_new._id);
 						});						
 								
 				 }else{
@@ -69,25 +75,27 @@ module.exports = function(app){
 		});
 		
 	});
+
+
+	//Muestra la lista de compras del usuario logueado
+	// YA EXISTE EN EL PROFILE
+	// NO ES NECESARIO 
+	// bengui
+	// app.get('/sales/my', CheckAuth.user, function(req, res){
+	// 	DealModel.aggregate()
+	// 	.unwind('sales')
+	// 	.match({ 'sales.user' : mongoose.Types.ObjectId(req.session.user._id)})
+	// 	.exec(function(err, deals){
+	// 		if (err) throw err;
+
+	// 		res.render('sales/my', {
+	// 			title 		: 'Mis Compras',
+	// 			deals 		: deals
+	// 		});
+	// 	});
+
+	// });
 	
-	/**
-		 * Lista de ventas realizadas.
-		 * @id del la venta, no de la oferta
-		 * @return void
-		 * @author Nicolas Ronchi
-	**/
-	app.get('/sales/:id',CheckAuth.user , function (req, res, next) {
-		DealModel.findOne({"sales._id" :req.params.id}).populate("images").exec(function(err, deal){
-			if(!err){
-				if(deal){
-					res.render('sales/view', {title: 'Detalle de venta', deal : deal, id:req.params.id});
-				}else{
-				 res.send("Compra no encontrada")
-				}
-			}else{
-			}
-		});
-	});
 
 	app.get('/sales/view/:id', function (req, res, next) {
 		DealModel.find({}).sort({created:-1}).exec( function(err, deals){
@@ -196,6 +204,24 @@ module.exports = function(app){
 		});
 	});
 
+	/**
+		 * Lista de ventas realizadas.
+		 * @id del la venta, no de la oferta
+		 * @return void
+		 * @author Nicolas Ronchi
+	**/
+	app.get('/sales/:id',CheckAuth.user , function (req, res, next) {
+		DealModel.findOne({"sales._id" :req.params.id}).populate("images").exec(function(err, deal){
+			if(!err){
+				if(deal){
+					res.render('sales/view', {title: 'Detalle de venta', deal : deal, id:req.params.id});
+				}else{
+				 res.send("Compra no encontrada")
+				}
+			}else{
+			}
+		});
+	});
 
 	//ESTADISITICAS
 	//amount_per_month

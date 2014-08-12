@@ -1,149 +1,135 @@
-// my-template.jade
 extends ../home
 
 block content
-	.buy_login
-		if(typeof expose.user === "undefined")
-			h4 ¿Estas Resgistrado?	
-			form(method='post', action='/users/login/')
-				label Usuario
-				input(name='username', type='text', class="required")
-				label Contraseña
-				input(name='password', type='password', class="required") 
+
+	-if(typeof expose.user === "undefined")
+		.col-md-4
+			h4 ¿Estas Resgistrado?
+			br
+			form(method='post', action='/users/login/', role="form").form-horizontal
+				input(type="hidden", name="redirect_url", value="#{redirect_url}")
+				.form-group
+					label.col-md-4 Usuario
+					.col-md-8
+						input(name='username', type='text', class="required").form-control
+				.form-group
+					label.col-md-4 Contraseña
+					.col-md-8
+						input(name='password', type='password', class="required").form-control
 				br
-				button.btn.btn-primary(name='submit', type='submit') Ingresar
-				br
-			.buy_register
-				h4 Nuevo Usuario
-				br
-				.new_user_left
-					h5 1) Direccion
-					form(method='post', id="users_register", action='/users/save').form-horizontal
-						table 
-							tr
-								td 
-									label Nombre de Usuario
-								td 
-									input(name='username', type='text', class='required') 
-							tr
-								td
-									label Nombres
-								td
-									input(name='name', type='text' ,class="required") 
-							tr 
-								td 
-									label Apellido(s)
-								td
-									input(name='lname', type='text' ,class="required") 
-							tr 
-								td
-									label Email
-								td 
-									input(name='email', type='text' ,class="required email") 
-							tr 
-								td
-									label Contraseña
-								td 
-									input(name='password', type='password') 
-							tr
-								td
-									label Confirmar contraseña
-								td
-									input(name='confirm_password', type='password') 
-							tr
-								td
-									label Fecha de nacimiento
-								td
-									input(name='birthday', type='date') 
-							tr
-								td
-									label Genero
-								td 
-									select
-										option(value='m') Masculino
-										option(value='f') Femenino
-							tr 
-								td
-									label Phone
-								td
-									input(name='phone', type='text')
-							tr 
-								td
-									label Cell Phone
-								td 
-									input(name='mobile', type='text')
-							tr 
-								td 
-									label Direccion 
-								td
-									input(name='address', type='text') 
-							tr 
-								td 
-									label Pais
-								td 
-									select(name='country', type='text' ,class="required")
-										option( value="argentina") Argentina
-							tr 
-								td
-									label Provincia
-								td 
-									select(name='state', type='text' ,class="required")
-										option( value="entrerios") Entre Rios
-							tr 
-								td 
-									label Ciudad
-								td
-									select(name='city', type='text' ,class="required")
-										option( value="parana") Parana
-							tr 
-								td 
-									label Zip
-								td 
-									input(name='zip', type='text') 
-							tr 
-								td 
-									label Nombre de Usuario Que te Invito 
-								td 
-									input(type='text', name="inviter",placeholder="Usuario" ,class="users_input typeahead" , data-provide="typeahead", data-items="4")
-		else
-			form(action="/sales/buy",id="buy_form", method="post")
-				input(type="hidden", value="#{deal._id}", name="id")
-				h4 Tu compra
-				include ../partials/sale/checkout
-				.forma_pago 
-					h4 Forma de pago
-					br
-					table 
-						tr 
-							td.forma_pago_label Medio de pago:
-							td 
-								select(type="text", name="payment_type")
-									optgroup( label="Tarjeta de Crédito") 
-										option(value="mastercard") Mastercard
-										option(value="visa") Visa
-										option(value="cabal") Cabal
-										option(value="argencard") Argencard
-									optgroup( label="Otras formas de pago")
-						tr
-							td.forma_pago_label Nro. Tarjeta:
-							td
-								input(type="text", name="card_number", maxlength="16" , class="input-large", size="16")
-						tr
-							td.forma_pago_label Cod. Seguridad:
-							td
-								input(type="text", name="card_safety_numbers", maxlength="3", class="input-small", size="3")
-						tr
-							td.forma_pago_label Nombre Completo:
-							td 
-								input(type="text", name="complete_name", class="input-large")
-						tr 
-							td.forma_pago_label DNI:
-							td 
-								input(type="text", name="dni" , maxlength="16" , class="input-large" , size="16")
-						tr 
-							td
-							td
-								input(type='submit', class="btn pull-right", value='Confirmar Compra')
+				button(name='submit', type='submit').btn.btn-primary.col-md-offset-9.col-md-3 Ingresar
+		
+		.col-md-6.col-md-offset-1
+			h4 Nuevo Usuario
+			br
+			h5 1) Direccion
+			form(method='post', id="users_register", action='/users/save').form-horizontal
+				table 
+					.form-group
+						label.col-md-4 Nombre de Usuario
+						.col-md-8
+							input(name='username', type='text', class='required').form-control
+					.form-group
+						label.col-md-4 Nombres
+						.col-md-8
+							input(name='name', type='text' ,class="required").form-control
+					.form-group
+						label.col-md-4 Apellido(s)
+						.col-md-8
+							input(name='lname', type='text' ,class="required").form-control
+					.form-group
+						label.col-md-4 Email
+						.col-md-8
+							input(name='email', type='text' ,class="required email").form-control
+					.form-group
+						label.col-md-4 Contraseña
+						.col-md-8
+							input(name='password', type='password').form-control
+					.form-group
+						label.col-md-4 Confirmar contraseña
+						.col-md-8
+							input(name='confirm_password', type='password').form-control
+					.form-group
+						label.col-md-4 Fecha de nacimiento
+						.col-md-8
+							input(name='birthday', type='date').form-control
+					.form-group
+						label.col-md-4 Genero
+						.col-md-8
+							select.form-control
+								option(value='m') Masculino
+								option(value='f') Femenino
+					.form-group
+						label.col-md-4 Phone
+						.col-md-8
+							input(name='phone', type='text').form-control
+					.form-group
+						label.col-md-4 Cell Phone
+						.col-md-8
+							input(name='mobile', type='text').form-control
+					.form-group
+						label.col-md-4 Direccion 
+						.col-md-8
+							input(name='address', type='text').form-control
+					.form-group
+						label.col-md-4 Pais
+						.col-md-8
+							select(name='country', type='text' ,class="required").form-control
+								option( value="argentina") Argentina
+					.form-group
+						label.col-md-4 Provincia
+						.col-md-8
+							select(name='state', type='text' ,class="required").form-control
+								option( value="entrerios") Entre Rios
+					.form-group
+						label.col-md-4 Ciudad
+						.col-md-8
+							select(name='city', type='text' ,class="required").form-control
+								option( value="parana") Parana
+					.form-group
+						label.col-md-4 Zip
+						.col-md-8
+							input(name='zip', type='text').form-control
+					.form-group
+						label.col-md-4 Nombre de Usuario Que te Invito 
+						.col-md-8
+							input(type='text', name="inviter",placeholder="Usuario" ,class="users_input typeahead" , data-provide="typeahead", data-items="4").form-control
+	-else
+		form(action="/sales/buy",id="buy_form", method="post", role="form").form-horizontal
+			input(type="hidden", value="#{deal._id}", name="id")
+			h4 Tu compra
+			br
+			include ../partials/sale/checkout
+			h4 Forma de pago
+			br
+			.col-md-5.well
+				.form-group
+					label.col-md-4 Medio de pago:
+					.col-md-8
+						select(type="text", name="payment_type").form-control
+							optgroup( label="Tarjeta de Crédito") 
+								option(value="mastercard") Mastercard
+								option(value="visa") Visa
+								option(value="cabal") Cabal
+								option(value="argencard") Argencard
+							optgroup( label="Otras formas de pago")
+				.form-group
+					label.col-md-4 Nro. Tarjeta:
+					.col-md-8
+						input(type="text", name="card_number", maxlength="16" , class="input-large", size="16").form-control
+				.form-group
+					label.col-md-4 Cod. Seguridad:
+					.col-md-8
+						input(type="text", name="card_safety_numbers", maxlength="3", class="input-small", size="3").form-control
+				.form-group
+					label.col-md-4 Nombre Completo:
+					.col-md-8
+						input(type="text", name="complete_name", class="input-large").form-control
+				.form-group
+					label.col-md-4 DNI:
+					.col-md-8
+						input(type="text", name="dni" , maxlength="16" , class="input-large" , size="16").form-control
+				input(type='submit', value='Confirmar Compra').btn.btn-primary.col-md-offset-8.col-md-4
 
 //				.content
 //					.div_left
@@ -164,5 +150,5 @@ block content
 //									span.total-of-sale
 //								
 
-										
-				
+									
+			

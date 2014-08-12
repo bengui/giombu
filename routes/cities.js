@@ -1,4 +1,5 @@
 var CityModel = require('../models/city').CityModel;
+var StateModel = require('../models/state').StateModel;
 
 
 module.exports = function(app){
@@ -8,6 +9,32 @@ module.exports = function(app){
 			if (err) throw err;
 
 			res.json(cities);
+		});
+	});
+
+	app.get('/cities/create/:state_id', function(req, res){
+
+		StateModel.findById(req.params.state_id, function(err, state){
+			if (err) throw err;
+			if (state){
+				res.render('cities/create', {
+					title 		: 'Crear ciudad',
+					state 		: state
+				});
+			}else{
+				res.redirect('states/edit/' + state._id);
+			}
+		});
+
+	});
+
+
+	app.post('/cities/create', function(req, res){
+		var city = new CityModel(req.body.city);
+		city.save(function(err){
+			if (err) throw err;
+			req.session.message = 'Ciudad creada correctamente';
+			res.redirect('states/edit/' + city.state);
 		});
 	});
 }

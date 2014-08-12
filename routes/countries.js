@@ -2,6 +2,7 @@ var CountryModel = require('../models/country').CountryModel;
 var CurrencyModel = require('../models/currency').CurrencyModel;
 var StateModel = require('../models/state').StateModel;
 var CityModel = require('../models/city').CityModel;
+var CheckAuth = require('../middleware/checkAuth');
 var _ = require('underscore');
 module.exports = function(app){
 
@@ -23,7 +24,7 @@ module.exports = function(app){
 	});
 
 
-	app.get('/countries/list', function(req, res){
+	app.get('/countries/list', CheckAuth.user, function(req, res){
 
 		CountryModel.find({}, function(err, countries){
 			if (err) throw err;
@@ -36,6 +37,55 @@ module.exports = function(app){
 		});
 
 	});
+
+
+	app.get('/countries/create', CheckAuth.user, function(req, res){
+		res.render('countries/create', {
+			title 		: 'Cargar pais'
+		});
+	});
+
+	app.post('/countries/create', CheckAuth.user, function(req, res){
+		var country = new CountryModel(req.body.country);
+		country.save(function(err){
+			if (err) throw err;
+			res.redirect('/countries');
+		});
+
+	});
+
+	app.get('/countries/edit/:id', CheckAuth.user, function(req, res){
+		CountryModel.findById(req.params.id, function(err, country){
+			if (err) throw err;
+			if(country){
+				StateModel.find({ country : country._id }, function(err, states){
+					res.render('countries/edit', {
+						title 		: 'Editar pais',
+						country 	: country,
+						states 		: states
+					});
+				});
+			}else{
+				res.redirect('/countries/list');
+			}
+		});
+	});
+
+	app.post('/countries/edit', CheckAuth.user, function(req, res){
+		CountryModel.findById(req.body.country_id, function(err, country){
+			if (err) throw err;
+			if(country){
+				country.name = req.body.country.name;
+				country.modified = new Date();
+				country.save(function(err){
+					if (err) throw err;
+					res.redirect('/countries/list');
+				});
+			}
+		})
+
+	});
+
 
 	app.get('/countries/initialize', function(req, res){
 		CurrencyModel.findOne().exec(function(err,currency){
@@ -70,7 +120,7 @@ module.exports = function(app){
 								});
 
 							} else {
-								
+
 							}
 						});
 						var state = new StateModel();
@@ -102,7 +152,7 @@ module.exports = function(app){
 							} else {
 								console.log("Error: - " + err);
 							}
-						}); 
+						});
 						var state = new StateModel();
 						state.name = 'Buenos Aires'
 						state.country = country._id
@@ -141,7 +191,7 @@ module.exports = function(app){
 							} else {
 								console.log("Error: - " + err);
 							}
-						}); 
+						});
 						var state = new StateModel();
 						state.name = 'Cordoba'
 						state.country = country._id
@@ -162,7 +212,7 @@ module.exports = function(app){
 							} else {
 								console.log("Error: - " + err);
 							}
-						}); 
+						});
 						var state = new StateModel();
 						state.name = 'Mendoza'
 						state.country = country._id
@@ -182,7 +232,7 @@ module.exports = function(app){
 							} else {
 								console.log("Error: - " + err);
 							}
-						}); 
+						});
 						var state = new StateModel();
 						state.name = 'Corrientes'
 						state.country = country._id
@@ -202,13 +252,13 @@ module.exports = function(app){
 							} else {
 								console.log("Error: - " + err);
 							}
-						});  
+						});
 					})
 					} else {
 						console.log("Error: - " + err);
 					}
-				}); 
-				
+				});
+
 				var country = new CountryModel();
 				country.name = 'Mexico'
 				country.save(function(err){
@@ -234,7 +284,7 @@ module.exports = function(app){
 								} else {
 									console.log("Error: - " + err);
 								}
-							}); 
+							});
 							var state = new StateModel();
 							state.name = 'Morelia'
 							state.country = country._id
@@ -244,7 +294,7 @@ module.exports = function(app){
 								} else {
 									console.log("Error: - " + err);
 								}
-							}); 
+							});
 							var state = new StateModel();
 							state.name = 'Acapulco'
 							state.country = country._id
@@ -254,12 +304,12 @@ module.exports = function(app){
 								} else {
 									console.log("Error: - " + err);
 								}
-							}); 
+							});
 						})
 					} else {
 						console.log("Error: - " + err);
 					}
-				}); 
+				});
 				var country = new CountryModel();
 				country.name = 'Puerto Rico'
 				country.save(function(err){
@@ -280,7 +330,7 @@ module.exports = function(app){
 					} else {
 						console.log("Error: - " + err);
 					}
-				}); 
+				});
 
 			})
 			CountryModel.findOne({"name":"Argentina"}).exec(function(){

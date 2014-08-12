@@ -1,4 +1,3 @@
-// my-template.jade
 extends ../home
 
 block content
@@ -12,26 +11,33 @@ block content
 	include ../partials/deals/checkout_link
 	.col-md-3.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
 	.deal_body.col-md-9.pull-left
+<<<<<<< HEAD
 		table.table-condensed
+=======
+		.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+		br
+		br
+		table.table
+>>>>>>> 685398acc4ccd05ede75e2b41828e43b1f71edfb
 			tr
-				td Titulo:
+				td Titulo
 				td #{deal.title}
 			tr
-				td Subtitulo:
+				td Subtitulo
 				td #{deal.tagline}
 			tr
-				td Link:
+				td Link
 				td #{deal.slug}
 			tr
-				td Caracteristicas:
+				td Caracteristicas
 				td #{deal.characteristics}
 			tr
-				td Condiciones:
+				td Condiciones
 				td #{deal.conditions}
 		br
 		.alert.alert-info
 			p Podrás canjear esta oferta a partir del día #{deal.start_redeem.getDate()} / #{deal.start_redeem.getMonth()+1} / #{deal.start_redeem.getFullYear()}  y hasta el día #{deal.end_redeem.getDate()} / #{deal.end_redeem.getMonth()+1} / #{deal.end_redeem.getFullYear()} 
+
 		include ../partials/questions/container
 	-var store = deal.store 
-	.col-md-3.pull-right
-		include ../partials/store/store
+	include ../partials/store/store

@@ -1,7 +1,7 @@
-.thumbnail
-	img(src="/photos/stores/#{store.images[0].filename}")
+.well.col-md-3.pull-right
+	img(src="/photos/stores/#{store.images[0].filename}").thumbnail.img-responsive
 	.caption
 		h3 #{store.name} 
 		p #{store.about} 
 		p #{store.email} 
-		a(class="btn btn-primary", role="button", href="/stores/#{store._id}")
+		a(class="btn btn-primary", role="button", href="/stores/#{store._id}") Ver

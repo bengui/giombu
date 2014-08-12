@@ -20,7 +20,6 @@ body {
 #center {width: 60%; padding: 20px 10px 0 20px;}
 #news {width: 20%}
 
-.feed_container{height:500px;overflow-y:scroll;}
 .original {font: normal 18px 'robotolight', Arial, Helvetica, sans-serif;color: #666;text-decoration: line-through; }
 .dto {margin: 0 10px;padding: 0;font: normal 20px 'robotobold', Arial, Helvetica, sans-serif;color: #333; font-weight: bold;}
 .price {margin: 0;font: normal 24px 'robotobold', Arial, Helvetica, sans-serif;color: #690; font-weight: bold;}
@@ -29,4 +28,17 @@ body {
 .user_img{ width:64px;}
 
 .carousel-inner .item.active img {width: 100%; overflow-y: hidden;}
+
+
+.no-margin-top{
+	margin-top: 0px;
+}
+
+.no-margin-bottom{
+	margin-bottom: 0px;
+}
+
+.feed_container{
+	width:600px;
+}
 

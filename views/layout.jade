@@ -4,14 +4,15 @@ html
 		meta(charset='utf-8')
 		title= title
 		include includes/scripts
-	body(style="background-image:url('/img/background.jpg');background-size: 100%;background-attachment:fixed;")
-		.container
+	body(style="background-color:#FFFFFF")
+		.container_fluid
 			#conversations_div
 			#navbar
 			include includes/includes_intranet/head
-			.menu.pull-left.col-md-2
+			.menu.col-md-2
 				include includes/includes_intranet/menu
-			.content.pull-left.col-md-8
+			.content.col-md-10
 				include includes/includes_intranet/center
-			.news.pull-left.col-md-2
-				include includes/includes_intranet/news
+			//- .news.col-md-2
+			//- 	include includes/includes_intranet/news
+			include includes/footer

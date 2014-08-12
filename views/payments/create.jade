@@ -14,46 +14,56 @@ block content
 			input(type="checkbox", name="selectAll", id="selectAll")
 			.validation_message
 		form(class="payment_selector",method="post", id="create_payment", name="create_payment", action="/payments/new")
+			-if(bankaccounts.length > 0)
+				h3 Cuenta Destino
+				table.table.misbonos
+					tr
+						th
+						th Banco - Nro Cuenta
+					-each bankaccount in bankaccounts
+						tr
+							td
+								-if(bankaccount._id === bankaccounts[0]._id)
+									input(type="radio", name="bank_account", id="bank_account",checked="true", value="#{bankaccount._id}") 
+								-else
+									input(type="radio", name="bank_account", id="bank_account", value="#{bankaccount._id}") 
+							td
+								label(for="bank_account") #{bankaccount.bank_name} - #{bankaccount.bank_number}
 			-if(typeof bonuses !== "undefined")
 				h3 Bonos
-				table
-					-each bonus in bonuses
+				table.table.misbonos
+					tr
+						th
+						th Usuario
+						th Monto
+						th Estado
+						th Fecha
+						th 
+					-if (bonuses)
+						-each bonus in bonuses
+							include ../partials/bonuses/bonus_selector
+				h3 Comisiones
+				table.table.misbonos
+					tr
+						th
+						th Monto
+						th Estado
+						th Fecha
+						th 
+					-each commission in commissions	
 						tr
-							td
-								-if(bonus.paid_date)
-									span.label.label-success Cobrado
-								-else
-									span.label No cobrado
-							td
-								label #{bonus.created} $ #{bonus.amount}
-									input(type="checkbox",class="select_list", name="bonuses", amount="#{bonus.amount}" ,value="#{bonus._id}") 
-						
-			-if(typeof user.promoter[0] !== "undefined")
-				h3 Comisiones promotor
-				table
-					-each commission in user.promoter[0].commissions	
-						tr
-							td
-								-if(commission.paid_date)
-									span.label.label-success Cobrado
-								-else
-									span.label No cobrado
-							td
-								label #{commission.created} $ #{commission.amount}
-									input(type="checkbox",class="select_list", name="commissionsPromoter", amount="#{commission.amount}", value="#{commission._id}")
-			-if(typeof user.promoter[0] !== "undefined")
-				h3 Comisiones vendedor
-				table
-					-each commission in user.seller[0].commissions	
-						tr
-							td
-								-if(commission.paid_date)
-									span.label.label-success Cobrado
-								-else
-									span.label No cobrado
-							td
-								label #{commission.created} $ #{commission.amount}
-									input(type="checkbox",class="select_list", name="commissionsSeller", amount="#{commission.amount}", value="#{commission._id}") 
-			input(type="button", value="Crear pago" , class="create_payment") 
+							include ../partials/commissions/commission_selector
+			-if(bankaccounts.length !== 0)
+				-if (payment)
+					input(type="button", value="Crear pago" , disabled="true", class="create_payment")
+					div(class="alert alert-warning", role="alert")
+						span No puede crear nuevos pagos si ya ha realizado uno en la ultima semana.
+						span Ultimo pago creado el #{payment.created}
+				-else
+					input(type="button", value="Crear pago" , class="create_payment")
+			-else
+				div(class="alert alert-danger", role="alert")
+						span No puede realizar el cobro. No posee una cuenta bancaria asociada a su cuenta de usuario. 
+				
 				
 

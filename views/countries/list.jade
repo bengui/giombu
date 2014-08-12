@@ -1,12 +1,22 @@
 extends ../layout
 
 block content
-	.span9
+	div(class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true")
+		div(class="modal-dialog modal-sm")
+			div(class="modal-content")
+			|Hello
+	.col-md-12
+		a(href="/countries/create") Cargar pais
 		h3 Lista de Paises
-		table.table_deal_list
-			tr
-				th Nombre
-			-each country in countries
-				tr
-					td #{country.name}
-					
+		br
+		table.table
+			tbody.table-striped
+				-each country in countries
+					tr
+						td.col-md-4
+							|#{country.name}
+						td.col-md-4
+							a(href="/countries/edit/#{country._id}") Editar
+						td.col-md-4
+							//button(data-toggle="modal" data-target=".bs-example-modal-sm").text-danger Eliminar
+							a(href="#").text-danger Eliminar

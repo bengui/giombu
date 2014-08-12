@@ -5,6 +5,7 @@ var sessionSockets;
 var private_config = require('../private_config');
 var mailer = require('express-mailer');
 var RolesHelper	= require('../helpers/checkAuth');
+var util = require('../helpers/util');
 
 module.exports = function(app){
 
@@ -28,8 +29,8 @@ module.exports = function(app){
 		store :  sessionStore 
 	}));
 	app.use(express.bodyParser());
-	// expose session to views
 	app.use(function (req, res, next) {
+		// expose session to views
 		if(typeof req.session.expose === 'undefined'){
 			req.session.expose = {};
 		}
@@ -49,6 +50,7 @@ module.exports = function(app){
 			delete req.session.error;	
 		}
 		res.locals.RolesHelper = RolesHelper;
+		res.locals.util = util;
 		res.locals.expose = req.session.expose;
 		next();
 	});

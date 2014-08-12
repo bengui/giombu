@@ -1,0 +1,29 @@
+extends ../layout
+
+block content
+	h3 Editar País
+	br
+	form(method='post', id="country_edit", action='/countries/edit').form-horizontal
+		input(name='country_id', type='hidden', value='#{country._id}')
+		.form-group
+			label.col-md-2.control-label Nombre:
+			.col-md-8
+				input(name='country[name]', type='text', value='#{country.name}').form-control.input-sm
+		.form-group
+			.col-sm-offset-2.col-sm-8
+				button(type='submit').btn.btn-default Guardar
+
+	br
+	br
+	a(href="/states/create/#{country._id}") Crear Estado / Provincia
+	h3 Estados / Provincias
+	br
+	table.table
+		tbody.table-striped
+			-each state in states
+				tr
+					td #{state.name}
+					td
+						a(href="/states/edit/#{state._id}") Editar
+					td
+						a(href="#").text-danger Eliminar
