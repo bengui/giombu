@@ -7,10 +7,12 @@ block content
 	-var param = 'deals'
 	-var title = deal.title
 	-var description = deal.characteristics
-	include ../partials/images/carousel
+	.col-md-9
+		include ../partials/images/carousel
+	include ../partials/deals/checkout_link
+	.col-md-3.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
 	.deal_body.col-md-9.pull-left
-		.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
-		table.table
+		table.table-condensed
 			tr
 				td Titulo:
 				td #{deal.title}
@@ -30,7 +32,6 @@ block content
 		.alert.alert-info
 			p Podrás canjear esta oferta a partir del día #{deal.start_redeem.getDate()} / #{deal.start_redeem.getMonth()+1} / #{deal.start_redeem.getFullYear()}  y hasta el día #{deal.end_redeem.getDate()} / #{deal.end_redeem.getMonth()+1} / #{deal.end_redeem.getFullYear()} 
 		include ../partials/questions/container
-	include ../partials/deals/checkout_link
 	-var store = deal.store 
 	.col-md-3.pull-right
 		include ../partials/store/store

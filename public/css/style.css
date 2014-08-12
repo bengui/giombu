@@ -5,6 +5,7 @@ body {
 .fleft {float: left;}
 .fright {float: right;}
 .clear {clear: both;}
+.center {float: center;}
 
 .space{margin: 5px !important}
 
@@ -28,3 +29,4 @@ body {
 .user_img{ width:64px;}
 
 .carousel-inner .item.active img {width: 100%; overflow-y: hidden;}
+
