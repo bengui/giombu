@@ -19,7 +19,9 @@
 		-if(RolesHelper.promoter(expose.user))
 			li.nav-header Promotores
 			li
-				a(href='/intranet/promoters/list_sons/0') Listado
+				a(href='/promoters/#{expose.user._id}') Ver
+			li
+				a(href='/promoters/register') Editar
 		-if(RolesHelper.partner(expose.user))
 			li.nav-header Socios
 			li
@@ -45,19 +47,17 @@
 		li
 			a(href='/payments/create') Pagos
 		li
-			a(href='/intranet/products/list') Productos
-		li
 			a(href='/users') Usuarios
 		li
 			a(href='/countries/list') Paises
 		li
-			a(href='/intranet/franchisors/list') Franquiciantes
+			a(href='/franchisors/list') Franquiciantes
 		li
 			a(href='/stores/list') Comercios
 		li
-			a(href='/intranet/sellers/list') Vendedores
+			a(href='/sellers/list') Vendedores
 		li
-			a(href='/intranet/currencies/list') Monedas
+			a(href='/currencies/list') Monedas
 		li
 			a(href="/bank_accounts/list") Cuentas Bancarias
 			

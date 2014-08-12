@@ -20,25 +20,29 @@ module.exports = function(app){
 
 
 	//Este regex nos permite pedir la misma funcion como json, para usar donde necesitamos elegir quien nos invito y similar.
-	app.get('/users:format(.json)?', function(req, res, next){
+	app.get('/users.json', function(req, res, next){
 		UserModel.find().exec( function(err, users){
 			if (err) throw err;
-			if(req.params.format){
 				usernames = [];
 				for (var i = users.length - 1; i >= 0; i--) {
 					usernames.push(users[i].username)
 				};
 				res.send(usernames)
-			}
+		});
+	});
+	app.get('/users', function(req, res, next){
+		UserModel.find().exec( function(err, users){
+			if (err) throw err;
+			
 			res.render('users/list', {title: 'Lista de usuarios', users:users});
 		});
 	});
 
 
-	app.get('/users/create', function(req, res){
+	app.get('/users/create/:username?', function(req, res){
 		CountryModel.find({}, function(err, countries){
 			if (err) throw err;
-
+			console.log(req.params.username)
 			StateModel.find({}, function(err, states){
 				if (err) throw err;
 
@@ -49,7 +53,8 @@ module.exports = function(app){
 						title 		: 'Registro',
 						countries 	: countries,
 						states		: states,
-						cities		: cities
+						cities		: cities,
+						username 	: req.params.username
 					});
 
 				});
@@ -155,7 +160,7 @@ module.exports = function(app){
 						req.session.expose.user = {};
 						req.session.expose.user = user;
 
-
+						console.log(user);
 						updateUserLevel(req, res, function(){
 							req.session.message = 'Hola!';
 

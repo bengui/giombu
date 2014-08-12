@@ -1,0 +1,25 @@
+// my-template.jade
+extends ../layout
+
+//Bloque de contenido.
+block content
+	div( class='contenedor')
+		div( class='container_form')
+			form(method='post', id="promoters_register" ,action='/promoters/update')
+				label Titulo de tu página personal
+					input(name='page_title', type='text' ,class="required", value="#{user.promoter[0].page_title}") 
+					br
+				label Cuerpo de la página personal
+					textarea(name='page_body', rows="13", cols="70",type='text',class="required") #{user.promoter[0].page_body} 
+					br
+				label Invitación a suscriptores
+					textarea(name='subscribers_invite',rows="13", cols="70", type='text',class="required")	#{user.promoter[0].subscribers_invite}
+					br
+				label Fuiste invitado por
+					-if(typeof user.promoter[0].parent_id !== "undefined")
+						input(name='parent_id',data-items="4", data-provide="typeahead", placeholder="Usuario", class="form-control input-sm users_input typeahead", value="#{parent.username}", type='select') 
+					-else
+						input(name='parent_id',data-items="4", data-provide="typeahead", placeholder="Usuario", class="form-control input-sm users_input typeahead",value="#{expose.user.promoter_id.username", type='select') 
+					br
+					input(name='submit', type='submit') 
+					br

@@ -7,7 +7,11 @@ var checkAuth = require('../middleware/checkAuth');
 module.exports = function(app){
 
 	app.get('/promoters/register', checkAuth.user , function (req, res, next) {
-		res.render('promoters/register', {title: 'Registro de Promotor' , user:req.session.user});
+		if(req.session.user.promoter.length > 0){
+			res.redirect('/promoters/edit')
+		}
+		res.render('promoters/register', {title: 'Registro de Promotor' });
+		
 	});
 
 
@@ -44,7 +48,8 @@ module.exports = function(app){
 						user.save(function(err){
 							if (err) throw err;
 							console.log(user);
-							res.render('users/register', {title: 'Cargar Oferta'});
+							req.session.user=user;
+							res.render('users/register', {title: 'Cargar Perfil de Promotor'});
 						});
 
 					});
@@ -62,6 +67,38 @@ module.exports = function(app){
 
 	});
 
+	app.get('/promoters/edit', checkAuth.user , function (req, res, next) {
+
+		UserModel.findById( req.session.user._id , function(err, user){
+			if (err) throw err;
+			UserModel.findById( req.session.user.promoter[0].parent_id , function(err, parent){
+				res.render('promoters/edit', {title: 'Edicion de perfil de promotor', user:user, parent:parent});
+			});
+		});
+	});
+
+
+	app.post('/promoters/update', function (req, res, next) {
+		UserModel.findOne({username: req.body.parent_id}, function(err, inviter){
+			UserModel.update( { _id : req.session.user._id }, { "promoter.0.page_title" : req.body.page_title,
+																"promoter.0.page_body" : req.body.page_body,
+																"promoter.0.subscribers_invite" : req.body.subscribers_invite,
+																"promoter.0.parent_id" : inviter._id,
+																"promoter.0.page_title" : req.body.page_title
+															} , callback);
+			function callback (err, numAffected) {
+			  	res.redirect('/promoters/'+req.session.user._id.toString());
+			}
+		});
+	});
+
+	app.get('/promoters/:id', checkAuth.user , function (req, res, next) {
+
+		UserModel.findById( req.params.id , function(err, user){
+			if (err) throw err;
+			res.render('promoters/view', {title: 'Perfil de promotor', user:user});
+		});
+	});
 
 	app.get('/intranet/promoters/list_sons/:start_item', function (req, res, next) {
 		var query = UserModel.find({ 'promoter.parent_id': req.session.user._id });
