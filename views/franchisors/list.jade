@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+	a(href="/franchisors/create") Cargar Franquiciante
+	h3 Lista de Franquiciantes
+	br
+	table.table
+		tbody.table-striped
+			-each franchisor in franchisors
+				tr
+					td.col-md-4
+						|#{franchisor.name}
+					td.col-md-4
+						a(href="/franchisors/edit/#{franchisor._id}") Editar

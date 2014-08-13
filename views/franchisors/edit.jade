@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+	h3 Editar Franquiciante
+	br
+	form(method='post', id="franchisor_edit", action='/franchisors/edit').form-horizontal
+		input(name='franchisor_id', type='hidden', value='#{franchisor._id}')
+		.form-group
+			label.col-md-2.control-label Nombre:
+			.col-md-8
+				input(name='franchisor[name]', type='text', value='#{franchisor.name}').form-control.input-sm
+		.form-group
+			.col-sm-offset-2.col-sm-8
+				button(type='submit').btn.btn-default Guardar

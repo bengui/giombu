@@ -1,7 +1,9 @@
 var FranchisorModel = require('../models/franchisor').FranchisorModel;
 var CurrencyModel = require('../models/currency').CurrencyModel;
 var CountryModel = require('../models/country').CountryModel;
-
+var mongoose = require('mongoose');
+var CheckAuth = require('../middleware/checkAuth');
+var Encrypter = require('../helpers/encryption');
 module.exports = function(app){
 
 
@@ -69,10 +71,56 @@ module.exports = function(app){
 		});
 	});
 
+	app.get('/franchisors/create', CheckAuth.user, function(req, res){
+		res.render('franchisors/create', {
+			title 		: 'Cargar franquiciante'
+		});
+	});
+
+	app.post('/franchisors/create', CheckAuth.user, function(req, res){
+		var franchisor = new FranchisorModel(req.body.franchisor);
+		franchisor.save(function(err){
+			if (err) throw err;
+			res.redirect('/franchisors');
+		});
+
+	});
+
+	app.get('/franchisors/edit/:id', CheckAuth.user, function(req, res){
+		FranchisorModel.findById(req.params.id, function(err, franchisor){
+			if (err) throw err;
+			if(franchisor){
+				res.render('franchisors/edit', {
+					title 		: 'Editar franquiciante',
+					franchisor 	: franchisor
+				});
+			}else{
+				res.redirect('/franchisors');
+			}
+		});
+	});
+
+	app.post('/franchisors/edit', CheckAuth.user, function(req, res){
+		FranchisorModel.findById(req.body.franchisor_id, function(err, franchisor){
+			if (err) throw err;
+			if(franchisor){
+				franchisor.name = req.body.franchisor.name;
+				franchisor.modified = new Date();
+				franchisor.save(function(err){
+					if (err) throw err;
+					res.redirect('/franchisors');
+				});
+			}
+		})
+
+	});
 	app.get('/franchisors', function(req, res, next){
 		FranchisorModel.find().sort("-name").exec( function(err, franchisors){
 			if (err) throw err;
-			res.json(franchisors);
+			res.render('franchisors/list', {
+				title 		: 'Lista de franquiciantes',
+				franchisors 	: franchisors
+			});
 		});
 	});
 	app.get('/franchisors/:id:format(.json)?', function(req, res, next){
