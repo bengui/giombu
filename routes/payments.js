@@ -41,9 +41,9 @@ module.exports = function(app){
 	});
 
 	app.get('/payments',CheckAuth.user, function(req, res, next){
-		PaymentModel.find({}).exec( function(err, payments){
+		PaymentModel.find({"user": req.session.user._id, "bonuses": { $exists: true },  "commissions": { $exists: true },"bank_account": { $exists: true }}).populate("bank_account").populate("bonuses").populate("commissions").exec( function(err, payments){
 			if (err) throw err;
-			res.json(payments);
+			res.render('payments/list', {title: 'Seccion de pagos' , payments:payments});
 		});
 	});
 
@@ -103,4 +103,5 @@ module.exports = function(app){
 
 		
 	});
+
 }

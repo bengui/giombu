@@ -9,8 +9,8 @@ var PaymentSchema = new mongoose.Schema({
 	user				: { type: mongoose.Schema.ObjectId, ref: 'User'},
 	bank_account		: { type: mongoose.Schema.ObjectId, ref: 'BankAccount'},
 	currency			: { type: mongoose.Schema.ObjectId, ref: 'Currency'},
-	commissions			: [{ type: mongoose.Schema.ObjectId, ref: 'Commissions'}],
-	bonuses				: [{ type: mongoose.Schema.ObjectId, ref: 'Bonuses'}],
+	commissions			: [{ type: mongoose.Schema.ObjectId, ref: 'Commission'}],
+	bonuses				: [{ type: mongoose.Schema.ObjectId, ref: 'Bonus'}],
 	created				: { type: Date, default:Date.now },
 	modified			: { type: Date, default:Date.now}
 });
