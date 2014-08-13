@@ -2,90 +2,90 @@
 extends ../layout
 
 block content
-	a(href="/stores/create_store_branch") Crear nuevo comercio
+	h4 Crear nuevo comercio
 	br
-	.col-md-5
-		form(method='post', id="form_create_store_branch", action='/stores/add_store_branch').form-horizontal
-			.form-group
-				label.col-md-4 name
-				.col-md-8
-					input(name='store[name]', type='text' ,class="required").form-control.input-sm
-			.form-group
-				label.col-md-4 email
-				.col-md-8
-					input(name='store[email]', type='text',class="required").form-control.input-sm
-			.form-group
-				label.col-md-4 country
-				.col-md-8
-					select(name="store[country]", id="country_selector").form-control.input-sm
-						option(value="0") Selecciona Pais
-						-each country in countries
-							option(value="#{country._id}") #{country.name}
-			.form-group
-				label.col-md-4 franchisor
-				.col-md-8
-					select(name="store[franchisor]", id="franchisor_selector").form-control.input-sm
-					
-			.form-group
-				label.col-md-4 about
-				.col-md-8
-					input(name='store[about]', type='text' ,class="required").form-control.input-sm
-			
+	form(method='post', id="form_create_store_branch", action='/stores/add_store_branch').form-horizontal
+		.form-group
+			label.col-md-2.control-label Nombre:
+			.col-md-6
+				input(name='store[name]', type='text', class="form-control required")
+		.form-group
+			label.col-md-2.control-label Email:
+			.col-md-6
+				input(name='store[email]', type='text', class="form-control required")
+		.form-group
+			label.col-md-2.control-label País:
+			.col-md-4
+				select(name="store[country]", id="country_selector", class="form-control required")
+					option(value="0") Selecciona Pais
+					-each country in countries
+						option(value="#{country._id}") #{country.name}
+		.form-group
+			label.col-md-2.control-label Franquiciante:
+			.col-md-4
+				select(name="store[franchisor]", id="franchisor_selector", class="form-control required")
+				
+		.form-group
+			label.col-md-2.control-label Sobre el comercio:
+			.col-md-6
+				input(name='store[about]', type='text' ,class="form-control required")
+		
 
 
-			br
-			h4 Informacion de la Sucursal
-
-			.form-group
-				label.col-md-4 name
-				.col-md-8
-					input(name='branch[name]', type='text' ,class="required").form-control.input-sm
-			.form-group
-				label.col-md-4 state
-				.col-md-8
-					select(name="branch[state]", id="state_selector").form-control.input-sm
-			.form-group
-				label.col-md-4 city
-				.col-md-8
-					select(name="branch[city]", id="city_selector").form-control.input-sm
-			.form-group
-				label.col-md-4 franchise
-				.col-md-8
-					select(name="branch[franchise]", id="franchise_selector").form-control.input-sm
-
-			.form-group
-				label.col-md-4 address
-				.col-md-8
-					input(name='branch[address]', type='text' ,class="required").form-control.input-sm
-			.form-group
-				label.col-md-4 zip
-				.col-md-8
-					input(name='branch[zip]', type='text').form-control.input-sm
-			.form-group
-				label.col-md-4 phone
-				.col-md-8
-					input(name='branch[phone]', type='text').form-control.input-sm
-			.form-group
-				label.col-md-4 email
-				.col-md-8
-					input(name='branch[email]', type='text' ,class="required email").form-control.input-sm
-			.form-group
-				label.col-md-4 website
-				.col-md-8
-					input(name='branch[website]', type='text').form-control.input-sm
-			.form-group
-				label.col-md-4 fanpage
-				.col-md-8
-					input(name='branch[fanpage]', type='text').form-control.input-sm
-			.form-group
-				label.col-md-4 twitter
-				.col-md-8
-					input(name='branch[twitter]', type='text').form-control.input-sm
-			.form-group
-				label.col-md-4 Usuario que tiene la sucursal asignada: 
-				.col-md-8
-					input(type='text', name="branch[partner]", id='branch_partner', placeholder="Usuario" ,class="users_input typeahead", value="#{expose.user.username}" , data-provide="typeahead", data-items="4").form-control.input-sm
-			.form-group
-				button(type='submit' id='submit_btn').btn.btn-default Save
+		br
+		h4 Informacion de la Sucursal
+		br
+		.form-group
+			label.col-md-2.control-label Nombre:
+			.col-md-6
+				input(name='branch[name]', type='text' ,class="form-control required")
+		.form-group
+			label.col-md-2.control-label Provincia:
+			.col-md-4
+				select(name="branch[state]", id="state_selector", class='form-control')
+		.form-group
+			label.col-md-2.control-label Ciudad:
+			.col-md-4
+				select(name="branch[city]", id="city_selector", class='form-control')
+		.form-group
+			label.col-md-2.control-label Franquicia:
+			.col-md-4
+				select(name="branch[franchise]", id="franchise_selector", class="form-control required")
+		.form-group
+			label.col-md-2.control-label Dirección:
+			.col-md-6
+				input(name='branch[address]', type='text',class='form-control')
+		.form-group
+			label.col-md-2.control-label Codigo Postal:
+			.col-md-3
+				input(name='branch[zip]', type='text', class='form-control')
+		.form-group
+			label.col-md-2.control-label Teléfono:
+			.col-md-3
+				input(name='branch[phone]', type='text', class='form-control')
+		.form-group
+			label.col-md-2.control-label Email:
+			.col-md-6
+				input(name='branch[email]', type='text' ,class='form-control required email')
+		.form-group
+			label.col-md-2.control-label Web:
+			.col-md-6
+				input(name='branch[website]', type='text', class='form-control')
+		.form-group
+			label.col-md-2.control-label Fanpage:
+			.col-md-6
+				input(name='branch[fanpage]', type='text', class='form-control')
+		.form-group
+			label.col-md-2.control-label Twitter:
+			.col-md-6
+				input(name='branch[twitter]', type='text', class='form-control')
+		.form-group
+			label.col-md-4.control-label Usuario que tiene la sucursal asignada: 
+			.col-md-6
+				input(type='text', name="branch[partner]", id='branch_partner', placeholder="Usuario" ,class="form-control users_input typeahead", value="#{expose.user.username}" , data-provide="typeahead", data-items="4")
+		br
+		.form-group
+			.col-sm-offset-1.col-sm-8
+				button(type='submit' id='submit_btn').btn.btn-primary Save
 
 	script(tpye="text/javascript" src="/js/stores/create_store_branch.js")

@@ -11,14 +11,11 @@ block content
 	include ../partials/deals/checkout_link
 	.col-md-3.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
 	.deal_body.col-md-9.pull-left
-<<<<<<< HEAD
 		table.table-condensed
-=======
 		.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
 		br
 		br
 		table.table
->>>>>>> 685398acc4ccd05ede75e2b41828e43b1f71edfb
 			tr
 				td Titulo
 				td #{deal.title}
