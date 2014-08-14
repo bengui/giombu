@@ -1,6 +1,6 @@
 
 exports.make_news_string = function (item){
-    if(typeof item.event !== "undefined"){
+    if(typeof item !== "undefined"){
          if(typeof item.event !== "undefined"){
               if(typeof item.event.body !== "undefined"){
                  var New_String,String_Deal ;
