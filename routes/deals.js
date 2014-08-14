@@ -336,7 +336,9 @@ module.exports = function (app){
 	//Si la ruta matchea entra por esta, necesitamos distintas rutas Nico 4/6
 	app.get('/deals/review/:id', CheckAuth.user,  CheckAuth.seller, function(req, res, next){
 		DealModel.findOne({"_id": req.params.id })
-		.populate('store').populate("images")
+		.populate('store')
+		.populate("images")
+		.populate('seller')
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){

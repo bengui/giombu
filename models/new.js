@@ -9,7 +9,7 @@ var NewSchema = new mongoose.Schema({
 	event  		: { type: mongoose.Schema.ObjectId, ref: 'Event' },
 	created    	:  {type: Date, default: Date.now },
 	informed	: {type: Boolean, default: false},
-	modified    :   Date	
+	modified    :   Date
 })
 
 exports.NewModel = mongoose.model('New', NewSchema);

@@ -1,5 +1,8 @@
 .well.col-md-3.pull-right
-	img(src="/photos/stores/#{store.images[0].filename}").thumbnail.img-responsive
+	-if(store.images[0])
+		img(src="/photos/stores/#{store.images[0].filename}").thumbnail.img-responsive
+	-else
+		img(src="/photos/stores/store.jpg").thumbnail.img-responsive
 	.caption
 		h3 #{store.name} 
 		p #{store.about} 
