@@ -30,6 +30,7 @@ $(document).ready(function(){
             element.prepend(close_btn);
             li.append(element);
             $('.feed_container').prepend(li);
+            $('#feed_button').removeClass( "disabled" );
             $('#feed_button').removeClass( "btn-default" ).addClass( "btn-success" );
     });
 
@@ -42,7 +43,11 @@ $(document).ready(function(){
         });
         if(!hasVisibleElements){
             $('#feed_button').removeClass( "btn-success" ).addClass( "btn-default" );
+            // $('#feed_button').addClass( "disabled" );
+        }else{
+            $('#feed_button').removeClass( "disabled" );
         }
+
     });
 
 

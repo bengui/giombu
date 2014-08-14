@@ -47,9 +47,9 @@ module.exports = function(app){
 			new_new.save(function(err){
 				if (err) throw err;
 
-				UserModel.findById(new_new.to_user, function(err, user_to){
+				UserModel.findById(new_new.to_user, function(err, user_target){
 					if (err) throw err;
-					if(user_to){
+					if(user_target){
 
 						var data = {};
 						data.message = event.body
@@ -57,7 +57,7 @@ module.exports = function(app){
 							.replace('%d', deal.title)
 							.replace('%a', commission.amount);
 						data.title = 'Comision';
-						sendNew(user, data);
+						sendNew(user_target, data);
 					}
 				});
 			});

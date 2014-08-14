@@ -1,0 +1,8 @@
+extends ../layout
+
+block content
+	-each new_element in news_list
+		.well
+			strong #{new_element.title}
+			p #{new_element.message}
+			small.text-muted.pull-right #{new_element.date}

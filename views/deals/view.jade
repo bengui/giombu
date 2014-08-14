@@ -131,7 +131,8 @@ block content
 				tr
 					td.pull-right 
 						strong Vendedor:
-					td #{deal.seller}
+					td
+						=deal.seller.name + ' ' + deal.seller.lname
 				tr
 					td.pull-right 
 						strong Franquiciante:
