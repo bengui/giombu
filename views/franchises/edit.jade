@@ -16,7 +16,10 @@ block content
 		.form-group
 				label.col-md-2.control-label Default:
 				.col-md-8
-					input(name='franchise[is_default]',value='#{franchise.is_default}', type='checkbox').form-control.input-sm
+				-if(franchise.is_default)
+					input(name='franchise[is_default]',checked="true", type='checkbox').form-control.input-sm
+				-else
+					input(name='franchise[is_default]', type='checkbox').form-control.input-sm
 		.form-group
 				label.col-md-2.control-label Zona horaria:
 				.col-md-8

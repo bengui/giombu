@@ -123,7 +123,7 @@ module.exports = function(app){
 				franchise.modified = new Date();
 				franchise.save(function(err){
 					if (err) throw err;
-					res.redirect('/franchises/#{franchise.franchisor}');
+					res.redirect('/franchises/'+franchise.franchisor);
 				});
 			}
 		})
