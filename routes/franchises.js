@@ -1,5 +1,8 @@
 var FranchiseModel = require('../models/franchise').FranchiseModel;
 var FranchisorModel = require('../models/franchisor').FranchisorModel;
+var mongoose = require('mongoose');
+var CheckAuth = require('../middleware/checkAuth');
+var Encrypter = require('../helpers/encryption');
 module.exports = function(app){
 
 
@@ -74,8 +77,60 @@ module.exports = function(app){
 		});
 	});
 
+
+	app.get('/franchises/create', CheckAuth.user, function(req, res){
+		FranchisorModel.find({}, function(err, franchisors){
+			res.render('franchises/create', {
+				title 		: 'Cargar franquicia',
+				franchisors : franchisors
+			});
+		});
+	});
+
+	app.post('/franchises/create', CheckAuth.user, function(req, res){
+		var franchise = new FranchiseModel(req.body.franchise);
+		franchise.save(function(err){
+			if (err) throw err;
+			res.redirect('/franchisors');
+		});
+
+	});
+
+	app.get('/franchises/edit/:id', CheckAuth.user, function(req, res){
+		FranchisorModel.find({}, function(err, franchisors){
+			FranchiseModel.findById(req.params.id, function(err, franchise){
+				if (err) throw err;
+				if(franchise){
+					res.render('franchises/edit', {
+						title 		: 'Editar franquiciante',
+						franchise 	: franchise
+					});
+				}else{
+					res.redirect('/franchisors');
+				}
+			});
+		});
+	});
+
+	app.post('/franchises/edit', CheckAuth.user, function(req, res){
+		FranchiseModel.findById(req.body.franchise_id, function(err, franchise){
+			if (err) throw err;
+			if(franchise){
+				franchise.name = req.body.franchise.name
+				franchise.slug = req.body.franchise.slug
+				franchise.timezone =req.body.franchise.timezone
+				franchise.is_default =req.body.franchise.is_default
+				franchise.modified = new Date();
+				franchise.save(function(err){
+					if (err) throw err;
+					res.redirect('/franchises/#{franchise.franchisor}');
+				});
+			}
+		})
+
+	});
+
 	app.post('/franchises', function(req, res, next){
-		franchisor = '53554009974bf07454b08ed8'
 		if(typeof req.session.user !== "undefined"){
 			if(typeof req.session.user.franchisor !== "undefined"){
 				if(req.session.user.franchisor.length>0){
@@ -89,10 +144,13 @@ module.exports = function(app){
 		});
 	});
 
-	app.get('/franchises', function(req, res, next){
-		FranchiseModel.find({'franchisor':franchisor}).sort("-name").exec( function(err, franchises){
+	app.get('/franchises/:id', function(req, res, next){
+		FranchiseModel.find({"franchisor":req.params.id}).sort("-name").exec( function(err, franchises){
 			if (err) throw err;
-			res.json(franchises);
+			res.render('franchises/list', {
+				title 		: 'Lista de franquicias',
+				franchises 	: franchises
+			});
 		});
 	});
 	

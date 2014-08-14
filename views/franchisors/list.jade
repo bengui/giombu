@@ -9,6 +9,6 @@ block content
 			-each franchisor in franchisors
 				tr
 					td.col-md-4
-						|#{franchisor.name}
+						a(href="/franchises/#{franchisor._id}") #{franchisor.name}
 					td.col-md-4
 						a(href="/franchisors/edit/#{franchisor._id}") Editar

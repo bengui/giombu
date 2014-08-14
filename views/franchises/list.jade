@@ -1,0 +1,20 @@
+extends ../layout
+
+block content
+	a(href="/franchises/create") Cargar Franquicia
+	h3 Lista de Franquicias
+	br
+	table.table
+		tbody.table-striped
+			-each franchise in franchises
+				tr
+					td.col-md-4
+						|#{franchise.name}
+					td.col-md-4
+						|#{franchise.slug}
+					td.col-md-4
+						|#{franchise.is_default}
+					td.col-md-4
+						|#{franchise.timezone}
+					td.col-md-4
+						a(href="/franchises/edit/#{franchise._id}") Editar

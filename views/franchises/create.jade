@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+	.col-md-8
+		h3 Nuevo Franquicia
+		br
+		form(method='post', id="franchise_create", action='/franchises/create').form-horizontal
+			.form-group
+					label.col-md-2.control-label Nombre:
+					.col-md-8
+						input(name='franchise[name]', type='text').form-control.input-sm
+			.form-group
+					label.col-md-2.control-label Nombre corto:
+					.col-md-8
+						input(name='franchise[slug]', type='text').form-control.input-sm
+			.form-group
+					label.col-md-2.control-label Default:
+					.col-md-8
+						input(name='franchise[is_default]', type='text').form-control.input-sm
+			.form-group
+					label.col-md-2.control-label Zona horaria:
+					.col-md-8
+						input(name='franchise[timezone]', type='text').form-control.input-sm
+			.form-group
+				.col-sm-offset-2.col-sm-8
+					button(type='submit').btn.btn-default Cargar
