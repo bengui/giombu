@@ -5,18 +5,23 @@ block content
 		div(class="modal-dialog modal-sm")
 			div(class="modal-content")
 			|Hello
-	.col-md-12
-		a(href="/countries/create") Cargar pais
+	.col-md-6
 		h3 Lista de Paises
+		.glyphicon.glyphicon-plus
+		a(href="#", data-toggle="modal", data-target="#CreateCountry")  Cargar pais		
 		br
-		table.table
+		br
+		table.table.table-condensed.table-hover
 			tbody.table-striped
 				-each country in countries
 					tr
-						td.col-md-4
+						td.col-md-6
 							|#{country.name}
-						td.col-md-4
-							a(href="/countries/edit/#{country._id}") Editar
-						td.col-md-4
+						td.col-md-2
+							.glyphicon.glyphicon-pencil
+							a(href="/countries/edit/#{country._id}")  Editar
+						td
 							//button(data-toggle="modal" data-target=".bs-example-modal-sm").text-danger Eliminar
-							a(href="#").text-danger Eliminar
+							.glyphicon.glyphicon-remove.text-danger
+							a(href="#").text-danger  Eliminar
+	include ../countries/create

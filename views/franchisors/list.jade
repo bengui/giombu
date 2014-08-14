@@ -1,14 +1,19 @@
 extends ../layout
 
 block content
-	a(href="/franchisors/create") Cargar Franquiciante
 	h3 Lista de Franquiciantes
+	.glyphicon.glyphicon-plus
+	a(href="/franchisors/create")  Cargar Franquiciante	
 	br
-	table.table
-		tbody.table-striped
-			-each franchisor in franchisors
-				tr
-					td.col-md-4
-						a(href="/franchises/#{franchisor._id}") #{franchisor.name}
-					td.col-md-4
-						a(href="/franchisors/edit/#{franchisor._id}") Editar
+	br
+	.col-md-6
+		table.table.table-condensed.table-hover
+			tbody.table-striped
+				-each franchisor in franchisors
+					tr
+						td.col-md-4
+							a(href="/franchises/#{franchisor._id}") #{franchisor.name}
+						td.col-md-2
+							.glyphicon.glyphicon-pencil
+							a(href="/franchisors/edit/#{franchisor._id}")  Editar
+

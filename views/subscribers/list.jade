@@ -3,8 +3,8 @@ extends ../layout
 block content
 	h3 Suscriptores
 	.well
-		p Filtros
-		select(type="text",name="filter", id="franchise_filter")
+		label.control-label Filtro de ciudades	:
+		select(type="text",name="filter", id="franchise_filter", class='form-control')
 			option(value="Todas") Todas
 			-each franchise in franchises
 				option(value="#{franchise.name}") #{franchise.name}
@@ -14,8 +14,7 @@ block content
 				td.well.franchise_subscription
 					h5 #{item.name} #{item.email}
 						if(item.franchise)
-							span.pull-right.franchise_name #{item.franchise.name}
-					span.pull-right
-						a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}") Borrar
-					
-					
+							span.pull-left.franchise_name #{item.franchise.name}
+						span.pull-right
+							.glyphicon.glyphicon-remove.text-danger	
+							a(href="subscribers/erase_subscriber/#{item.email}/#{franchise}").text-danger Borrar

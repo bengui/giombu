@@ -1,6 +1,6 @@
 .menu
 	include profile
-	ul(class="nav nav-pills small nav-stacked")
+	ul(class="nav nav-pills nav-stacked")
 		li.nav-header
 			span.glyphicon.glyphicon-star Ofertas
 		li
@@ -27,7 +27,8 @@
 			li
 				a(href='h1') Mi Tienda
 		-if(RolesHelper.seller(expose.user))
-			li.nav-header Vendedores
+			li.nav-header
+				span.glyphicon.glyphicon-shopping-cart Vendedores
 			li
 				a(href='/sellers/list') Ventas
 			li
@@ -59,7 +60,7 @@
 		li
 			a(href="/bank_accounts/list") Cuentas Bancarias
 		li.nav-header 
-			span.glyphicon.glyphicon-signal Pagos
+			span.glyphicon.glyphicon-usd Pagos
 		li
 			a(href='/payments') Lista
 		li
