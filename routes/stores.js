@@ -46,6 +46,18 @@ module.exports = function(app){
 		});
 	});
 
+	app.get('/stores/all', CheckAuth.user, function(req, res, next){
+
+		var query = {
+			status 		: 'active'
+		};
+
+		StoreModel.find(query, function(err, stores){
+			if(err) throw err;
+			res.render('stores/list', {title: 'Stores', stores : stores});
+		});
+	});	
+
 
 	//Esta llamada solo tiene como finalidad facilitar el testing
 	//no debe existir en el ambiente de produccion

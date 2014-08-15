@@ -5,6 +5,9 @@ var NewModel = require('../models/new').NewModel;
 var CommissionModel = require('../models/commission').CommissionModel;
 var UserModel = require('../models/user').UserModel;
 var DealModel = require('../models/deal').DealModel;
+var CheckAuth = require('../middleware/checkAuth');
+var news_builder = require('../helpers/news_builder');
+var util = require('../helpers/util');
 
 module.exports = function(app){
 
@@ -32,6 +35,35 @@ module.exports = function(app){
 
 			});
 		});
+	});
+
+	app.get('/news', CheckAuth.user, function(req, res){
+
+		NewModel.find({ to_user : req.session.user._id, informed:false})
+		.populate('to_user')
+		.populate('from_user')
+		.populate('deal')
+		.populate('event')
+		.exec(function(err, news_list){
+			if(err) throw err;
+			var packed_new;
+			
+			var packed_new_list = [];
+			for (var i = news_list.length - 1; i >= 0; i--) {
+					
+					packed_new = {};
+					packed_new.title = news_list[i].event.type;
+					packed_new.message = news_builder.make_news_string(news_list[i]);
+					packed_new.date = util.date_time_string(news_list[i].created);
+					packed_new_list.push(packed_new);
+			}
+
+			res.render('news/list',{
+				title 		: 'Noticias',
+				news_list	: packed_new_list
+			});
+		});
+
 	});
 
 

@@ -40,5 +40,10 @@ body {
 
 .feed_container{
 	width:600px;
+	padding-left: 5px !important;
+	padding-right: 5px !important;
 }
 
+#feed_button{
+	margin-top: 20px;
+}

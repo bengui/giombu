@@ -1,13 +1,17 @@
 var NewModel = require('../models/new').NewModel;
 var news_builder = require('../helpers/news_builder.js');
+var util = require('../helpers/util');
 
 module.exports = function(socket, session){
 
 	socket.on('news.start', function (data) {
+		
 		socket.emit('news.new', { 
-			title 		: 'Nueva noticia',
-			message 	: 'Esta es una nueva noticia'
+				title 		: 'Nueva noticia',
+				message 	: 'Esta es una nueva noticia',
+				date 		: util.date_time_string(new Date())
 		});
+			
 		if(session.user){
 
 			NewModel.find({ to_user : session.user._id, informed:false})
@@ -18,15 +22,16 @@ module.exports = function(socket, session){
 			.exec(function(err, news_list){
 				if(err) throw err;
 				var packed_new;
-				console.log('-------------------- ARMADO DE NEWS --------------------');
+				
 				for (var i = news_list.length - 1; i >= 0; i--) {
-					//console.log(news_list[0]);
-					packed_new = {};
-					packed_new.title = news_list[i].event.type;
-					packed_new.message = news_builder.make_news_string(news_list[i]);
-					console.log(packed_new);
-					socket.emit('news.new', packed_new);
 
+						packed_new = {};
+						packed_new.title = news_list[i].event.type;
+						packed_new.message = news_builder.make_news_string(news_list[i]);
+						packed_new.date = util.date_time_string(news_list[i].created);
+
+
+						socket.emit('news.new', packed_new);
 				};
 			});
 		}
