@@ -8,7 +8,7 @@ exports.make_news_string = function (item){
                  String_Deal ="";
                  New_String = item.event.body;
                  var deal, to_user, from_user;
-                 if(item.deal.title){
+                 if(item.deal && item.deal.title){
                     deal = item.deal.title;
                  }else{
                     deal = ''
