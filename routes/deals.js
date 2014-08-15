@@ -414,6 +414,63 @@ module.exports = function (app){
 		});
 	});
 
+	app.get('deals/summary/:id', function(req, res, next){
+		DealModel.findById( req.params.id )
+		.populate('store').populate("partner").populate("images").populate("seller")
+		.exec( function(err, deal){
+			if(err) throw err;
+			if(deal){
+				QuestionModel.find({'deal':deal._id})
+				.populate('user')
+				.populate('deal')
+				.exec( function(err, questions){
+					console.log(deal)
+					if(err) throw err;
+					var callback = function(){
+						res.render('deals/summary', {
+							title 			: 'Oferta', 
+							deal  			: deal, 
+							deals 			: deals, 
+							questions 		: questions
+						});
+					}
+					ImageModel.populate(deal, {path: 'store.images'}, callback)
+				});
+			}else{
+				console.log('No se encontro el deal ( ' + req.body.deal_id +' )');
+				res.render('not_found', {title: 'Oferta', user: req.session.user});
+			}
+
+		});
+	});
+
+
+	//Actualiza los campos de la deal
+	app.get('/deals/:id/state/:status', CheckAuth.user, CheckAuth.seller, function(req, res, next){
+
+		DealModel.findById( req.params.id , function(err, deal){
+			if(err) throw err;
+
+			if(deal){
+				
+				if(req.params.status == "draft" ||req.params.status == "active" ||req.params.status == "closed" ){
+					deal.status = req.params.status;
+					deal.save(function (err) {
+						if (err) throw err;
+						res.send({"id":deal._id,
+							"status":req.params.status});
+					});
+					
+				}
+
+				
+			}else{
+				res.send("Error");
+			}
+
+	  });
+
+	});
 	app.get('/deals/redeem_coupon/:sale_id/:coupon_code', function(req, res, next){
 		DealModel.findOne({"sales._id":req.params.sale_id})
 		.populate('store').populate("images")

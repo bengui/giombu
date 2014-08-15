@@ -1,4 +1,4 @@
-extends ../layout
+extends ../layout 
 
 block content
 	.span9
@@ -7,12 +7,18 @@ block content
 			-if (deals.length == 0)
 				p No tienes ofertas
 			-each deal in deals
-					.media
-						.pull-left(href="#")
-							a(href="/deals/review/#{deal._id}", rel="tooltip")
-								img(class="media-object", src="/img/check.png", style="width:100px" , alt="Just a Placeholder")
-						.media-body
-							h4.media-heading 
-								a(href="/deals/review/#{deal._id}", rel="tooltip") #{deal.title}
-							.media-body
-								p #{deal.characteristics}
+				.well(id="#{deal._id}")
+					-if((RolesHelper.seller(expose.user)&&(expose.user._id === deal.seller))||RolesHelper.seller(expose.user))
+						a(href="/deals/summary/#{deal._id}", class="btn btn-primary pull-right active", role="button") Resumen
+						.btn-group.pull-right.state_selector
+							button(type="button",class="btn btn-default status_selector dropdown-toggle #{deal.status}", data-toggle="dropdown")
+								span Cambiar Estado
+									span(class="caret")
+							ul(class="dropdown-menu", role="menu")
+								li
+									a(class="deal_status_selector", href="#", state="draft" ,url="/deals/#{deal._id}/state/draft") Borrador
+								li
+									a(class="deal_status_selector", href="#", state="active", url="/deals/#{deal._id}/state/active") Activa
+								li
+									a(class="deal_status_selector", href="#", state="closed", url="/deals/#{deal._id}/state/closed") Cerrar
+					include ../partials/deals/review

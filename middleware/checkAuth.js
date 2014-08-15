@@ -12,6 +12,7 @@ exports.user = function (req, res, next) {
 exports.promoter = function (req, res, next) {
 	var index = req.session.user.roles.indexOf(UserRoles.getPromoter());
 	if (index == -1) {
+		console.log('not allowed');
 		res.render('error', {
 			description : 'El usuario logueado no es promotor'
 		});
@@ -23,6 +24,7 @@ exports.promoter = function (req, res, next) {
 exports.seller = function (req, res, next) {
 		var index = req.session.user.roles.indexOf(UserRoles.getSeller());
 	if (index == -1) {
+		console.log('not allowed');
 		res.render('error', {
 			description : 'El usuario logueado no es vendedor'
 		});
@@ -35,6 +37,7 @@ exports.partner = function (req, res, next) {
 
 	var index = req.session.user.roles.indexOf(UserRoles.getPartner());
 	if (index == -1) {
+		console.log('not allowed');
 		res.render('error', {
 			description : 'El usuario logueado no es socio'
 		});
@@ -57,6 +60,7 @@ exports.member = function (req, res, next) {
 exports.generalAdministrator = function (req, res, next) {
 	var index = req.session.user.roles.indexOf(UserRoles.getGeneralAdministrator());
 	if (index == -1) {
+		console.log('not allowed');
 		res.render('error', {
 			description : 'El usuario logueado no es Administrador General'
 		});
@@ -68,6 +72,7 @@ exports.generalAdministrator = function (req, res, next) {
 exports.franchisorAdministrator = function (req, res, next) {
 	var index = req.session.user.roles.indexOf(UserRoles.getFranchisorAdministrator());
 	if (index == -1) {
+		console.log('not allowed');
 		res.render('error', {
 			description : 'El usuario logueado no es Administrador de la Franquicia'
 		});

@@ -47,3 +47,15 @@ body {
 #feed_button{
 	margin-top: 20px;
 }
+.state_selector .draft{
+	color:blue !important;
+	font-weight: bold;
+}
+.state_selector .active{
+	color:green !important;
+	font-weight: bold;
+}
+.state_selector .closed{
+	color:red !important;
+	font-weight: bold;
+}
