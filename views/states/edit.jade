@@ -17,7 +17,7 @@ block content
     br
     h3 Ciudades
     .glyphicon.glyphicon-plus
-    a(href="/cities/create/#{state._id}")  Cargar ciudad 
+    a(href="#", data-toggle="modal", data-target="#CreateCity")   Cargar Ciudad
     br
     br
     .col-md-6
@@ -32,3 +32,4 @@ block content
                         td
                             .glyphicon.glyphicon-remove.text-danger
                             a(href="#").text-danger  Eliminar
+    include ../cities/create
