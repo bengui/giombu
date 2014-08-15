@@ -17,7 +17,7 @@ block content
 	br
 	h3 Estados / Provincias
 	.glyphicon.glyphicon-plus
-	a(href="/states/create/#{country._id}")  Cargar Estado / Provincia	
+	a(href="#", data-toggle="modal", data-target="#CreateState")   Cargar Estado / Provincia	
 	br
 	br
 	.col-md-6
@@ -32,3 +32,4 @@ block content
 						td
 							.glyphicon.glyphicon-remove.text-danger
 							a(href="#").text-danger  Eliminar
+	include ../states/create
