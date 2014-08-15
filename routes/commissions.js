@@ -61,7 +61,9 @@ module.exports = function(app){
 		commission_new.currency = deal.currency
 		commission_new.amount = (deal.partner_percentage)/100*(deal.special_price);
 		commission_new.save(function(){
-			app.emit("commission_event", "Commission_Partner", deal, commission_new, user);
+			UserModel.findById( user_id , function(err, user){
+				app.emit("commission_event", "Commission_Partner", deal, commission_new, user);
+			});
 		});
 	});
 

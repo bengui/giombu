@@ -123,7 +123,7 @@ module.exports = function(app){
 			});
 		});
 	});
-	app.get('/franchisors/:id:format(.json)?', function(req, res, next){
+	app.get('/franchisors/json/:id', function(req, res, next){
 		FranchisorModel.find({ country : req.params.id}).sort("-name").exec( function(err, franchisors){
 			if (err) throw err;
 			res.json(franchisors);

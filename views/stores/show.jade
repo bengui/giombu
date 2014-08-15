@@ -26,8 +26,7 @@ block content
 				-each branch in store.branches
 					tr
 						td
-							h3
-								a(href="/branches/#{branch._id}") #{branch.name}
+							h3 #{branch.name}
 							p Dirección: #{branch.address}
 							p Email: #{branch.email}
 		.col-md-4

@@ -129,7 +129,7 @@ module.exports = function(app){
 					return;
 				}else{
 
-					res.redirect('/stores/view/' + store._id);
+					res.redirect('/stores/' + store._id);
 					
 				}
 			});
@@ -196,7 +196,7 @@ module.exports = function(app){
 			store.save(function(err){
 				if(err) throw err;
 				console.log(store);
-				res.redirect('/stores/' + store._id);
+				res.redirect('/stores/review/' + store._id);
 			});
 		});
 

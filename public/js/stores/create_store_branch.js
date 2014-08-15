@@ -22,7 +22,7 @@
 
 		$.ajax({
 			type 		: 'GET',
-			url 		: '/franchisors/' + $(this).val() + '.json',
+			url 		: '/franchisors/json/' + $(this).val(),
 			success : function(franchisors){
 						$('#franchisor_selector').empty();
 						for (var i = franchisors.length - 1; i >= 0; i--) {
@@ -42,10 +42,10 @@
 
 
 	$('#franchisor_selector').change(function(element){
-		console.log('/franchises/' + $(this).val() + '.json');
+		console.log('/franchises/json/' + $(this).val());
 		$.ajax({
 			type 		: 'GET',
-			url 		: '/franchises/' + $(this).val() + '.json',
+			url 		: '/franchises/json/' + $(this).val(),
 			success : function(franchises){
 						console.log(franchises);
 						$('#franchise_selector').empty();
