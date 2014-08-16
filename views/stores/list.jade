@@ -9,8 +9,15 @@ block content
 				.media
 					.pull-left(href="#")
 						a(href="/stores/review/#{store._id}", rel="tooltip")
-							img(class="media-object", src="/img/check.png", style="width:100px" , alt="Just a Placeholder")
+							if(typeof store.images!== "undefined" )
+								if(typeof store.images[0] !== "undefined" )
+									img( src="/photos/stores/#{store.images[0].filename}", class="image",style="width:100px;")
+								else
+									img( src="/img/logo_giombu.png", class="image",style="width:100px;")
+							else
+								img( src="/img/logo_giombu.png", class="image",style="width:100px;")
 					.media-body
-						h4.media-heading #{store.name}
-						.media-body
+						h4.media-heading 
 							a(href="/stores/review/#{store._id}", rel="tooltip") #{store.name}
+						.media-body
+							p #{store.about}

@@ -417,7 +417,7 @@ module.exports = function (app){
 	app.get('/deals/summary/:id', function(req, res, next){
 		DealModel.findById( req.params.id )
 		.populate('store').populate("partner").populate("images").populate("seller").populate("branches").populate("franchises")
-		.exec( function(err, deal){
+			.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
 				QuestionModel.find({'deal':deal._id})
@@ -433,7 +433,10 @@ module.exports = function (app){
 							questions 		: questions
 						});
 					}
-					ImageModel.populate(deal, {path: 'store.images'}, callback)
+					var populateSellerImages = function(){
+						ImageModel.populate(deal, {path: 'seller.images'}, callback)
+					}
+					ImageModel.populate(deal, {path: 'store.images'}, populateSellerImages)
 				});
 			}else{
 				console.log('No se encontro el deal ( ' + req.body.deal_id +' )');

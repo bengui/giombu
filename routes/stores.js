@@ -40,7 +40,7 @@ module.exports = function(app){
 			creator 	: req.session.user._id
 		};
 
-		StoreModel.find(query, function(err, stores){
+		StoreModel.find(query).populate("images").exec( function(err, stores){
 			if(err) throw err;
 			res.render('stores/list', {title: 'Stores', stores : stores});
 		});
@@ -52,7 +52,7 @@ module.exports = function(app){
 			status 		: 'active'
 		};
 
-		StoreModel.find(query, function(err, stores){
+		StoreModel.find(query).populate("images").exec( function(err, stores){
 			if(err) throw err;
 			res.render('stores/list', {title: 'Stores', stores : stores});
 		});
