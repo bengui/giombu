@@ -5,7 +5,8 @@ extends ../layout
 block content
 	.col-md-9
 		h3 Datos del comercio	
-		a(href="/stores") Lista de comercio
+		.glyphicon.glyphicon-th-list
+		a(href="/stores")  Lista de comercio
 		br
 		br
 		a(href="/stores/edit/" + '#{store._id}' ).btn.btn-default 
@@ -15,27 +16,25 @@ block content
 		a(href="/stores/remove/#{store._id}").btn.btn-danger  Eliminar 				
 		br
 		br
-		table.table
+		table.table.table-condensed
 			tr
 				td
-					| Name:
-				td
-					| #{store.name}
+					label Name:
+				td #{store.name}
 			tr
 				td
-					| Sobre el negocio:
-				td
-					| #{store.about}
+					label Sobre el negocio:
+				td #{store.about}
 			tr
 				td
-					| Email:
-				td
-					| #{store.email}
+					label Email:
+				td #{store.email}
 		#myModal.modal.hide.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
 			.modal-header
 				button(class="close", data-dismiss="modal", aria-hidden="true") &times
 				h4 Comisiones
 			.modal-body
+		br
 		h3  Agregar Imagen
 		-var route_name = "stores"
 		-var get_id = store._id
@@ -44,14 +43,15 @@ block content
 			-var image = store.images[i]
 			-var param ="stores"
 			include ../partials/store/image_list
-		.col-md-10
-			h4 Sucursales
-			a(href="/stores/#{store._id}/branches/create").btn.btn-default Crear sucursal
+		br
+		h3 Sucursales
+		.glyphicon.glyphicon-plus
+		a(href="/stores/#{store._id}/branches/create")  Cargar sucursal
+		br
+		br
+		-each branch in store.branches
+			a(href="/stores/#{store._id}/branches/#{branch._id}") #{branch.name}
 			br
-			br
-			-each branch in store.branches
-				a(href="/stores/#{store._id}/branches/#{branch._id}") #{branch.name}
-				br
 
 
 
