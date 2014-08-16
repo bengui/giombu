@@ -414,9 +414,9 @@ module.exports = function (app){
 		});
 	});
 
-	app.get('deals/summary/:id', function(req, res, next){
+	app.get('/deals/summary/:id', function(req, res, next){
 		DealModel.findById( req.params.id )
-		.populate('store').populate("partner").populate("images").populate("seller")
+		.populate('store').populate("partner").populate("images").populate("seller").populate("branches").populate("franchises")
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
@@ -429,8 +429,7 @@ module.exports = function (app){
 					var callback = function(){
 						res.render('deals/summary', {
 							title 			: 'Oferta', 
-							deal  			: deal, 
-							deals 			: deals, 
+							deal  			: deal,  
 							questions 		: questions
 						});
 					}
