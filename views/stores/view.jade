@@ -19,7 +19,7 @@ block content
 		table.table.table-condensed
 			tr
 				td
-					label Name:
+					label Nombre:
 				td #{store.name}
 			tr
 				td
@@ -46,12 +46,11 @@ block content
 		br
 		h3 Sucursales
 		.glyphicon.glyphicon-plus
-		a(href="/stores/#{store._id}/branches/create")  Cargar sucursal
+		a(href="/stores/#{store._id}/branches/create")   Cargar sucursal
 		br
 		br
 		-each branch in store.branches
 			a(href="/stores/#{store._id}/branches/#{branch._id}") #{branch.name}
 			br
-
 
 

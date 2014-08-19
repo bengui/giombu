@@ -100,12 +100,13 @@ block content
 			h4 Tu compra
 			br
 			include ../partials/sale/checkout
-			h4 Forma de pago
+			h4 Elegí forma de pago 
+				img(src='/img/tarjetas_credito.gif')
 			br
-			.col-md-5.well
+			.well
 				.form-group
-					label.col-md-4 Medio de pago:
-					.col-md-8
+					label.col-md-2 Medio de pago:
+					.col-md-3
 						select(type="text", name="payment_type").form-control
 							optgroup( label="Tarjeta de Crédito") 
 								option(value="mastercard") Mastercard
@@ -114,22 +115,22 @@ block content
 								option(value="argencard") Argencard
 							optgroup( label="Otras formas de pago")
 				.form-group
-					label.col-md-4 Nro. Tarjeta:
-					.col-md-8
+					label.col-md-2 Nro. Tarjeta:
+					.col-md-3
 						input(type="text", name="card_number", maxlength="16" , class="input-large", size="16").form-control
 				.form-group
-					label.col-md-4 Cod. Seguridad:
-					.col-md-8
+					label.col-md-2 Cod. Seguridad:
+					.col-md-1
 						input(type="text", name="card_safety_numbers", maxlength="3", class="input-small", size="3").form-control
 				.form-group
-					label.col-md-4 Nombre Completo:
-					.col-md-8
+					label.col-md-2 Nombre Completo:
+					.col-md-3
 						input(type="text", name="complete_name", class="input-large").form-control
 				.form-group
-					label.col-md-4 DNI:
-					.col-md-8
+					label.col-md-2 DNI:
+					.col-md-3
 						input(type="text", name="dni" , maxlength="16" , class="input-large" , size="16").form-control
-				input(type='submit', value='Confirmar Compra').btn.btn-primary.col-md-offset-8.col-md-4
+					input(type='submit', value='Confirmar Compra').btn.btn-primary.col-md-offset-1.col-md-2
 
 //				.content
 //					.div_left

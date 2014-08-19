@@ -4,31 +4,29 @@ extends ../layout
 block content
 
 	br
-	.col-md-5
+	.col-md-8
 		form(method="post", action="/stores/update").form-horizontal
 			input(name="store_id", type="hidden", value="#{store._id}")
 			.form-group
-				label.col-md-4 name
+				label.col-md-2 Nombre:
 				.col-md-8
 					input(name="store[name]", type="text" , value="#{store.name}").form-control.input-sm.required
 			.form-group
-				label.col-md-4 email
+				label.col-md-2 Email:
 				.col-md-8
 					input(name="store[email]", type="text", value="#{store.email}").form-control.input-sm.required
 			.form-group
-				label.col-md-4 country
+				label.col-md-2 Pais:
 				.col-md-8
 					input(type='text', value='#{franchisor.country.name}' disabled).form-control.input-sm
 			.form-group
-				label.col-md-4 franchisor
+				label.col-md-2 Franquiciante:
 				.col-md-8
 					input(type='text', value='#{franchisor.name}' disabled).form-control.input-sm
 					
 			.form-group
-				label.col-md-4 about
+				label.col-md-2 Sobre el comercio:
 				.col-md-8
 					input(name="store[about]", type="text" , value="#{store.about}").form-control.input-sm.required
-			
-
-			.form-group
-				button(type="submit" id="submit_btn").btn.btn-default Save
+			.form-group.col-sm-offset-2.col-sm-8
+				button(type="submit" id="submit_btn").btn.btn-primary Guardar

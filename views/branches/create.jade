@@ -2,62 +2,64 @@
 extends ../layout
 
 block content
-	.col-md-5
+	.col-md-10
 		form(method='post', id="form_create_branch", action='/stores/#{store._id}/branches/create').form-horizontal
-			h4 Informacion de la Sucursal
+			h3 Cargar nueva sucursal
+			br
+			a(href="/stores/remove/#{store._id}") Volver
 			.form-group
-				label.col-md-4 name
-				.col-md-8
+				label.col-md-2 Nombre:
+				.col-md-6
 					input(name='branch[name]', type='text').form-control.input-sm.required
 			.form-group
-				label.col-md-4 state
-				.col-md-8
+				label.col-md-2 Provincia:
+				.col-md-3
 					select(name="branch[state]", id="state_selector").form-control.input-sm
 						-each state in states
 							option(value="#{state._id}") #{state.name}
 			.form-group
-				label.col-md-4 city
-				.col-md-8
+				label.col-md-2 Ciudad:
+				.col-md-3
 					select(name="branch[city]", id="city_selector").form-control.input-sm
 			.form-group
-				label.col-md-4 franchise
-				.col-md-8
+				label.col-md-2 Franquicia:
+				.col-md-3
 					select(name="branch[franchise]", id="franchise_selector").form-control.input-sm
 						-each franchise in franchises
 							option(value="#{franchise._id}") #{franchise.name}
 			.form-group
-				label.col-md-4 address
-				.col-md-8
+				label.col-md-2 Dirección:
+				.col-md-6
 					input(name='branch[address]', type='text').form-control.input-sm.required
 			.form-group
-				label.col-md-4 zip
-				.col-md-8
+				label.col-md-2 Cod. Postal:
+				.col-md-3
 					input(name='branch[zip]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-4 phone
-				.col-md-8
+				label.col-md-2 Telefono:
+				.col-md-3
 					input(name='branch[phone]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-4 email
-				.col-md-8
+				label.col-md-2 Email:
+				.col-md-6
 					input(name='branch[email]', type='text').form-control.input-sm.required.email
 			.form-group
-				label.col-md-4 website
-				.col-md-8
+				label.col-md-2 Web:
+				.col-md-6
 					input(name='branch[website]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-4 fanpage
-				.col-md-8
+				label.col-md-2 Fanpage
+				.col-md-6
 					input(name='branch[fanpage]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-4 twitter
-				.col-md-8
+				label.col-md-2 twitter
+				.col-md-6
 					input(name='branch[twitter]', type='text').form-control.input-sm
 			.form-group#validate-user.has-feedback
-				label.col-md-4 Usuario que tiene la sucursal asignada: 
-				.col-md-8
+				label.col-md-2 Usuario asignado:
+				.col-md-4
 					input(type='text', name="partner_username", id='branch_partner', placeholder="Usuario").form-control.input-sm
 					span(class="glyphicon glyphicon-ok form-control-feedback" id="check-icon")
-			.form-group
-				button(type='submit' id='submit_btn').btn.btn-default Save
+			.form-group.col-sm-offset-2.col-sm-8
+				button(type='submit' id='submit_btn').btn.btn-primary Guardar
 	script(type="text/javascript" src="/js/branches/create.js")
