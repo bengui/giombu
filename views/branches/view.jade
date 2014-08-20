@@ -3,6 +3,9 @@ extends ../layout
 block content
 	.col-md-9
 		h3 Datos de la sucursal #{branch.name}
+		.glyphicon.glyphicon-arrow-left
+		a(href="/stores/review/#{store._id}")  Volver al comercio
+		br
 		.glyphicon.glyphicon-pencil
 		a(href="/stores/#{store._id}/branches/edit/#{branch._id}")  Editar
 		br
