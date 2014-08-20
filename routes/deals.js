@@ -61,7 +61,19 @@ module.exports = function (app){
 			if(err) throw err;
 
 			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
+	  	});
+	});
+
+	app.get('/deals/mine', CheckAuth.user, function(req, res, next){
+		var today = new Date();
+		DealModel.find({"seller":req.session.user._id})
+		.sort("-created")
+		.populate("images").populate('franchises')
+		.exec(function(err, deals){
 			
+			if(err) throw err;
+
+			res.render('deals/list', {title: 'Mis ofertas', deals : deals});
 	  	});
 	});
 

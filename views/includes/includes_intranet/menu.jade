@@ -25,14 +25,15 @@
 		-if(RolesHelper.partner(expose.user))
 			li.nav-header Socios
 			li
-				a(href='h1') Mi Tienda
+				a(href='/stores') Mis tiendas
+			-if(RolesHelper.admin(expose.user))
+				li
+					a(href='/stores/all') Lista
 		-if(RolesHelper.seller(expose.user))
 			li.nav-header
 				span.glyphicon.glyphicon-shopping-cart Vendedores
 			li
-				a(href='/sellers/list') Ventas
-			li
-				a(href='h1') Comisiones	
+				a(href='/deals/mine') Mis Ofertas
 		li.nav-header 
 			span.glyphicon.glyphicon-user Contactos
 		li
@@ -51,10 +52,6 @@
 			a(href='/countries/list') Paises
 		li
 			a(href='/franchisors') Franquiciantes
-		li
-			a(href='/stores') Comercios
-		li
-			a(href='/stores/all') Todos los Comercios
 		li
 			a(href='/sellers/list') Vendedores
 		li
