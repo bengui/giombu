@@ -2,9 +2,13 @@
 extends ../layout
 
 block content
-
-	br
 	.col-md-8
+		h3 Editar comercio: #{store.name}
+		.glyphicon.glyphicon-arrow-left
+		a(href="/stores/review/#{store._id}")  Volver al comercio
+		br
+		br
+		br
 		form(method="post", action="/stores/update").form-horizontal
 			input(name="store_id", type="hidden", value="#{store._id}")
 			.form-group
@@ -28,5 +32,6 @@ block content
 				label.col-md-2 Sobre el comercio:
 				.col-md-8
 					input(name="store[about]", type="text" , value="#{store.about}").form-control.input-sm.required
-			.form-group.col-sm-offset-2.col-sm-8
-				button(type="submit" id="submit_btn").btn.btn-primary Guardar
+			.form-group
+				.col-sm-offset-2.col-sm-8
+					button(type="submit" id="submit_btn").btn.btn-primary Guardar

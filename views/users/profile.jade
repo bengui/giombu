@@ -25,30 +25,35 @@ block content
 				a(href="#administration", data-toggle="tab") Administración
 	.tab-content
 		.tab-pane.fade.active.in#misdatos
+			br
 			h3 Datos del usuario: #{user.username}
-			span.glyphicon.glyphicon-pencil
-			a(href="/users/profile/edit") Editar datos
-			table.table-condensed
-				tr 
-					td.pull-right
-						h5 Nombre:
-					td #{user.name} #{user.lname}
-				tr
-					td.pull-right 
-						h5 Email:
-					td #{user.email}
-				tr 
-					td.pull-right 
-						h5 Dirección:
-					td #{user.address} - #{user.city.name}, #{state.name} - #{country.name}
-				tr 
-					td.pull-right 
-						h5 Telefono:
-					td #{user.phone}
-				tr 
-					td.pull-right 
-						h5 Movil:
-					td #{user.mobile}
+			.glyphicon.glyphicon-pencil
+			a(href="/users/profile/edit")  Editar datos
+			br
+			br
+			br
+			.col-md-8
+				table.table.table-condensed
+					tr 
+						td.col-md-2
+							label Nombre:
+						td #{user.name} #{user.lname}
+					tr
+						td.col-md-2
+							label Email:
+						td #{user.email}
+					tr 
+						td.col-md-2
+							label Dirección:
+						td #{user.address} - #{user.city.name}, #{state.name} - #{country.name}
+					tr 
+						td.col-md-2 
+							label Telefono:
+						td #{user.phone}
+					tr 
+						td.col-md-2
+							label Movil:
+						td #{user.mobile}
 		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
 			.tab-pane.fade.in#administration
 				h3 Agregar Roles

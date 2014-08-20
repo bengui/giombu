@@ -3,6 +3,11 @@ extends ../layout
 block content
 	.span9
 		h3 Lista de Ofertas
+		.glyphicon.glyphicon-plus
+		a(href="/deals/create")  Cargar oferta
+		br
+		br
+		br
 		table.table_deal_list
 			-if (deals.length == 0)
 				p No tienes ofertas

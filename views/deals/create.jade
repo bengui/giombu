@@ -8,31 +8,35 @@ block content
 	link(rel="stylesheet", type="text/css", href="/css/jquery.tagline.css")
 	.col-md-8
 	h3 Nueva Oferta
+	.glyphicon.glyphicon-list
+	a(href="/deals")  Lista de ofertas
+	br
+	br
 	br
 	form(method='post', id="deal_create", action='/deals/add').form-horizontal
 		.form-group
 			label.col-md-2.control-label Titulo:
-			.col-md-8
+			.col-md-6
 				input(name='deal[title]', type='text').form-control.input-sm
 		.form-group
 			label.col-md-2.control-label Tagline:
-			.col-md-8
+			.col-md-6
 				input(name='deal[tagline]',class="tags", id="tags", type='text').form-control.input-sm
 		.form-group
 			label.col-md-2.control-label Slug:
-			.col-md-8
+			.col-md-6
 				input(name='deal[slug]', type='text',class="required").form-control.input-sm
 		.form-group
 			label.col-md-2.control-label Características:
-			.col-md-8
+			.col-md-6
 				textarea(name='deal[characteristics]', type='text',class="required",rows="9", cols="70").form-control
 		.form-group
 			label.col-md-2.control-label Condiciones:
-			.col-md-8
+			.col-md-6
 				textarea(name='deal[conditions]', type='text',class="required",rows="9", cols="70").form-control
 		.form-group
 			label.col-md-2.control-label Tienda:
-			.col-md-8
+			.col-md-6
 				if(stores.length > 0)
 					select(name='deal[store]', type='text').input-sm#store_selector
 						-each store in stores
@@ -109,21 +113,21 @@ block content
 				input(name='deal[shipping_cost]', type='text' ,minlength="1", maxlength="5").form-control.input-sm
 		-if (stores.length > 0)
 			.form-group 
-				label.col-md-2.control-labell Disponible en franquicias:
+				label.col-md-2.control-label Disponible en franquicias:
 				.col-md-8#branches_list
 					-var i = 0
 					-each branch in stores[0].branches
 						.checkbox
 							label
 								input(value="#{branch._id}", name='deal[branches][#{i}]',  type='checkbox' )
-								|#{branch.name} - #{branch.franchise.name}
+								|#{branch.name} - #{branch.franchise}
 						-i++
 		.form-group
 			.col-sm-offset-2.col-sm-8
 				if(stores.length > 0)
-					button(type='submit').btn.btn-default Cargar
+					button(type='submit').btn.btn-primary Cargar
 				else
-					button(disabled="disabled", type="submit").btn.btn-default Cargar
+					button(disabled="disabled", type="submit").btn.btn-primary Cargar
 				
 			
 
