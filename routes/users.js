@@ -264,12 +264,25 @@ module.exports = function(app){
 		});
 	});
 
-	app.post('/users/addRole', function(req, res){
+	app.post('/users/addRole',CheckAuth.user, function(req, res){
 		UserModel.update( { _id : req.body.id }, { $addToSet: { roles : req.body.role } }, callback);
 		function callback (err, numAffected) {
-		  	res.redirect('/users/profile/'+req.body.id.toString());
+		  	res.redirect('back');
 		}
 
+	});
+
+	app.get('/users/turnOffHelpMode',CheckAuth.user ,function(req, res){
+		UserModel.update( { _id : req.session.user._id }, { $addToSet: { roles : "search" } }, callback);
+		function callback (err, numAffected) {
+		  	res.redirect('back');
+		}
+	});
+	app.get('/users/turnOnHelpMode',CheckAuth.user ,function(req, res){
+		UserModel.update( { _id : req.session.user._id }, { $pull: { roles : "search" } }, callback);
+		function callback (err, numAffected) {
+		  	res.redirect('back');
+		}
 	});
 
 	app.get('/users/message', function(req, res){

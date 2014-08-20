@@ -32,7 +32,6 @@ var UserSchema = new mongoose.Schema({
 	sockets_list			: [String],
 	//Persona que te invitó.
 	promoter_id 				: { type: mongoose.Schema.ObjectId, ref: 'User' },
-
 	level					: { type: mongoose.Schema.ObjectId, ref: 'Level' },
 	//Relacionados
 	 invitation				: [InvitationSchema],

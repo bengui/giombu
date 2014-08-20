@@ -74,6 +74,15 @@ exports.franchisorAdministrator = function (user) {
 	}
 }
 
+exports.searchmode = function (user) {
+	var index = user.roles.indexOf("search");
+	if (index == -1) {
+		return true
+	} else {
+		return false
+	}
+}
+
 //Funciones extra para chequear relacion con el deal, o similares
 
 //isPartner
