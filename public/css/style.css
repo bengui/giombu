@@ -9,6 +9,11 @@ body {
 
 .space{margin: 5px !important}
 
+#head_intranet {background-color: #F2F2F2;border-bottom: 2px solid #00a4cc; margin-bottom: 15px;padding-top: 5px;padding-left: 4%;padding-right: 4%;}
+.content_body {margin-left: 2%;margin-right: 2%;}
+.titulos_menu {background: -webkit-linear-gradient(top,#00a4cc 0%,#017296 100%);border-radius: 4px;color: #FFF;font-weight: bold !important;padding: 5px 115px 5px 5px;}
+
+
 .header_franchise_layout {background-color: #fff; height: 80px; border-bottom: 1px solid #e5e5e5;}
 .header_franchise_layout img {
 	padding: 8px 10px 6px;

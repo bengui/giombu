@@ -1,8 +1,9 @@
 .menu
 	include profile
-	ul(class="nav nav-pills nav-stacked")
-		li.nav-header
-			span.glyphicon.glyphicon-star Ofertas
+	ul(class="nav nav-pills nav-stacked").clear
+		li.nav-header.titulos_menu
+			.glyphicon.glyphicon-star
+				label Ofertas
 		li
 			a(href='/deals', id="allDeals", title="Todas las ofertas") Ver Todas
 		li
@@ -11,9 +12,9 @@
 			a(href='/deals/future', class="filtered_deals") Ver Próximas
 		li
 			a(href='/deals/create') Crear Oferta
-
-		li.nav-header 
-			span.glyphicon.glyphicon-th Menu
+		li.nav-header.titulos_menu
+			.glyphicon.glyphicon-th 
+				label Menu
 		li
 			a(href='/news') Noticias
 		-if(RolesHelper.promoter(expose.user))
@@ -23,25 +24,30 @@
 			li
 				a(href='/promoters/register') Editar
 		-if(RolesHelper.partner(expose.user))
-			li.nav-header Socios
+			li.nav-header.titulos_menu
+				.glyphicon.glyphicon-th 
+					label Socios
 			li
 				a(href='/stores') Mis tiendas
 			-if(RolesHelper.admin(expose.user))
 				li
 					a(href='/stores/all') Lista
 		-if(RolesHelper.seller(expose.user))
-			li.nav-header
-				span.glyphicon.glyphicon-shopping-cart Vendedores
+			li.nav-header.titulos_menu
+				.glyphicon.glyphicon-shopping-cart 
+					label Vendedores
 			li
 				a(href='/deals/mine') Mis Ofertas
-		li.nav-header 
-			span.glyphicon.glyphicon-user Contactos
+		li.nav-header.titulos_menu
+			.glyphicon.glyphicon-user 
+				label Contactos
 		li
 			a(href='/users/contacts') Listado
 		li
 			a(href='/invitations') Invitaciones
-		li.nav-header 
-			span.glyphicon.glyphicon-signal Administración
+		li.nav-header.titulos_menu
+			.glyphicon.glyphicon-signal 
+				label Administración
 		li
 			a(href='/intranet/stats') Estadísticas
 		li
@@ -58,14 +64,16 @@
 			a(href='/currencies/list') Monedas
 		li
 			a(href="/bank_accounts/list") Cuentas Bancarias
-		li.nav-header 
-			span.glyphicon.glyphicon-usd Pagos
+		li.nav-header.titulos_menu
+			.glyphicon.glyphicon-usd 
+				label Pagos
 		li
 			a(href='/payments') Lista
 		li
 			a(href='/payments/create') Pagos
-		li.nav-header 
-			span.glyphicon.glyphicon-envelope Email-Marketing
+		li.nav-header.titulos_menu
+			.glyphicon.glyphicon-envelope 
+				label Marketing
 		li
 			a(href='/subscribers') Suscriptores
 		li
