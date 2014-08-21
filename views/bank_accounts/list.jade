@@ -19,4 +19,6 @@ block content
 					dd #{bank_accounts[i].curp}
 				dt IFE
 					dd #{bank_accounts[i].ife}
-		a(href="/bank_accounts/create") Crear Nueva
+		.glyphicon.glyphicon-plus
+		a(href="#", data-toggle="modal", data-target="#CreateBankAccount")  Crear cuenta bancaria
+		include ../bank_accounts/create

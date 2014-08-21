@@ -13,6 +13,7 @@ body {
 .content_body {margin-left: 2%;margin-right: 2%;}
 .titulos_menu {background: -webkit-linear-gradient(top,#00a4cc 0%,#017296 100%);border-radius: 4px;color: #FFF;font-weight: bold !important;padding: 5px 115px 5px 5px;}
 
+.p_profile {padding-top: 15px;}
 
 .header_franchise_layout {background-color: #fff; height: 80px; border-bottom: 1px solid #e5e5e5;}
 .header_franchise_layout img {

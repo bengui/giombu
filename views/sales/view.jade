@@ -3,15 +3,17 @@ extends ../home
 
 block content
 	-if(typeof deal !== "undefined")
-		include ../partials/deals/deal
 		-var start =(new Date(deal.start_redeem))
 		-var end =(new Date(deal.end_redeem))
-		.well.well-sm.col-md-6
-			p Podrás canjear esta compra a partir del día #{start.getDate()} / #{start.getMonth()+1} / #{start.getFullYear()}  y hasta el día #{end.getDate()} / #{end.getMonth()+1} / #{end.getFullYear()} 
+		.col-md-9
+			h3 Has comprado la oferta: #{deal.title}!			
+			p Podrás canjear esta compra a partir del día #{start.getDate()} / #{start.getMonth()+1} / #{start.getFullYear()}  y hasta el día #{end.getDate()} / #{end.getMonth()+1} / #{end.getFullYear()}.
 			-each sale in deal.sales
 				-if(sale._id == id)
 					p La oferta se ejcuentra en estado: #{sale.status}
-					h3 Cupones
+					br
+					h4 Cupones:
 					-each coupon in sale.coupons
-						.col-md-6
-							include ../partials/coupons/view
+						include ../partials/coupons/view
+		include ../partials/deals/deal
+					
