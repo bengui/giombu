@@ -6,11 +6,11 @@ module.exports = function(socket, session){
 
 	socket.on('news.start', function (data) {
 		
-		socket.emit('news.new', { 
-				title 		: 'Nueva noticia',
-				message 	: 'Esta es una nueva noticia',
-				date 		: util.date_time_string(new Date())
-		});
+		// socket.emit('news.new', { 
+		// 		title 		: 'Nueva noticia',
+		// 		message 	: 'Esta es una nueva noticia',
+		// 		date 		: util.date_time_string(new Date())
+		// });
 			
 		if(session.user){
 
@@ -40,6 +40,19 @@ module.exports = function(socket, session){
 
 	socket.on('news.random', function (data) {
 		socket.emit('news.new', { message : 'Esta es una nueva noticia enviada el ' + new Date()});
+	});
+
+	socket.on('news.informed', function(){
+		if(session.user){
+			NewModel.find({ to_user : session.user._id, informed:false}, function(err, news){
+				for (var i = news.length - 1; i >= 0; i--) {
+					news[i].informed = true;
+					news[i].save(function(err){
+						if (err) throw err;
+					});
+				};
+			});
+		}
 	});
 
 }

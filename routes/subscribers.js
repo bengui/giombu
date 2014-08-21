@@ -49,7 +49,7 @@ module.exports = function (app){
 				if(!err){
 					if(subscribers){
 						console.log('subscriber - list - Se envian los subscribers encontrados');
-						res.render('subscribers/list', {title: 'Lista de subscribers', subscribers : subscribers, franchises:franchises, franchise : req.session.selected_franchise});
+						res.render('subscribers/list', {title: 'Lista de subscribers', subscribers : subscribers, franchises:franchises});
 					}else{
 						console.log('subscriber - list - No hay subscribers');
 					}

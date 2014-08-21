@@ -1,9 +1,11 @@
 $(document).ready(function(){
 
+    clearNews();
+
     socket.emit('news.start');
 
     socket.on('news.new', function(data){
-            console.log(data);
+            $('#without-news').hide();
             var li = $('<li role="presentation"></li>');
             var element = $('<p class="bg-success"></p>').text(data.message);
             var element = $('<p></p>').text(data.message);
@@ -15,29 +17,19 @@ $(document).ready(function(){
             li.append($('<small class="text-muted pull-right"></small>').text(data.date));
             li.append(element);
             $('.feed_container').prepend(li);
-            $('#feed_button').removeClass( "disabled" );
+            //$('#feed_button').removeClass( "disabled" );
             $('#feed_button').removeClass( "btn-default" ).addClass( "btn-success" );
     });
 
     $('#feed_button').click(function(){
         $(this).removeClass( "btn-success" ).addClass( "btn-default" );
+        socket.emit('news.informed');
     });
 
-
-    // $('.feed_container').click(function(element){    
-    //     var hasVisibleElements = false;
-    //     $(this).children().each(function(kid){
-    //         if($(kid).is(":visible")){
-    //             hasVisibleElements = true;
-    //         }
-    //     });
-    //     if(!hasVisibleElements){
-    //         // $('#feed_button').addClass( "disabled" );
-    //     }else{
-    //         $('#feed_button').removeClass( "disabled" );
-    //     }
-
-    // });
+    function clearNews(){
+        $('.feed_container').empty();
+        $('.feed_container').prepend($('<p id="without-news" class="text-center text-muted">No hay noticias nuevas<p>'));
+    }
 
 
 });

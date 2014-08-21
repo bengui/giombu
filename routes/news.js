@@ -19,21 +19,15 @@ module.exports = function(app){
 		}
 	}
 
-
-	//Este metodo es solo para testing de los eventos
-	//Hay que eliminarlo - bengui
-	app.get('/event_test', function(req, res){
-		
-		var query = DealModel.findOne({});
-		query.exists('seller');
-		query.exec(function(err, deal){
-			CommissionModel.findOne({}, function(err, commission){
-				UserModel.findOne({ username : 'bengui'}, function(err, user){
-					app.emit('commission_event', 'Commission', deal, commission, user);
-					res.send('Yeah!');
+	app.get('/news/reset', function(req, res){
+		NewModel.find({}, function(err, news){
+			for (var i = news.length - 1; i >= 0; i--) {
+				news[i].informed = false;
+				news[i].save(function(err){
+					if (err) throw err;
+					res.send('Noticias reseteadas');
 				});
-
-			});
+			};
 		});
 	});
 
