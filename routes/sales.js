@@ -103,18 +103,18 @@ module.exports = function(app){
 	
 
 	app.get('/sales/view/:id', function (req, res, next) {
-		DealModel.find({}).sort({created:-1}).exec( function(err, deals){
+		DealModel.findOne({"sales._id" :req.params.id}).populate("store").populate("images").exec( function(err, deal){
 			if(!err){
-				if(deals){
+				if(deal){
 				
 				callback = function(){
 					
-					res.render('sales/view', {title: 'Detalle de ventas', deals : deals, user:req.session.user})}
+					res.render('sales/view', {title: 'Detalle de ventas', deal : deal, id:req.params.id})}
 
-					 UserModel.populate(deals, {
+					 UserModel.populate(deal, {
 					    path: 'sales.user',
 					    select: 'name',
-					  },function(){ CouponModel.populate(deals, {
+					  },function(){ CouponModel.populate(deal, {
 					    path: 'sales.coupons',
 					    select: 'name'},callback)
 					});

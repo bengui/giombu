@@ -56,7 +56,7 @@ module.exports = function (app){
 					SubscriberModel.find({ "franchise" : newsletter.franchise}).exec( function(err, subscribers){
 						FranchiseModel.findById(newsletter.franchise).exec( function(err, franchise){
 							if(typeof franchise !== "undefined"){
-							  	DealModel.find( {"_id": {$in: newsletter.deals }}).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
+							  	DealModel.find( {"_id": {$in: req.body.newsletter.deals }}).sort("-created").populate('franchises').populate("images").exec(function(err, deals){
 									if(err) throw err;
 									if(deals.length > 0){
 										email_recievers = [];
@@ -67,7 +67,7 @@ module.exports = function (app){
 										for (var i = deals.length - 1; i >= 0; i--) {
 											deals_newsletter.push(deals[i]._id);
 										};
-										console.log(email_recievers);
+										console.log(deals);
 										app.mailer.send('newsletters/default_template', {
 									  		to: email_recievers,
 									  		subject: 'Newsletter '+franchise.name, 

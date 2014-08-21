@@ -14,6 +14,5 @@ html
 					td
 						a(href="#{host}/deals/#{deal._id}")
 							img(class="media-object", src="#{host}/photos/deals/#{deal.images[0].filename}", style="width:100px" , alt="#{deal.images[0].filename}")
-							h3 $ #{deal.title}
-							h4 #{deal.special_price}
-							p Podrás comprar esta oferta hasta el día #{deal.end_date.getDate()} / #{deal.end_date.getMonth()+1} / #{deal.end_date.getFullYear()}
+							h3 $ #{deal.special_price} por la oferta #{deal.title}
+								p Podrás comprar esta oferta hasta el día #{deal.end_date.getDate()} / #{deal.end_date.getMonth()+1} / #{deal.end_date.getFullYear()}
