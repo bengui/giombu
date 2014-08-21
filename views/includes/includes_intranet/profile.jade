@@ -1,13 +1,13 @@
-.col-md-11
+.col-md-12
 	a(href='/users/profile') 
 		if (typeof expose.user !== "undefined")
 			if (typeof expose.user.images !== "undefined")
 				if (typeof expose.user.images[0] === "undefined")
-					img(src="/img/mr_bean.png", class='img-thumbnail', style="width:40%; height:40%; margin-bottom:10px;")
+					img(src="/img/mr_bean.png", class='img-thumbnail', style="max-width:40%; height:40%; margin-bottom:10px;")
 				else
-					img(class='img-thumbnail', src="/photos/users/#{expose.user.images[0].filename}")
+					img(class='img-thumbnail', src="/photos/users/#{expose.user.images[0].filename}", style="max-width:70px; max-height:80px; margin-bottom:10px;")
 		else
 			img(class='img-thumbnail', src="/img/mr_bean.png")
 		if (!(typeof expose.user === "undefined"))
-			p.pull-right #{expose.user.username} #{expose.user.partner}
-			//a(href='/users/profile/edit/').pull-right Editar Perfil
+			p.pull-right.p_profile #{expose.user.username} #{expose.user.partner}
+			//a(href='/users/profile/edit/') Editar Perfil
