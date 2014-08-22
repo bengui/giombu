@@ -10,7 +10,7 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 			-var image = images[i]
 			-if (i == 0)
 				.item.active
-					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}")
+					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}", style="width:100%; height:500px;")
 					.carousel-caption
 						h3 #{title}
 						p #{description}
@@ -19,8 +19,21 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}")
 					.carousel-caption
 						h3 #{title}
-						p #{description}
+						p #{description}						
 	a(class="left carousel-control", href="#carousel#{id}", data-slide="prev")
 		span(class="glyphicon glyphicon-chevron-left")
 	a(class="right carousel-control", href="#carousel#{id}", data-slide="next")
 		span(class="glyphicon glyphicon-chevron-right")
+	div(class="caption-top transparent")
+			.span8.pull-left
+			.span2.pull-right
+				.buy.boxshadow.no_transparent
+					a(href="#")
+					.box_buy 
+						img(src="/img/checkout.png")
+						p COMPRAR
+			.span2.pull-right
+				.special_price.boxshadow.no_transparent
+					a(href="#")
+					.box_detalles 
+						p DETALLES			

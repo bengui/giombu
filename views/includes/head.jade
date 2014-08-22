@@ -1,8 +1,9 @@
 #header.background-gradient
-	a(href="/")
-		img(src="/img/logo_giombu.png")
-	.pull-right
-		include form_suscription
+	#head_home
+		a(href="/")
+			img(src="/img/logo_giombu.png")
+		.pull-right
+			include form_suscription
 	nav(role="navigation").navbar.navbar-default
 		.container-fluid
 			.collapse.navbar-collapse
@@ -10,6 +11,8 @@
 					li
 						a( href="#", data-toggle="modal", data-target="#SelectorFranchiseModal") Cambiar de cuidad
 							icon.icon-chevron-down
+					li 
+						a(href="/") Ofertas	
 						include ../partials/franchises/franchise_selector_modal
 					-if(typeof expose.selected_franchise !== "undefined")
 						li
