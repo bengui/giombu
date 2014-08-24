@@ -7,29 +7,32 @@ block content
 	-var title = deal.title
 	-var description = deal.characteristics
 	.col-md-9
-		include ../partials/images/carousel
+		include ../partials/images/carousel_show
 	include ../partials/deals/checkout_link
-	.col-md-3.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
-	.deal_body.col-md-9.pull-left
+	.deal_body.col-md-9.clear
 		table.table-condensed
-		.col-md-6.container.countdown(id='Deal#{i}' ,data-end="#{deal.end_date.getMonth()+1}/#{deal.end_date.getDate()}/#{deal.end_date.getFullYear()} #{deal.end_date.getHours()}:#{deal.end_date.getMinutes()}:#{deal.end_date.getSeconds()}", data-gmt="-#{deal.end_date.getTimezoneOffset()/60}")
+		h4 Detalles y Condiciones de la oferta
 		br
-		br
-		table.table
+		table.table.table-condensed.table-striped
 			tr
-				td Titulo
+				td
+					label Titulo:
 				td #{deal.title}
 			tr
-				td Subtitulo
+				td 
+					label Subtitulo:
 				td #{deal.tagline}
 			tr
-				td Link
+				td 
+					label Link:
 				td #{deal.slug}
 			tr
-				td Caracteristicas
+				td 
+					label Caracteristicas:
 				td #{deal.characteristics}
 			tr
-				td Condiciones
+				td 
+					label Condiciones:
 				td #{deal.conditions}
 		br
 		.alert.alert-info

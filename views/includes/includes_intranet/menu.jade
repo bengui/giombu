@@ -3,8 +3,7 @@
 	ul(class="nav nav-pills nav-stacked").clear
 		-if(RolesHelper.seller(expose.user)||RolesHelper.promoter(expose.user)||RolesHelper.admin(expose.user))
 			li.nav-header.titulos_menu
-				.glyphicon.glyphicon-star
-					label Ofertas
+				.glyphicon.glyphicon-star Ofertas
 			li
 				a(href='/deals', id="allDeals", title="Todas las ofertas") Ver Todas
 			li
@@ -26,8 +25,7 @@
 				a(href='/promoters/register') Editar
 		-if(RolesHelper.partner(expose.user))
 			li.nav-header.titulos_menu
-				.glyphicon.glyphicon-th 
-					label Socios
+				.glyphicon.glyphicon-th Socios
 			li
 				a(href='/stores') Mis tiendas
 			-if(RolesHelper.admin(expose.user))
@@ -39,16 +37,14 @@
 			li
 				a(href='/deals/mine') Mis Ofertas
 		li.nav-header.titulos_menu
-			.glyphicon.glyphicon-user 
-				label Contactos
+			.glyphicon.glyphicon-user Contactos
 		li
 			a(href='/users/contacts') Listado
 		li
 			a(href='/invitations') Invitaciones
 		-if(RolesHelper.admin(expose.user))
 			li.nav-header.titulos_menu
-				.glyphicon.glyphicon-signal 
-					label Administración
+				.glyphicon.glyphicon-signal Administración
 			li
 				a(href='/intranet/stats') Estadísticas
 			li
@@ -65,8 +61,7 @@
 				a(href='/currencies/list') Monedas
 		-if(RolesHelper.seller(expose.user)||RolesHelper.promoter(expose.user)||RolesHelper.admin(expose.user)||RolesHelper.parner(expose.user))
 			li.nav-header.titulos_menu
-				.glyphicon.glyphicon-usd 
-					label Pagos
+				.glyphicon.glyphicon-usd Pagos
 			li
 				a(href='/payments') Lista
 			li
@@ -75,8 +70,7 @@
 				a(href="/bank_accounts/list") Cuentas Bancarias
 		-if(RolesHelper.admin(expose.user))
 			li.nav-header.titulos_menu
-				.glyphicon.glyphicon-envelope 
-					label Marketing
+				.glyphicon.glyphicon-envelope Marketing
 			li
 				a(href='/subscribers') Suscriptores
 			li
