@@ -12,7 +12,6 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 				.item.active
 					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}", style="width:100%; height:500px;")
 					.carousel-caption
-						h3 #{title}
 						p #{description}
 			-else
 				.item
@@ -25,15 +24,20 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 	a(class="right carousel-control", href="#carousel#{id}", data-slide="next")
 		span(class="glyphicon glyphicon-chevron-right")
 	div(class="caption-top transparent")
-			.span8.pull-left
-			.span2.pull-right
-				.buy.boxshadow.no_transparent
-					a(href="#")
-					.box_buy 
-						img(src="/img/checkout.png")
-						p COMPRAR
-			.span2.pull-right
-				.special_price.boxshadow.no_transparent
-					a(href="#")
-					.box_detalles 
-						p DETALLES			
+		.col-md-12
+			.col-md-9
+				h3
+					a(href="deals/#{id}") #{title}
+				p #{tagline}
+			-if(buy_box)
+				.pull-right
+					.buy.boxshadow.no_transparent
+						a(href="sales/checkout/#{id}")
+							.box_buy
+								img(src="/img/checkout.png")
+								p COMPRAR
+				.pull-right
+					.special_price.boxshadow.no_transparent
+						a(href="deals/#{id}")
+							.box_detalles 
+								p VER OFERTA!
