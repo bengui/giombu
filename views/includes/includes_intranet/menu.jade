@@ -15,8 +15,7 @@
 				li
 					a(href='/deals/create') Crear Oferta
 		li.nav-header.titulos_menu
-			.glyphicon.glyphicon-th 
-				label Menu
+			.glyphicon.glyphicon-th Menu
 		li
 			a(href='/news') Noticias
 		-if(RolesHelper.promoter(expose.user))
@@ -36,8 +35,7 @@
 					a(href='/stores/all') Lista
 		-if(RolesHelper.seller(expose.user))
 			li.nav-header.titulos_menu
-				.glyphicon.glyphicon-shopping-cart 
-					label Vendedores
+				.glyphicon.glyphicon-shopping-cart Vendedores
 			li
 				a(href='/deals/mine') Mis Ofertas
 		li.nav-header.titulos_menu
