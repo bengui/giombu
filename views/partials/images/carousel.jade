@@ -1,4 +1,4 @@
-div(id="carousel#{id}", class="carousel slide", data-ride="carousel", style="max-width:400px;max-height:300px;")
+div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 	ol(class="carousel-indicators")
 		-for (var i = images.length - 1; i >= 0; i--)
 			-if (i == 0)
@@ -10,7 +10,7 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel", style="max
 			-var image = images[i]
 			-if (i == 0)
 				.item.active
-					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}", style="width:100%;max-width:100%;max-height:100%;")
+					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}", style="width:100%;max-width:100%;max-height:600px;")
 					.carousel-caption
 						p #{description}
 			-else
