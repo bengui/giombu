@@ -64,7 +64,7 @@ module.exports = function(app){
 	app.get('/news/:page_number?*', CheckAuth.user, function(req, res){
 		var page_number = 0;
 		if(req.params.page_number){
-			page_number = req.params.page_number;
+			page_number = parseInt(req.params.page_number);
 		}
 
 		var skip = page_number * 10;
@@ -73,7 +73,10 @@ module.exports = function(app){
 		var previous_page = page_number - 1;
 
 
-		NewModel.find({ to_user : req.session.user._id}, {},{ skip: skip, limit: 10 })
+		NewModel.find({ to_user : req.session.user._id})
+		.skip(skip)
+		.limit(10)
+		.sort('-created')
 		.populate('to_user')
 		.populate('from_user')
 		.populate('deal')

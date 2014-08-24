@@ -38,6 +38,52 @@ module.exports = function(app){
 		});
 	});
 
+	//TESTING FUNCTIONS *******************************************
+	//TODO quitar estas funciones 
+	//bengui
+
+	// app.get('/users/makemeadmin', CheckAuth.user, function(req, res){
+	// 	UserModel.findById(req.session.user._id, function(err, user){
+	// 		if (err) throw err;
+	// 		user.roles.push(UserRoles.getAdmin());
+	// 		user.save(function(err){
+	// 			if (err) throw err;
+	// 			req.session.user = user;
+	// 			req.session.expose.user = user;
+	// 			res.send('Eres ADMIN!');
+
+	// 		});
+	// 	});
+	// });
+
+	// app.get('/users/unmakemeadmin', CheckAuth.user, function(req, res){
+	// 	UserModel.findById(req.session.user._id, function(err, user){
+	// 		var index = user.roles.indexOf(UserRoles.getAdmin());
+	// 		user.roles.splice(index, 1);
+	// 		user.save(function(err){
+	// 			if (err) throw err;
+	// 			req.session.user = user;
+	// 			req.session.expose.user = user;
+	// 			res.send('Ya no eres ADMIN!');
+
+	// 		});
+	// 	});
+	// });
+
+	// app.get('/users/promoter', CheckAuth.promoter, function(req, res){
+	// 	res.send('Eres promoter o admin');
+	// });
+
+	// app.get('/users/seller', CheckAuth.seller, function(req, res){
+	// 	res.send('Eres seller o admin');
+	// });
+
+	// app.get('/users/generalAdministrator', CheckAuth.generalAdministrator, function(req, res){
+	// 	res.send('Eres generalAdministrator o admin');
+	// });
+
+
+	//TESTING FUNCTIONS *******************************************
 
 	app.get('/users/create/:username?', function(req, res){
 		CountryModel.find({}, function(err, countries){
