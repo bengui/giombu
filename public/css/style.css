@@ -70,7 +70,7 @@ body {
 
 .caption-top {background: #333;background: rgba(10, 10, 10, 0.30);padding: 0;top: 0;position: absolute;right: 0;left: 0;max-height: 120px;margin: auto;color: #FFF;text-align: center !important;}
 .caption-top a {color:#FFF !important; text-align: center;}
-.buy {background: #abd801; height: 130px; text-align: center; width: 120px;}
+.buy {background: #abd801; height: 130px; text-align: center; width: 120px; }
 .special_price {background: #00a4cc;font-weight: bold;height: 130px;text-align: center;width: 120px;}
 .box_buy {padding-top: 40px;}
 .box_detalles {padding-top: 50px;}
