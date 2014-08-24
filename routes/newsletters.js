@@ -77,7 +77,7 @@ module.exports = function (app){
 											}, function (err) {
 										    	if (err) {
 											      	console.log(err);
-											      	res.send('There was an error sending the email');
+											      	res.send(JSON.stringify(err));
 											      	return;
 											    }
 											    newsletter.deals = deals_newsletter;
