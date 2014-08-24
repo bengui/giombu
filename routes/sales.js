@@ -55,7 +55,7 @@ module.exports = function(app){
 				if(deal){
 					var sale_new = new SaleModel();
 					sale_new.payment_method = req.body.payment_type;
-					sale_new.status = 'Pending';
+					sale_new.status = 'Approved';
 					sale_new.user = req.session.user._id;
 					for(var i=1;i<=req.body.quantity;i++){
 						var coupon_new = new CouponModel();
