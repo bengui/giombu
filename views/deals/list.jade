@@ -13,7 +13,7 @@ block content
 				p No tienes ofertas
 			-each deal in deals
 				.well(id="#{deal._id}")
-					-if((RolesHelper.seller(expose.user)&&(expose.user._id === deal.seller))||RolesHelper.seller(expose.user))
+					-if((RolesHelper.seller(expose.user)&&(expose.user._id === deal.seller))||RolesHelper.admin(expose.user))
 						a(href="/deals/summary/#{deal._id}", class="btn btn-primary pull-right active", role="button") Resumen
 						.btn-group.pull-right.state_selector
 							button(type="button",class="btn btn-default status_selector dropdown-toggle #{deal.status}", data-toggle="dropdown")
