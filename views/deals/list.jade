@@ -4,8 +4,9 @@ block content
 	.span9
 		h3 Lista de Ofertas
 		.glyphicon.glyphicon-plus
-		-if((RolesHelper.seller(expose.user))
-			a(href="/deals/create")  Cargar oferta
+		-if(RolesHelper.seller(expose.user))
+			a(href="/deals/create")
+				p  Cargar oferta
 		br
 		br
 		br
