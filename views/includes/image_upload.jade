@@ -2,7 +2,7 @@ p Seleccione una foto
 form(action="/images/upload/#{route_name}/#{get_id}", id="upload_image", method="POST", enctype='multipart/form-data').form-horizontal
 	.form-group
 		.col-md-4
-			input(type="text", name="image[name]", placeholder='Nombre de archivo').form-control
+			input(type="text", name="image[name]", placeholder='Nombre de archivo', class="required").form-control
 	.form-group
 		.col-md-4
 			input(type="file", name="image[image]").form-control

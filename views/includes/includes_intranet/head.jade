@@ -10,9 +10,9 @@
 			button(type="button" class="close" data-dismiss="alert" aria-hidden="true")&times;
 			p #{expose.error}
 	.pull-right
-		-if ((typeof expose.user) !== "undefined")
-				a(href="/users/logout")
-					span.glyphicon.glyphicon-log-out.col-md-pull-1
-					|Salir
+		-if(expose.user)
+			a(href="/users/logout")
+				span.glyphicon.glyphicon-log-out.col-md-pull-1
+					p Salir
 	.pull-right
 		include ../../partials/news/menu
