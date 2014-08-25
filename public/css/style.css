@@ -10,7 +10,22 @@ body {
 .space{margin: 5px !important}
 
 #head_home {padding-bottom: 15px;padding-top: 5px;}
-#head_intranet {background-color: #F2F2F2;border-bottom: 2px solid #00a4cc; margin-bottom: 15px;padding-top: 5px;padding-left: 4%;padding-right: 4%;}
+
+/* Head de la intranet */
+#head_intranet {
+	background-color: #F2F2F2;
+	border-bottom: 2px solid #00a4cc; 
+	margin-bottom: 15px;padding-top: 5px;
+	padding-left: 4%;
+	padding-right: 4%;
+}
+
+/* Botón de noticias que esta en el head de la intranet */
+.news_intranet{
+	margin-top: 0px !important;
+	margin-right: 10px !important;
+}
+
 .content_body {margin-left: 2%;margin-right: 2%;}
 
 /*Fondos de los encabezados del menu de la intranet */
@@ -43,8 +58,19 @@ body {
 #center {width: 60%; padding: 20px 10px 0 20px;}
 #news {width: 20%}
 
-.original {font: normal 18px 'robotolight', Arial, Helvetica, sans-serif;color: #666;text-decoration: line-through; }
-.dto {margin: 0 10px;padding: 0;font: normal 20px 'robotobold', Arial, Helvetica, sans-serif;color: #333; font-weight: bold; color:#690;}
+.original {
+	font: normal 18px 'robotolight', Arial, Helvetica, sans-serif;
+	color: #666;
+	text-decoration: line-through; 
+}
+.dto {
+	margin: 0 10px;
+	padding: 0;
+	font: normal 20px 'robotobold', Arial, Helvetica, sans-serif;
+	color: #333; 
+	font-weight: bold; 
+	color:#690;
+}
 .price {
 	margin: 0;
 	font: normal 24px 'robotobold', Arial, Helvetica, sans-serif;
@@ -100,7 +126,18 @@ body {
 	font-weight: bold;
 }
 
-.caption-top {background: #333;background: rgba(10, 10, 10, 0.30);padding: 0;top: 0;position: absolute;right: 0;left: 0;max-height: 120px;margin: auto;color: #FFF;text-align: center !important;}
+.caption-top {
+	background: #333;
+	background: rgba(10, 10, 10, 0.30);
+	padding: 0;
+	top: 0;
+	position: absolute;
+	right: 0;left: 0;
+	max-height: 120px;
+	margin: auto;
+	color: #FFF;
+	text-align: center !important;
+}
 .caption-top a {color:#FFF !important;}
 .caption-top .col-md-12 {padding: 0px !important;}
 .caption-top .col-md-12 .col-md-9 {padding-left: 50px !important; padding-right: 0px !important;}
