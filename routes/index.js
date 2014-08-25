@@ -23,6 +23,7 @@ var news = require('./news');
 var events = require('./events');
 var newsletters = require('./newsletters');
 var bank_accounts = require('./bank_accounts');
+var stats = require('./stats');
 
 
 var errors = require('./errors');
@@ -61,6 +62,7 @@ module.exports = function(app){
 	events(app);
 	newsletters(app);
 	bank_accounts(app);
+	stats(app);
 	// error handlers
 	errors(app);
 

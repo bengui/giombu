@@ -38,28 +38,28 @@ function plotValues(data,plotCtx,plotChart){
 }
 
 $.ajax({
-  url: "/calculate_new_users",
+  url: "/stats/new_users",
   context: document.body
 }).done(function(data ) {
  plotValues(data,ctx3,myChart3)
 });
 
 $.ajax({
-  url: "/calculate_new_deals",
+  url: "/stats/new_deals",
   context: document.body
 }).done(function(data ) {
   plotValues(data,ctx2,myChart2)
 });
 
 $.ajax({
-  url: "/calculate_total_by_month",
+  url: "/stats/total_by_month",
   context: document.body
 }).done(function(data ) {
   plotValues(data,ctx1,myChart1)
 });
 
 $.ajax({
-  url: "/calculate_coupon_total_by_month",
+  url: "/stats/coupon_total_by_month",
   context: document.body
 }).done(function(data ) {
 	plotValues(data,ctx,myChart)
