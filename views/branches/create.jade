@@ -11,59 +11,59 @@ block content
 			br
 			br
 			.form-group
-				label.col-md-2 Nombre:
+				label.control-label.col-md-4 Nombre:
 				.col-md-8
 					input(name='branch[name]', type='text').form-control.input-sm.required
 			.form-group
-				label.col-md-2 Provincia:
+				label.control-label.col-md-4 Provincia:
 				.col-md-3
 					select(name="branch[state]", id="state_selector").form-control.input-sm
 						-each state in states
 							option(value="#{state._id}") #{state.name}
 			.form-group
-				label.col-md-2 Ciudad:
+				label.control-label.col-md-4 Ciudad:
 				.col-md-3
 					select(name="branch[city]", id="city_selector").form-control.input-sm
 			.form-group
-				label.col-md-2 Franquicia:
+				label.control-label.col-md-4 Franquicia:
 				.col-md-3
 					select(name="branch[franchise]", id="franchise_selector").form-control.input-sm
 						-each franchise in franchises
 							option(value="#{franchise._id}") #{franchise.name}
 			.form-group
-				label.col-md-2 Dirección:
+				label.control-label.col-md-4 Dirección:
 				.col-md-8
 					input(name='branch[address]', type='text').form-control.input-sm.required
 			.form-group
-				label.col-md-2 Cod. Postal:
+				label.control-label.col-md-4 Cod. Postal:
 				.col-md-3
 					input(name='branch[zip]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-2 Telefono:
+				label.control-label.col-md-4 Telefono:
 				.col-md-3
 					input(name='branch[phone]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-2 Email:
+				label.control-label.col-md-4 Email:
 				.col-md-8
 					input(name='branch[email]', type='text').form-control.input-sm.required.email
 			.form-group
-				label.col-md-2 Web:
+				label.control-label.col-md-4 Web:
 				.col-md-8
 					input(name='branch[website]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-2 Fanpage
+				label.control-label.col-md-4 Fanpage
 				.col-md-8
 					input(name='branch[fanpage]', type='text').form-control.input-sm
 			.form-group
-				label.col-md-2 twitter
+				label.control-label.col-md-4 twitter
 				.col-md-8
 					input(name='branch[twitter]', type='text').form-control.input-sm
 			.form-group#validate-user.has-feedback
-				label.col-md-2 Usuario asignado:
+				label.control-label.col-md-4 Usuario asignado:
 				.col-md-4
 					input(type='text', name="partner_username", id='branch_partner', placeholder="Usuario").form-control.input-sm
 					span(class="glyphicon glyphicon-ok form-control-feedback" id="check-icon")
 			.form-group
-				.col-sm-offset-2.col-sm-8
+				.col-sm-offset-4.col-sm-8
 					button(type='submit' id='submit_btn').btn.btn-primary Guardar
 	script(type="text/javascript" src="/js/branches/create.js")

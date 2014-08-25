@@ -3,10 +3,9 @@ extends ../layout
 block content
 	.span9
 		h3 Lista de Ofertas
-		.glyphicon.glyphicon-plus
+		span.glyphicon.glyphicon-plus.space
 		-if(RolesHelper.seller(expose.user))
-			a(href="/deals/create")
-				p  Cargar oferta
+			a(href="/deals/create") Cargar oferta
 		br
 		br
 		br

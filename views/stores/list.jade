@@ -7,7 +7,7 @@ block content
 		a(href="/stores/create_store_branch")  Cargar Comercio	
 		table.table_store_list
 			-each store in stores
-				.media
+				.well.media
 					.pull-left(href="#")
 						a(href="/stores/review/#{store._id}", rel="tooltip")
 							if(typeof store.images!== "undefined" )
