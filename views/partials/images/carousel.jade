@@ -27,17 +27,17 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 		.col-md-12
 			.col-md-9
 				h3
-					a(href="deals/#{id}") #{title}
+					a(href="/deals/#{id}") #{title}
 				p #{tagline}
 			-if(buy_box)
 				.pull-right
 					.buy.boxshadow.no_transparent
-						a(href="sales/checkout/#{id}")
+						a(href="/sales/checkout/#{id}")
 							.box_buy
 								img(src="/img/checkout.png")
 								p COMPRAR
 				.pull-right
 					.special_price.boxshadow.no_transparent
-						a(href="deals/#{id}")
+						a(href="/deals/#{id}")
 							.box_detalles 
 								p VER OFERTA!
