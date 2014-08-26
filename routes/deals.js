@@ -154,7 +154,7 @@ module.exports = function (app){
 
 			if (err) throw err;
 
-			res.redirect('/deals/' + deal._id);
+			res.redirect('/deals/review/' + deal._id);
 
 		});
 

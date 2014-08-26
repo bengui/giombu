@@ -5,6 +5,32 @@ var CheckAuth = require('../middleware/checkAuth');
 var mongoose = require('mongoose');
 module.exports = function(app){
 
+	var parse_month_year_response = function(totals){
+		var processed_totals = {};
+		var keys = [];
+		var values = [];
+		for (var i = 0; i< totals.length ; i++) {
+			keys.push(totals[i]._id.month_created.toString() +"/"+ totals[i]._id.year_created.toString())
+			values.push(totals[i].cant)
+		};
+		processed_totals.keys = keys;
+		processed_totals.values = values;
+		return processed_totals;
+	}
+
+	var parse_week_month_year_response = function(totals){
+		var processed_totals = {};
+		var keys = [];
+		var values = [];
+		for (var i = 0; i< totals.length ; i++) {
+			keys.push(totals[i]._id.week_created.toString()+" "+totals[i]._id.month_created.toString() +"/"+ totals[i]._id.year_created.toString())
+			values.push(totals[i].cant)
+		};
+		processed_totals.keys = keys;
+		processed_totals.values = values;
+		return processed_totals;
+	}
+
 	app.get('/stats',CheckAuth.admin, function(req, res, next){
 		res.render('stats/stats', {title: 'Estadisticas'});
 	});
@@ -12,42 +38,39 @@ module.exports = function(app){
 	app.get('/stats/new_users', function(req, res, next){
 		var totals = [];
 		UserModel.aggregate(
-		    { $project : { month_created : { $month : "$created" },	year_created : { $year : "$created" }  } } ,
-		    { $group : { _id : {month_created:"$month_created",year_created:"$year_created" } , cant : { $sum : 1 } } },
-		    { $sort : { "_id.created" : 1 }}
+		    { $group : { _id:{month_created:{ $month : "$created" },year_created:{ $year : "$created" }} , cant : { $sum : 1 } } },
+		    { $sort : { "_id.month_created" : 1 }}
 		  , 
-	      function (err, totals)
-	           { if (err) {res.send(err)}
-	             res.send(totals)
-	           }
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	             	res.send(parse_month_year_response(totals))
+	           	}
 			);
 	});
 
 	app.get('/stats/new_invitations', function(req, res, next){
 		var totals = [];
 		InvitationModel.aggregate(
-		    { $project : { month_created : { $month : "$created" },	year_created : { $year : "$created" }  } } ,
-		    { $group : { _id : {month_created:"$month_created",year_created:"$year_created" } , cant : { $sum : 1 } } },
-		    { $sort : { "_id.created" : 1 }}
+		    { $group : { _id:{month_created:{ $month : "$created" },year_created:{ $year : "$created" }} , cant : { $sum : 1 } } },
+		    { $sort : { "_id.month_created" : 1 }}
 		  , 
-	      function (err, totals)
-	           { if (err) {res.send(err)}
-	             res.send(totals)
-	           }
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			res.send(parse_month_year_response(totals))
+	           	}
 			);
 	});
 
 	app.get('/stats/new_deals', function(req, res, next){
 		var totals = [];
 		DealModel.aggregate(
-		    { $project : { month_created : { $month : "$created" },	year_created : { $year : "$created" }  } } ,
-		    { $group : { _id : {month_created:"$month_created",year_created:"$year_created" } , cant : { $sum : 1 } } },
-		    { $sort : { "_id.created" : 1 }}
+		    { $group : { _id:{month_created:{ $month : "$created" },year_created:{ $year : "$created" }} , cant : { $sum : 1 } } },
+		    { $sort : { "_id.month_created" : 1 }}
 		  , 
-	      function (err, totals)
-	           { if (err) {res.send(err)}
-	             res.send(totals)
-	           }
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			res.send(parse_month_year_response(totals))
+	           	}
 			);
 	});
 
@@ -57,12 +80,12 @@ module.exports = function(app){
 			{ $unwind: "$sales" },
 		    { $project : { month_created : { $month : "$sales.created" },	year_created : { $year : "$sales.created" }  } }  ,
 		    { $group : { _id : {month_created:"$month_created",year_created:"$year_created" } , cant : { $sum : 1 } } },
-		    { $sort : { "_id.created" : 1 }}
+		    { $sort : { "_id.month_created" : 1 ,"_id.year_created" : 1 }}
 		  , 
-	      function (err, totals)
-	           { if (err) {res.send(err)}
-	             res.send(totals)
-	           }
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			res.send(parse_month_year_response(totals))
+	           	}
 			);
 	});
 
@@ -72,13 +95,13 @@ module.exports = function(app){
 			{ $unwind: "$sales" },
 			{ $unwind: "$sales.coupons" },
 		    { $match: {$or:[{ "sales.status": "Approved" } ,{ "sales.status": "Pending" }]}},
-		    { $project : { month_created : { $month : "$sales.created" },	week_created : { $week : "$sales.created" }, amount :  "$special_price" }  } ,
-		    { $group : { _id : {week_created:"$week_created" } , cant : { $sum : "$amount" } } },
-		    { $sort : { "_id.created" : 1 }}
+		    { $project : { year_created : { $year : "$sales.created" } ,month_created : { $month : "$sales.created" },	week_created : { $week : "$sales.created" }, amount :  "$special_price" }  } ,
+		    { $group : { _id : {week_created:"$week_created" , month_created:"$month_created", year_created:"$year_created"} , cant : { $sum : "$amount" } } },
+		    { $sort : { "_id.week_created" : 1 }}
 		  , 
-	      function (err, totals)
-	           { if (err) {res.send(err)}
-	             res.send(totals)
+	      function (err, totals){ 
+	      		if (err) {res.send(err)}
+	            	res.send(parse_week_month_year_response(totals))
 	           }
 			);
 	});
