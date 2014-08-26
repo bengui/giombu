@@ -18,7 +18,8 @@
 		li
 			a(href='/news') Noticias
 		-if(RolesHelper.promoter(expose.user))
-			li.nav-header Promotores
+			li.nav-header.titulos_menu
+				.glyphicon.glyphicon-user Promotores
 			li
 				a(href='/promoters/#{expose.user._id}') Mi perfil
 			li
