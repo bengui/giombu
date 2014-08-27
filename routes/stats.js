@@ -106,4 +106,42 @@ module.exports = function(app){
 			);
 	});
 
+	app.get('/stats/count_sellers', function(req, res, next){
+		UserModel.aggregate(
+		    { $match:  { "roles":{ $in: ["seller"] }}},
+		    { $group : { _id : "" , cant : { $sum : 1 } } },
+		    { $sort : { "_id.week_created" : 1 }}
+		  , 
+	      function (err, totals){ 
+	      		if (err) {res.send(err)}
+	            	res.send(JSON.stringify(totals[0].cant))
+	           }
+			);
+	});
+
+	app.get('/stats/count_partners', function(req, res, next){
+		UserModel.aggregate(
+		    { $match:  { "roles":{ $in: ["partner"] }}},
+		    { $group : { _id : "" , cant : { $sum : 1 } } },
+		    { $sort : { "_id.week_created" : 1 }}
+		  , 
+	      function (err, totals){ 
+	      		if (err) {res.send(err)}
+	            	res.send(JSON.stringify(totals[0].cant))
+	           }
+			);
+	});
+
+	app.get('/stats/count_promoters', function(req, res, next){
+		UserModel.aggregate(
+		    { $match:  { "roles":{ $in: ["promoter"] }}},
+		    { $group : { _id : "" , cant : { $sum : 1 } } },
+		    { $sort : { "_id.week_created" : 1 }}
+		  , 
+	      function (err, totals){ 
+	      		if (err) {res.send(err)}
+	            	res.send(JSON.stringify(totals[0].cant))
+	           }
+			);
+	});
 }

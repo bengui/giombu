@@ -4,18 +4,49 @@ block content
 	script(type='text/javascript', src='/js/Chart.js')
 	script(type='text/javascript', src='/js/Stats.js')
 	hr
-	h3 Usuarios Nuevos por mes
-	canvas(id="myChart", width="400", height="400")
-	hr
-	h3 Nuevas Ofertas por mes
-	canvas(id="myChart1", width="400", height="400")
-	hr
-	h3 Invitaciones por mes
-	canvas(id="myChart2", width="400", height="400")
-	hr
-	h3 Ventas por mes
-	canvas(id="myChart3", width="400", height="400")
-	hr
-	h3 Ventas semanales
-	canvas(id="myChart4", width="400", height="400")
 	
+	.panel-group(id="accordion")
+		.panel.panel-default
+			.panel-heading
+				h4.panel-title
+					a(data-toggle="collapse", data-parent="#accordion", href="#collapsemyChart")
+						span Usuarios Nuevos por mes
+			div(id="collapsemyChart", class="panel-collapse collapse")
+				.panel-body(style="text-align:center;")
+					canvas(id="myChart", width="700", height="400")
+	.panel-group(id="accordion")
+		.panel.panel-default
+			.panel-heading
+				h4.panel-title
+					a(data-toggle="collapse", data-parent="#accordion", href="#collapsemyChart1")
+						span Nuevas Ofertas por mes
+			div(id="collapsemyChart1", class="panel-collapse collapse")
+				.panel-body(style="text-align:center;")
+					canvas(id="myChart1", width="700", height="400")
+	.panel-group(id="accordion")
+		.panel.panel-default
+			.panel-heading
+				h4.panel-title
+					a(data-toggle="collapse", data-parent="#accordion", href="#collapsemyChart2")
+						span Invitaciones por mes
+			div(id="collapsemyChart2", class="panel-collapse collapse")
+				.panel-body(style="text-align:center;")
+					canvas(id="myChart2", width="700", height="400")
+	.panel-group(id="accordion")
+		.panel.panel-default
+			.panel-heading
+				h4.panel-title
+					a(data-toggle="collapse", data-parent="#accordion", href="#collapsemyChart3")
+						span Ventas por mes
+			div(id="collapsemyChart3", class="panel-collapse collapse")
+				.panel-body(style="text-align:center;")
+					canvas(id="myChart3", width="700", height="400")
+	.panel-group(id="accordion")
+		.panel.panel-default
+			.panel-heading
+				h4.panel-title
+					a(data-toggle="collapse", data-parent="#accordion", href="#collapsemyChart4")
+						span Monto total ventas semanales
+			div(id="collapsemyChart4", class="panel-collapse collapse")
+				.panel-body(style="text-align:center;")
+					canvas(id="myChart4", width="700", height="400")

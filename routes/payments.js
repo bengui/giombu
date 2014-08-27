@@ -43,14 +43,7 @@ module.exports = function(app){
 	app.get('/payments',CheckAuth.user, function(req, res, next){
 		PaymentModel.find({"user": req.session.user._id, "bonuses": { $exists: true },  "commissions": { $exists: true },"bank_account": { $exists: true }}).populate("bank_account").populate("bonuses").populate("commissions").exec( function(err, payments){
 			if (err) throw err;
-			bank_account = new BankAccountModel();
-			bank_account.bank_name = Encrypter.decrypt(payments.bank_account[i].bank_name);
-			bank_account.bank_clabe = Encrypter.decrypt(payments.bank_account[i].bank_clabe);
-			bank_account.bank_rute = Encrypter.decrypt(payments.bank_account[i].bank_rute);
-			bank_account.bank_number = Encrypter.decrypt(payments.bank_account[i].bank_number);
-			bank_account.curp = Encrypter.decrypt(payments.bank_account[i].curp);
-			bank_account.ife = Encrypter.decrypt(payments.bank_account[i].ife);
-			res.render('payments/list', {title: 'Seccion de pagos' , payments:payments, bank_account:bank_account});
+			res.render('payments/list', {title: 'Seccion de pagos' , payments:payments});
 		});
 	});
 
