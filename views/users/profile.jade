@@ -57,10 +57,12 @@ block content
 		-if(RolesHelper.member(expose.user)|| RolesHelper.franchisorAdministrator(expose.user) || RolesHelper.generalAdministrator(expose.user)|| RolesHelper.admin(expose.user))
 			.tab-pane.fade.in#administration
 				h3 Agregar Roles
+				br
 				include ../partials/users/add_roles
 		.tab-pane.fade.in#misofertas
 				h3 Lista de Compras
-				table.table
+				br
+				table.table.table-condensed.table-striped.table-hover
 					tr
 						th Oferta
 						th Estado
@@ -75,11 +77,12 @@ block content
 							td #{deal.sales.created}
 		.tab-pane.fade.in#missuscripciones
 			h3 Lista de Suscripciones
-			table.table.missuscripciones
+			br
+			table.table.missuscripciones.table-condensed.table-striped
 				-if (subscriptions)
 					tr 
-						th.tdmisdatos Nombre:
-						th.tdmisdatos Fecha de suscripcion:
+						th.tdmisdatos Nombre
+						th.tdmisdatos Fecha de suscripcion
 					-each subscription in subscriptions
 						-if(subscription.franchise)
 							tr 
@@ -87,7 +90,8 @@ block content
 								td #{subscription.created}
 		.tab-pane.fade.in#misbonos
 			h3 Lista de Bonos
-			table.table.misbonos
+			br
+			table.table.misbonos.table-condensed.table-hover.table-striped
 				tr
 					th Usuario
 					th Monto
@@ -98,14 +102,16 @@ block content
 						include ../partials/bonuses/bonus
 		.tab-pane.fade.in#miscomisiones
 			h3 Lista de Comisiones
-			table.table.miscomisiones
-				tr
-					th Monto
-					th Fecha
-					th  
-				-if (commissions)
-					-each commission in commissions
-						include ../partials/commissions/commission
+			br
+			.col-md-8
+				table.table.miscomisiones.table-condensed.table-hover.table-striped
+					tr
+						th Monto
+						th Fecha
+						th  
+					-if (commissions)
+						-each commission in commissions
+							include ../partials/commissions/commission
 		.tab-pane.fade.in#misimagenes
 			h3 Agregar Imagenes
 			-var route_name = "users"
