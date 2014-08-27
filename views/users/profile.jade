@@ -103,15 +103,14 @@ block content
 		.tab-pane.fade.in#miscomisiones
 			h3 Lista de Comisiones
 			br
-			.col-md-8
-				table.table.miscomisiones.table-condensed.table-hover.table-striped
-					tr
-						th Monto
-						th Fecha
-						th  
-					-if (commissions)
-						-each commission in commissions
-							include ../partials/commissions/commission
+			table.table.miscomisiones.table-condensed.table-hover.table-striped
+				tr
+					th Monto
+					th Fecha
+					th  
+				-if (commissions)
+					-each commission in commissions
+						include ../partials/commissions/commission
 		.tab-pane.fade.in#misimagenes
 			h3 Agregar Imagenes
 			-var route_name = "users"
