@@ -1,5 +1,6 @@
 var UserModel 	= require('../models/user').UserModel;
 var DealModel 	= require('../models/deal').DealModel;
+var LevelModel 	= require('../models/level').LevelModel;
 var InvitationModel 	= require('../models/invitation').InvitationModel;
 var CheckAuth = require('../middleware/checkAuth');
 var mongoose = require('mongoose');
@@ -35,6 +36,7 @@ module.exports = function(app){
 		res.render('stats/stats', {title: 'Estadisticas'});
 	});
 
+	//Evolucion de una variable en el tiempo
 	app.get('/stats/new_users', function(req, res, next){
 		var totals = [];
 		UserModel.aggregate(
@@ -106,6 +108,36 @@ module.exports = function(app){
 			);
 	});
 
+	app.get('/stats/monthly_promoters', function(req, res, next){
+		UserModel.aggregate(
+		    { $match:  { "roles":{ $in: ["promoter"] }}},
+		    { $group : { _id:{month_created:{ $month : "$created" },year_created:{ $year : "$created" }} , cant : { $sum : 1 } } },
+		    { $sort : { "_id.month_created" : 1 }}
+		  , 
+	      function (err, totals){ 
+	      		if (err) {res.send(err)}
+	            	res.send(parse_month_year_response(totals))
+	           }
+			);
+	});
+	
+	//Hay que pulir lo que vuelve
+	app.get('/stats/promoter_level_proportions', function(req, res, next){
+		UserModel.aggregate(
+			{ $match:  { "roles":{ $in: ["promoter"] }}},
+		    { $group : { _id: "$level" ,level: {$push: '$level'},cant : { $sum : 1 } }}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			console.log(totals)
+	      			LevelModel.populate(totals, {path: "level"}, function(err, totals2){
+	      				res.send(JSON.stringify(totals2))
+	      			});
+	           	}
+			);
+	});
+
+	//Numeros disctretos
 	app.get('/stats/count_sellers', function(req, res, next){
 		UserModel.aggregate(
 		    { $match:  { "roles":{ $in: ["seller"] }}},
@@ -144,4 +176,18 @@ module.exports = function(app){
 	           }
 			);
 	});
+
+	app.get('/stats/count_users', function(req, res, next){
+		UserModel.aggregate(
+		    { $group : { _id : "" , cant : { $sum : 1 } } }
+		  , 
+	      function (err, totals){ 
+	      		if (err) {res.send(err)}
+	            	res.send(JSON.stringify(totals[0].cant))
+	           }
+			);
+	});
+
+	
+
 }
