@@ -1,13 +1,14 @@
 var UserRoles = require('../models/user').UserRoles;
 
-exports.user = function (user) {
-	if (!user) {
-		return false
-	} else {
-		return true
+function isUser(user, callback){
+	if(user){
+		return callback();
+	}else{
+		return false;
 	}
 }
-exports.admin = function (user) {
+
+function isAdmin(user){
 	var index = user.roles.indexOf(UserRoles.getAdmin());
 	if (index == -1) {
 		return false
@@ -15,63 +16,87 @@ exports.admin = function (user) {
 		return true
 	}
 }
-exports.promoter = function (user) {
-	var index = user.roles.indexOf(UserRoles.getPromoter());
-	if (index == -1) {
+
+exports.user = function (user) {
+	if (!user) {
 		return false
 	} else {
 		return true
 	}
+}
+
+exports.admin = function (user) {
+	return isAdmin(user);
+}
+
+exports.seller = function (user) {
+	return isUser(user,function(){
+		var index = user.roles.indexOf(UserRoles.getSeller());
+		if (index != -1 || isAdmin(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
+
+exports.promoter = function (user) {
+	return isUser(user,function(){
+		var index = user.roles.indexOf(UserRoles.getPromoter());
+		if (index != -1 || isAdmin(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
+
+exports.partner = function (user) {
+	return isUser(user,function(){
+		var index = user.roles.indexOf(UserRoles.getPartner());
+		if (index != -1 || isAdmin(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
+
+exports.member = function (user) {
+	return isUser(user,function(){
+		var index = user.roles.indexOf(UserRoles.getMember());
+		if (index != -1 || isAdmin(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
+
+exports.generalAdministrator = function (user) {
+	return isUser(user,function(){
+		var index = user.roles.indexOf(UserRoles.getGeneralAdministrator());
+		if (index != -1 || isAdmin(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+}
+
+exports.franchisorAdministrator = function (user) {
+	return isUser(user,function(){
+		var index = user.roles.indexOf(UserRoles.getFranchisorAdministrator());
+		if (index != -1 || isAdmin(user)) {
+			return true;
+		} else {
+			return false;
+		}
+	});
 }
 
 exports.list = function (user) {
 	return UserRoles.list()
-}
-
-exports.seller = function (user) {
-	var index = user.roles.indexOf(UserRoles.getSeller());
-	if (index == -1) {
-		return false
-	} else {
-		return true
-	}
-}
-
-exports.partner = function (user) {
-
-	var index = user.roles.indexOf(UserRoles.getPartner());
-	if (index == -1) {
-		return false
-	} else {
-		return true
-	}
-}
-
-exports.member = function (user) {
-	var index = user.roles.indexOf(UserRoles.getMember());
-	if (index == -1) {
-		return false
-	} else {
-		return true
-	}
-}
-
-exports.generalAdministrator = function (user) {
-	var index = user.roles.indexOf(UserRoles.getGeneralAdministrator());
-	if (index == -1) {
-		return false
-	} else {
-		return true
-	}
-}
-
-exports.franchisorAdministrator = function (user) {
-	var index = user.roles.indexOf(UserRoles.getFranchisorAdministrator());
-	if (index == -1) {
-		return false
-	} else {
-		return true
-	}
 }
 
 exports.searchmode = function (user) {

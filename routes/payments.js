@@ -43,6 +43,7 @@ module.exports = function(app){
 	app.get('/payments',CheckAuth.user, function(req, res, next){
 		PaymentModel.find({"user": req.session.user._id,"bank_account": { $exists: true }}).populate("bank_account").populate("bonuses").populate("commissions").exec( function(err, payments){
 			if (err) throw err;
+		console.log(payments)
 			res.render('payments/list', {title: 'Seccion de pagos' , payments:payments});
 		});
 	});
@@ -81,7 +82,7 @@ module.exports = function(app){
 						
 					}
 					payment_new = new PaymentModel();
-					payment_new.bank_account = req.param("bank_account")
+					payment_new.bank_account = req.body.bank_account;
 					payment_new.commissions = req.param('commissions');
 					payment_new.bonuses = req.param('bonuses');
 					payment_new.amount = amount;
