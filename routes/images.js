@@ -30,9 +30,21 @@ module.exports = function(app){
 			var Model = get_model(req.params.param);
 			var img = req.files.image.image;
 			var format = img.name.substr(img.name.indexOf("."));
-			fs.rename(img.path, dir+"/"+req.params.param+"/"+req.body.image.name + format, function(err){
-				var image = new ImageModel()
-				image.filename =  req.body.image.name + format;
+			var imageName;
+
+			if(req.body.image.name.trim()){
+				imageName = req.body.image.name + format;
+			}else{
+				imageName = img.name;
+			}
+			
+			fs.rename(img.path, dir+"/"+req.params.param+"/"+ imageName, function(err){
+				if(err){
+					console.log('Image Writing ERROR!');
+					console.log(err);
+				}
+				var image = new ImageModel();
+				image.filename =  imageName;
 				image.save(function(err){
 					console.log(image)
 					if(err)
@@ -49,6 +61,7 @@ module.exports = function(app){
 					
 				});
 			})
+			
 		}
 	}
 
