@@ -13,7 +13,7 @@ div(id="carousel#{id}", class="carousel slide", data-ride="carousel")
 					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}", style="width:100%; height:310px;")
 			-else
 				.item
-					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}")					
+					img(src="/photos/#{param}/#{image.filename}" , alt="#{image.filename}", style="width:100%; height:310px;")					
 	a(class="left carousel-control", href="#carousel#{id}", data-slide="prev")
 		span(class="glyphicon glyphicon-chevron-left")
 	a(class="right carousel-control", href="#carousel#{id}", data-slide="next")

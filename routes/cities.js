@@ -37,4 +37,23 @@ module.exports = function(app){
 			res.redirect('states/edit/' + city.state);
 		});
 	});
+
+	app.post('/cities/edit/:id', function(req, res){
+		StateModel.findById(req.params.id, function(err, state){
+			if (err) throw err;
+
+			if(state){
+				CityModel.find({ state : state._id }, function(err, cities){
+					if (err) throw err;
+					res.render('cities/edit', {
+						title 		: 'Editar Estado / Provincia',
+						state 		: state,
+						cities 		: cities
+					});
+				});
+			}else{
+				res.redirect('/states/list');
+			}
+		});
+	});
 }
