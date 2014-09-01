@@ -4,6 +4,8 @@ extends ../layout
 //Bloques de contenido.
 block content
 	h3 Mis Contactos
+	br 
+	br
 	div.well
 		h3 Nivel #{expose.user.level.name}	
 		h4 Próximo nivel
@@ -12,8 +14,6 @@ block content
 		h4 Nivel máximo
 		div.progress
 			div(class="progress-bar progress-bar-striped active", role="progressbar", aria-valuenow="#{sons.length}", aria-valuemin="0", aria-valuemax="100",style="width: #{sons.length}%")
-	hr
 	-if(sons.length > 0)
 		-each promoter in sons
-			.col-sm-4
-				include ../partials/users/promoter_thumbnail
+			include ../partials/users/promoter_thumbnail
