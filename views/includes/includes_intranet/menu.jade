@@ -60,7 +60,7 @@
 				a(href='/sellers/list') Vendedores
 			li
 				a(href='/currencies/list') Monedas
-		-if(RolesHelper.seller(expose.user)||RolesHelper.promoter(expose.user)||RolesHelper.admin(expose.user)||RolesHelper.parner(expose.user))
+		-if(RolesHelper.seller(expose.user)||RolesHelper.promoter(expose.user)||RolesHelper.admin(expose.user)||RolesHelper.partner(expose.user))
 			li.nav-header.titulos_menu
 				.glyphicon.glyphicon-usd Pagos
 			li

@@ -189,4 +189,7 @@ body {
 	display: block;
 }
 
-.deal .deal_hora_precio {}
+.profile .col-md-12 {
+	padding: 0px !important;
+}
+
