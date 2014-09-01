@@ -18,8 +18,13 @@ block content
 					-if((RolesHelper.seller(expose.user)&&(expose.user._id === deal.seller))||RolesHelper.admin(expose.user))
 						.btn-group.pull-right.state_selector
 							button(type="button",class="btn btn-default status_selector dropdown-toggle #{deal.status}", data-toggle="dropdown")
-								span Cambiar Estado
-									span(class="caret")
+								if(deal.status === "draft")
+									span(class="status") Borrador
+								else if(deal.status === "closed")
+									span(class="status") Cerrada
+								else 
+									span(class="status") Activa
+								span(class="caret")
 							ul(class="dropdown-menu", role="menu")
 								li
 									a(class="deal_status_selector", href="#", state="draft" ,url="/deals/#{deal._id}/state/draft") Borrador
