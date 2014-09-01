@@ -41,6 +41,21 @@ branches = {};
 		});
 	});
 
+	function onMountChange(){
+		var price = parseFloat($('#price').val());
+		var discount = parseFloat($('#discount').val());
+		var special_price = price - (price * discount / 100);
+		if (!isNaN(special_price)){
+			$('#special_price').val(special_price);
+		}else{
+			$('#special_price').val('');
+		}
+	}
+
+	$('#price').change(onMountChange);
+	$('#discount').change(onMountChange);
 
 
 })();
+
+

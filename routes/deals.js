@@ -120,19 +120,19 @@ module.exports = function (app){
 			.limit(10)
 			.sort("-created")
 			.populate("images")
-				.exec(function (err, deals) {
-					if (err) return handleError(err);
-					if(deals){
-						res.render('deals/home', {
-							title: 'Ofertas', 
-							deals:deals
-						});
-					}else{
-						res.render('not_found', {
-							title: 'No se encuentran ofertas'
-						});
-					}
-				});
+			.exec(function (err, deals) {
+				if (err) return handleError(err);
+				if(deals){
+					res.render('deals/home', {
+						title: 'Ofertas', 
+						deals:deals
+					});
+				}else{
+					res.render('not_found', {
+						title: 'No se encuentran ofertas'
+					});
+				}
+			});
 		}
 	});
 
