@@ -164,6 +164,9 @@ module.exports = function (app){
 	app.post('/deals/add', function (req, res, next) {
 
 		var deal_new = req.body.deal;
+		console.log('*************************************************');
+		console.log('new deal');
+		console.log(deal_new);
 
 		//Fechas
 		deal_new.tagline = deal_new.tagline.split(",");
