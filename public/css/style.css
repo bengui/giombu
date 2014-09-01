@@ -193,3 +193,8 @@ body {
 	padding: 0px !important;
 }
 
+.img_home {
+	max-height: 157px !important;
+	height: 157px !important;
+}
+

@@ -3,7 +3,7 @@
 		a(href="/deals/view/#{deal._id}")
 			if(typeof deal.images!== "undefined" )
 				if(typeof deal.images[0] !== "undefined" )
-					img( src="/photos/deals/#{deal.images[0].filename}", class="image")
+					img.img_home( src="/photos/deals/#{deal.images[0].filename}", class="image")
 				else
 					p Foto
 			else
