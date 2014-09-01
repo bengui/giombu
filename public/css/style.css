@@ -177,3 +177,16 @@ body {
 	color: #FFF;
 	height: 100px;
 }
+
+.deal {
+	height: 400px;
+	max-height: 400px;
+}
+
+.deal .deal_info {
+	height: 100px;
+	max-height: 100px;
+	display: block;
+}
+
+.deal .deal_hora_precio {}
