@@ -26,33 +26,43 @@ module.exports = function (app){
 	//Tenemos que agregar el filtro por franquicia por defecto, o seleccionada. Nico 21/04 - Si. Benji 12/05
 	//REVISADO
 	app.get('/deals', CheckAuth.user, function(req, res, next){
-		DealModel.find( {} ).sort("-created").populate("images").exec(function(err, deals){
-			
-			if(err) throw err;
-
-			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
-			
-	  	});
-	});
-
-	app.get('/deals/active', CheckAuth.user, function(req, res, next){
-		var today = new Date();
-		DealModel.find({})
-		.where('end_date').lte(today)
+		DealModel.find( { seller : req.session.user._id } )
 		.sort("-created")
 		.populate("images")
 		.exec(function(err, deals){
 			
 			if(err) throw err;
 
-			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
+			res.render('deals/list', {
+				title: 'Lista de todas las ofertas'
+				, deals : deals
+			});
+			
+	  	});
+	});
+
+	app.get('/deals/active', CheckAuth.user, function(req, res, next){
+		var today = new Date();
+		DealModel.find({seller : req.session.user._id, status : 'active'})
+		.where('start_date').lte(today)
+		.where('end_date').gte(today)
+		.sort("-created")
+		.populate("images")
+		.exec(function(err, deals){
+			
+			if(err) throw err;
+
+			res.render('deals/list', {
+				title: 'Lista de ofertas activas', 
+				deals : deals
+			});
 
 	  	});
 	});
 
 	app.get('/deals/future', CheckAuth.user, function(req, res, next){
 		var today = new Date();
-		DealModel.find({})
+		DealModel.find({ seller : req.session.user._id })
 		.where('start_date').gt(today)
 		.sort("-created")
 		.populate("images")
@@ -60,7 +70,10 @@ module.exports = function (app){
 			
 			if(err) throw err;
 
-			res.render('deals/list', {title: 'Lista de ofertas', deals : deals});
+			res.render('deals/list', {
+				title: 'Lista de ofertas futuras', 
+				deals : deals
+			});
 	  	});
 	});
 
@@ -120,19 +133,19 @@ module.exports = function (app){
 			.limit(10)
 			.sort("-created")
 			.populate("images")
-				.exec(function (err, deals) {
-					if (err) return handleError(err);
-					if(deals){
-						res.render('deals/home', {
-							title: 'Ofertas', 
-							deals:deals
-						});
-					}else{
-						res.render('not_found', {
-							title: 'No se encuentran ofertas'
-						});
-					}
-				});
+			.exec(function (err, deals) {
+				if (err) return handleError(err);
+				if(deals){
+					res.render('deals/home', {
+						title: 'Ofertas', 
+						deals:deals
+					});
+				}else{
+					res.render('not_found', {
+						title: 'No se encuentran ofertas'
+					});
+				}
+			});
 		}
 	});
 
