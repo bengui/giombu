@@ -55,7 +55,7 @@ block content
 							include ../partials/commissions/commission_selector
 			-if(bankaccounts.length !== 0)
 				-if (payment)
-					input(type="button", value="Crear pago" , disabled="true", class="create_payment")
+					input(type="button", value="Crear pago" ,  class="create_payment")
 					div(class="alert alert-warning", role="alert")
 						span No puede crear nuevos pagos si ya ha realizado uno en la ultima semana.
 						span Ultimo pago creado el #{payment.created}

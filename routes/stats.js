@@ -1,6 +1,7 @@
 var UserModel 	= require('../models/user').UserModel;
 var DealModel 	= require('../models/deal').DealModel;
 var LevelModel 	= require('../models/level').LevelModel;
+var CommissionModel 	= require('../models/commission').CommissionModel;
 var InvitationModel 	= require('../models/invitation').InvitationModel;
 var CheckAuth = require('../middleware/checkAuth');
 var mongoose = require('mongoose');
@@ -120,8 +121,102 @@ module.exports = function(app){
 	           }
 			);
 	});
-	
+
 	//Hay que pulir lo que vuelve
+	// Tipos de promotores, deberia ser una torta.
+	app.get('/stats/promoter_level_proportions', function(req, res, next){
+		UserModel.aggregate(
+			{ $match:  { "roles":{ $in: ["promoter"] }}},
+		    { $group : { _id: "$level" ,level: {$push: '$level'},cant : { $sum : 1 } }}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			console.log(totals)
+	      			LevelModel.populate(totals, {path: "level", select: "name number"}, function(err, totals2){
+	      				res.send(JSON.stringify(totals2))
+	      			});
+	           	}
+			);
+	});
+
+	app.get('/stats/deal_price_proportions', function(req, res, next){
+		DealModel.aggregate(
+		    { $group : { _id:{ $divide:[{
+		    							$subtract:[
+											{$add:[49.99,"$special_price"]},
+											{$mod:[
+												{$add:[49.99,"$special_price"]},
+												100
+											]}
+										]},
+										100
+										]},
+						cant : { $sum : 1 } }}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      		res.send(JSON.stringify(totals))	
+	           	}
+			);
+	});
+
+	//Comprados segun valor del voucher en cientos de pesos. Total.
+	app.get('/stats/deal_bougth_proportions', function(req, res, next){
+		DealModel.aggregate(
+			{$unwind : "$sales" },
+		    { $group : { _id:{ $divide:[{
+		    							$subtract:[
+											{$add:[49.99,"$special_price"]},
+											{$mod:[
+												{$add:[49.99,"$special_price"]},
+												100
+											]}
+										]},
+										100
+										]},
+						cant : { $sum:1 } 
+					}
+			}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      		res.send(JSON.stringify(totals))	
+	           	}
+			);
+	});
+
+	app.get('/stats/deal_bougth_monthly_proportions', function(req, res, next){
+		DealModel.aggregate(
+			{ $unwind : "$sales" },
+			{ $project : { month_created : { $month : "$sales.created" },	year_created : { $year : "$sales.created" } , special_price:"$special_price" } }  ,
+		    { $group : { _id:{ deal_value: {
+		    						$divide:[{
+		    							$subtract:[
+											{$add:[49.99,"$special_price"]},
+											{$mod:[
+												{$add:[49.99,"$special_price"]},
+												100
+												]
+											}
+											]
+										},
+										100
+										]
+									},
+								month_created:"$month_created",
+								year_created:"$year_created"
+								},
+						cant : { $sum:1 } 
+					}
+			}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      		res.send(JSON.stringify(totals))	
+	           	}
+			);
+	});
+
 	app.get('/stats/promoter_level_proportions', function(req, res, next){
 		UserModel.aggregate(
 			{ $match:  { "roles":{ $in: ["promoter"] }}},
@@ -188,6 +283,54 @@ module.exports = function(app){
 			);
 	});
 
-	
+	//Rankings
 
+	//Mas compradas
+	app.get('/stats/top_commissioners', function(req, res, next){
+		var totals = [];
+		CommissionModel.aggregate(
+		    { $group 	: {  _id: { user : "$user"} ,user : {$addToSet: '$user'},cant : { $sum : "$amount" } }},
+		    { $sort 	: {"cant" : -1}},
+		    { $limit 	: 10}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			UserModel.populate(totals, {path: "user", select: "name lname"}, function(err, totals2){
+	      				res.send(JSON.stringify(totals2))
+      			});
+           	}
+		);
+	});
+
+	app.get('/stats/top_active_sellers', function(req, res, next){
+		var totals = [];
+		DealModel.aggregate(
+		    { $group 	: {  _id: { user : "$seller"} ,user : {$addToSet: '$seller'},cant : { $sum : 1 } }},
+		    { $sort 	: {"cant" : -1}},
+		    { $limit 	: 10}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			UserModel.populate(totals, {path: "user", select: "name lname"}, function(err, totals2){
+	      				res.send(JSON.stringify(totals2))
+      			});
+           	}
+		);
+	});
+
+	app.get('/stats/top_active_inviters', function(req, res, next){
+		var totals = [];
+		InvitationModel.aggregate(
+		    { $group 	: {  _id: { user : "$invite_user"} ,user : {$addToSet: '$invite_user'},cant : { $sum : 1 } }},
+		    { $sort 	: {"cant" : -1}},
+		    { $limit 	: 10}
+		  , 
+	      function (err, totals){
+	      		if (err) {res.send(err)}
+	      			UserModel.populate(totals, {path: "user", select: "name lname"}, function(err, totals2){
+	      				res.send(JSON.stringify(totals2))
+      			});
+           	}
+		);
+	});
 }
