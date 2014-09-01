@@ -19,6 +19,17 @@ var DealStatus = require('../models/deal').DealStatus;
 //   token:'4ac8c7db-6c93-48a8-a250-77bd6e744a9d'
 // });
 
+function validateDealID(req, res, next){
+	if(!util.checkObjectId(req.params.deal_id)){
+			res.render('error', {
+				description 	: 'No existe la oferta'
+			});
+			return;
+	}else{
+		next();
+	}
+}
+
 
 
 module.exports = function (app){
@@ -249,10 +260,16 @@ module.exports = function (app){
 
 	//Llama a la vista de edicion de una deal
 	//REVISADO
-	app.get('/deals/edit/:deal_id', CheckAuth.user,  CheckAuth.seller, function(req, res, next){
+	app.get('/deals/edit/:deal_id', validateDealID, CheckAuth.seller, function(req, res, next){
 		DealModel.findById( req.params.deal_id, function(err, deal){
 			if(err) throw err;
 			if(deal){
+				if(deal.seller != req.session.user._id){
+					res.render('error', {
+						description 	: 'No esta autorizado a editar la oferta'
+					});
+					return;
+				}
 				var extra = {};
 				//Acomodo las fechas y horas para que sean humanamente visibles
 				//estos campos deben ser eliminados antes de realizar el update
@@ -286,7 +303,9 @@ module.exports = function (app){
 				
 
 			}else{
-				console.log('deal - edit - No se encontro el deal ( ' + req.params.deal_id +' )');
+				res.render('error', {
+					description 	: 'La oferta no existe'
+				});
 			}
 		});	
 	});
@@ -294,12 +313,12 @@ module.exports = function (app){
 
 
 	//Actualiza los campos de la deal
-	app.post('/deals/update', CheckAuth.user, CheckAuth.seller, function(req, res, next){
+	app.post('/deals/update', CheckAuth.seller, function(req, res, next){
 
 		DealModel.findById( req.body.deal._id , function(err, deal){
 			if(err) throw err;
 
-			if(deal){
+			if(deal && (deal.seller == req.session.user._id)){
 				
 				//Edicion del deal
 				//Hacer que solo se graben los campos editados
@@ -341,11 +360,17 @@ module.exports = function (app){
 
 
 	//Elimina una deal
-	app.get('/deals/remove/:deal_id', function(req, res, next){
+	app.get('/deals/remove/:deal_id', validateDealID, function(req, res, next){
 
 		DealModel.findById( req.params.deal_id , function(err, deal){
 			if(!err) throw err;
 			if(deal){
+				if(deal.seller != req.session.user._id){
+					res.render('error', {
+						description 	: 'No esta autorizado a eliminar la oferta'
+					});
+					return;
+				}
 				//Elimino el deal
 				deal.remove(function(err){
 					if(!err) throw err;
@@ -371,20 +396,23 @@ module.exports = function (app){
 
 	//Muestra la vista detallada de una deal en particular
 	//Si la ruta matchea entra por esta, necesitamos distintas rutas Nico 4/6
-	app.get('/deals/review/:id', CheckAuth.user,  CheckAuth.seller, function(req, res, next){
-		DealModel.findOne({"_id": req.params.id })
+	app.get('/deals/review/:deal_id', validateDealID, CheckAuth.seller, function(req, res, next){
+		DealModel.findOne({"_id": req.params.deal_id })
 		.populate('store')
 		.populate("images")
 		.populate('seller')
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
-				console.log("Deal?")
-				console.log(deal);
-				// TODO checkear estouy
+				if(deal.seller._id != req.session.user._id){
+					res.render('error', {
+						description 	: 'No esta autorizado a editar la oferta'
+					});
+					return;
+				}
 
 				DealModel.find()
-				.nor([{ "_id":req.params.id}])
+				.nor([{ "_id":req.params.deal_id}])
 				.populate('store')
 				.exec( function(err, deals){
 
@@ -415,14 +443,14 @@ module.exports = function (app){
 		});
 	});
 
-	app.get('/deals/:id', function(req, res, next){
-		DealModel.findById( req.params.id )
+	app.get('/deals/:deal_id', validateDealID, function(req, res, next){
+		DealModel.findById( req.params.deal_id )
 		.populate('store').populate("partner").populate("images")
 		.exec( function(err, deal){
 			if(err) throw err;
 			if(deal){
 				DealModel.find()
-				.nor([{ "_id":req.params.id}])
+				.nor([{ "_id":req.params.deal_id}])
 				.populate('store').populate("images")
 				.exec( function(err, deals){
 					if(err) throw err;
@@ -451,8 +479,8 @@ module.exports = function (app){
 		});
 	});
 
-	app.get('/deals/summary/:id', function(req, res, next){
-		DealModel.findById( req.params.id )
+	app.get('/deals/summary/:deal_id', validateDealID, function(req, res, next){
+		DealModel.findById( req.params.deal_id )
 		.populate('store').populate("partner").populate("images").populate("seller").populate("branches").populate("franchises")
 			.exec( function(err, deal){
 			if(err) throw err;
@@ -558,6 +586,7 @@ module.exports = function (app){
 
 
 }
+
 
 
 
