@@ -71,7 +71,7 @@ block content
 					-each deal in deals
 						tr
 							td
-								a(href="/deals/review/#{deal._id}") #{deal.title}
+								a(href="/deals/#{deal._id}") #{deal.title}
 							td #{deal.sales.status}
 							td #{deal.sales.payment_method}
 							td #{deal.sales.created}

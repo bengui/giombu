@@ -3,8 +3,8 @@ extends ../layout
 
 block content
 	.nav.nav-tabs
-		li
-			a(href="#review", data-toggle="tab") Informacion
+		li.active
+			a(href="#review", data-toggle="tab") Información
 		-if(RolesHelper.isPartner(expose.user._id, deal.store)) //Partner	
 			li
 				a(href="#coupons", data-toggle="tab") Cupones
@@ -22,130 +22,137 @@ block content
 			a(href='/deals/remove/#{deal._id}').text-danger  Eliminar
 			h3 Datos generales
 
-			table.table-condensed
+			table.table.table-condensed
 				tr
-					td.pull-right 
+					td 
 						strong Estado:
 					td #{deal.status}
 				tr
-					td.pull-right 
+					td 
 						strong Titulo:
 					td #{deal.title}
 				tr
-					td.pull-right 
+					td 
 						strong Subtitulo:
 					td #{deal.tagline}
 				tr
-					td.pull-right 
+					td 
 						strong Link:
 					td #{deal.slug}
 				tr
-					td.pull-right 
+					td 
 						strong Caracteristicas:
 					td #{deal.characteristics}
 				tr
-					td.pull-right 
+					td 
 						strong Condiciones:
 					td #{deal.conditions}
 
 			br
-			h3 Precios
+			.col-md-6
+				h3 Precios
 
-			table.table-condensed
-				tr
-					td.pull-right 
-						strong Precio original:
-					td $ #{deal.price} 
-				tr
-					td.pull-right 
-						strong Precio Final:
-					td $ #{deal.special_price} 
-				tr
-					td.pull-right
-						strong Descuento:
-					td $ #{deal.discount} 
+				table.table.table-condensed
+					tr
+						td 
+							strong Precio original:
+						td $ #{deal.price} 
+					tr
+						td 
+							strong Precio Final:
+						td $ #{deal.special_price} 
+					tr
+						td
+							strong Descuento:
+						td $ #{deal.discount} 
 
-			br
-			h3 Fechas
+				br
+			.col-md-6
+				h3 Fechas
 
-			table.table-condensed
-				tr
-					td.pull-right 
-						strong Inicio de la oferta:
-					td=util.date_time_string(deal.start_date)
-				tr
-					td.pull-right
-						strong Fin de la oferta:
-					td=util.date_time_string(deal.end_date)
-				tr
-					td.pull-right 
-						strong Inicio de canje:
-					td=util.date_time_string(deal.start_redeem)
-				tr
-					td.pull-right
-						strong Fin de canje:
-					td=util.date_time_string(deal.end_redeem)
+				table.table.table-condensed
+					tr
+						td 
+							strong Inicio de la oferta:
+						td=util.date_time_string(deal.start_date)
+					tr
+						td
+							strong Fin de la oferta:
+						td=util.date_time_string(deal.end_date)
+					tr
+						td 
+							strong Inicio de canje:
+						td=util.date_time_string(deal.start_redeem)
+					tr
+						td
+							strong Fin de canje:
+						td=util.date_time_string(deal.end_redeem)
 
-			br
-			h3 Cantidad de cupones
+				br
+			.col-md-6
+				h3 Cantidad de cupones
 
-			table.table-condensed
-				tr
-					td.pull-right 
-						strong Cantidad maxima:
-					td #{deal.max_coupons}
-				tr
-					td.pull-right 
-						strong Maxima por usuario:
-					td #{deal.max_coupons_by_user} 
+				table.table.table-condensed
+					tr
+						td 
+							strong Cantidad maxima:
+						td #{deal.max_coupons}
+					tr
+						td 
+							strong Maxima por usuario:
+						td #{deal.max_coupons_by_user} 
 
-			br
-			h3 Porcentajes
+				br
+			.col-md-6
+				h3 Porcentajes
 
-			table.table-condensed
-				tr
-					td.pull-right
-						strong Vendedor:
-					td #{deal.seller_percentage}%
-				tr
-					td.pull-right 
-						strong Giombu:
-					td #{deal.giombu_percentage}%
-				tr
-					td.pull-right
-						strong Promotor:
-					td #{deal.promoter_percentage}%
+				table.table.table-condensed
+					tr
+						td
+							strong Vendedor:
+						td #{deal.seller_percentage}%
+					tr
+						td 
+							strong Giombu:
+						td #{deal.giombu_percentage}%
+					tr
+						td
+							strong Promotor:
+						td #{deal.promoter_percentage}%
 
-			br
-			h3 Otras
+				br
+			.col-md-6
+				h3 Imagenes
+				-var route_name = "deals"
+				-var get_id = deal._id
+				include ../includes/image_upload
 
-			table.table-condensed
-				tr
-					td.pull-right 
-						strong Costo de Envío:
-					td #{deal.shipping_cost} $
-				tr
-					td.pull-right 
-						strong Tienda:
-					td #{deal.store.name} 
-				tr
-					td.pull-right 
-						strong Vendedor:
-					td
-						=deal.seller.name + ' ' + deal.seller.lname
-				tr
-					td.pull-right 
-						strong Franquiciante:
-					td #{deal.franchisor}
-			br
-			-var route_name = "deals"
-			-var get_id = deal._id
-			include ../includes/image_upload
+				-for (var i = deal.images.length - 1; i >= 0; i--)
+					-var image = deal.images[i]
+					-var param ="deals"
+					include ../partials/deals/image_list
+			.col-md-6
+				h3 Otras
 
-			-for (var i = deal.images.length - 1; i >= 0; i--)
-				-var image = deal.images[i]
-				-var param ="deals"
-				include ../partials/deals/image_list
+				table.table.table-condensed
+					tr
+						td 
+							strong Costo de Envío:
+						td #{deal.shipping_cost} $
+					tr
+						td 
+							strong Tienda:
+						td #{deal.store.name} 
+					tr
+						td 
+							strong Vendedor:
+						td
+							=deal.seller.name + ' ' + deal.seller.lname
+					tr
+						td 
+							strong Franquiciante:
+						td #{deal.franchisor}
+				br
 		-if(deal.partner === expose.user._id) //Partner	
 			.tab-pane(id="coupons")
 				h3 Cupones
