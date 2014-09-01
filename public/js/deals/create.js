@@ -41,6 +41,8 @@ branches = {};
 		});
 	});
 
+	$('#store_selector').trigger('click');
+
 	function onMountChange(){
 		var price = parseFloat($('#price').val());
 		var discount = parseFloat($('#discount').val());

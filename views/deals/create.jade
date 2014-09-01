@@ -115,13 +115,7 @@ block content
 			.form-group 
 				label.col-md-3.control-label Disponible en franquicias:
 				.col-md-8#branches_list
-					-var i = 0
-					-each branch in stores[0].branches
-						.checkbox
-							label
-								input(value="#{branch._id}", name='deal[branches][#{i}]',  type='checkbox' )
-								|#{branch.name} - #{branch.franchise}
-						-i++
+					
 		.form-group
 			.col-sm-offset-3.col-sm-8
 				if(stores.length > 0)
