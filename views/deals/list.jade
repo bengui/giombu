@@ -8,6 +8,23 @@ block content
 			a(href="/deals/create") Cargar oferta
 		br
 		br
+		ul.pager
+			-if(previous_page >= 0)
+				li.previous
+					a(href="/deals/all/#{previous_page}")
+						|&larr; Posterior
+			-else
+				li.previous.disabled
+					a(href="#")
+						|&larr; Posterior
+			-if(more_deals)
+				li.next
+					a(href="/deals/all/#{next_page}")
+						|Anterior &rarr;
+			-else
+				li.next.disabled
+					a(href="#")
+						|Anterior &rarr;
 		br
 		table.table_deal_list
 			-if (deals.length == 0)
@@ -33,3 +50,21 @@ block content
 								li
 									a(class="deal_status_selector", href="#", state="closed", url="/deals/#{deal._id}/state/closed") Cerrar
 					include ../partials/deals/review
+		br
+		ul.pager
+			-if(previous_page >= 0)
+				li.previous
+					a(href="/deals/all/#{previous_page}")
+						|&larr; Posterior
+			-else
+				li.previous.disabled
+					a(href="#")
+						|&larr; Posterior
+			-if(more_deals)
+				li.next
+					a(href="/deals/all/#{next_page}")
+						|Anterior &rarr;
+			-else
+				li.next.disabled
+					a(href="#")
+						|Anterior &rarr;

@@ -35,25 +35,68 @@ function validateDealID(req, res, next){
 
 module.exports = function (app){
 
+	app.get('/deals/fix_shipping_cost', function(req, res, next){
+		DealModel.find({}, function(err, deals){
+			if (err) throw err;
+			for (var i = 0; i < deals.length; i++) {
+				if(deals[i].shipping_cost == null){
+					deals[i].shipping_cost = 0;
+					deals[i].save(function(err){
+						if (err) throw err;
+					});
+				}
+			};
+		});
+	});
+
 	//Tenemos que agregar el filtro por franquicia por defecto, o seleccionada. Nico 21/04 - Si. Benji 12/05
 	//REVISADO
-	app.get('/deals', CheckAuth.user, function(req, res, next){
+	app.get('/deals/all/:page_number?*', CheckAuth.user, function(req, res, next){
+		var page_number = 0;
+		if(req.params.page_number){
+			page_number = parseInt(req.params.page_number);
+		}
+		var page_size = 5;
+		var skip = page_number * page_size;
+		var more_deals = true;
+		var next_page = page_number + 1;
+		var previous_page = page_number - 1;
+
 		DealModel.find( { seller : req.session.user._id } )
+		.skip(skip)
+		.limit(page_size)
 		.sort("-created")
 		.populate("images")
 		.exec(function(err, deals){
 			
 			if(err) throw err;
 
+			if(deals.length < page_size){
+				more_deals = false;
+			}
+
 			res.render('deals/list', {
-				title: 'Lista de todas las ofertas'
-				, deals : deals
+				title			: 'Lista de todas las ofertas',
+				deals 			: deals,
+				next_page		: next_page,
+				previous_page	: previous_page,
+				more_deals 		: more_deals
 			});
 			
 	  	});
 	});
 
-	app.get('/deals/active', CheckAuth.user, function(req, res, next){
+	app.get('/deals/active/:page_number?*', CheckAuth.user, function(req, res, next){
+		var page_number = 0;
+		if(req.params.page_number){
+			page_number = parseInt(req.params.page_number);
+		}
+		var page_size = 5;
+		var skip = page_number * page_size;
+		var more_deals = true;
+		var next_page = page_number + 1;
+		var previous_page = page_number - 1;
+
 		var today = new Date();
 		DealModel.find({seller : req.session.user._id, status : 'active'})
 		.where('start_date').lte(today)
@@ -64,15 +107,32 @@ module.exports = function (app){
 			
 			if(err) throw err;
 
+			if(deals.length < page_size){
+				more_deals = false;
+			}
+
 			res.render('deals/list', {
 				title: 'Lista de ofertas activas', 
-				deals : deals
+				deals : deals,
+				next_page		: next_page,
+				previous_page	: previous_page,
+				more_deals 		: more_deals
 			});
 
 	  	});
 	});
 
-	app.get('/deals/future', CheckAuth.user, function(req, res, next){
+	app.get('/deals/future/:page_number?*', CheckAuth.user, function(req, res, next){
+		var page_number = 0;
+		if(req.params.page_number){
+			page_number = parseInt(req.params.page_number);
+		}
+		var page_size = 5;
+		var skip = page_number * page_size;
+		var more_deals = true;
+		var next_page = page_number + 1;
+		var previous_page = page_number - 1;
+
 		var today = new Date();
 		DealModel.find({ seller : req.session.user._id })
 		.where('start_date').gt(today)
@@ -82,9 +142,16 @@ module.exports = function (app){
 			
 			if(err) throw err;
 
+			if(deals.length < page_size){
+				more_deals = false;
+			}
+
 			res.render('deals/list', {
 				title: 'Lista de ofertas futuras', 
-				deals : deals
+				deals : deals,
+				next_page		: next_page,
+				previous_page	: previous_page,
+				more_deals 		: more_deals
 			});
 	  	});
 	});
