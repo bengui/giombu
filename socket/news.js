@@ -2,7 +2,7 @@ var NewModel = require('../models/new').NewModel;
 var news_builder = require('../helpers/news_builder.js');
 var util = require('../helpers/util');
 
-module.exports = function(socket, session){
+module.exports = function(socket, session, io){
 
 	socket.on('news.start', function (data) {
 		

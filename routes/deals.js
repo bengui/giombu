@@ -8,6 +8,7 @@ var FranchisorModel = require('../models/franchisor').FranchisorModel;
 var FranchiseModel = require('../models/franchise').FranchiseModel;
 var ImageModel = require('../models/image').ImageModel;
 var CommissionModel = require('../models/commission').CommissionModel;
+var CountryModel = require('../models/country').CountryModel;
 var colors = require('colors');
 var util = require('../helpers/util');
 var mongoose = require('mongoose');
@@ -124,40 +125,49 @@ module.exports = function (app){
 
 	//Muestra deals activos.
 	app.get('/', function(req, res, next){
-		if(req.session.selected_franchise){
-			DealModel.find( { status : 'active'} )
-			.limit(10)
-			.where('franchises')
-			.populate("images")
-			.in([req.session.selected_franchise._id])
-			.sort("-created")
-			.exec(function (err, deals) {
-				if (err) return handleError(err);
-				if(deals){
-				  res.render('deals/home', {title: 'Ofertas', deals:deals});
-				}else{
-				  res.render('not_found', {title: 'No se encuentran ofertas'});
-				}
-			});
-		}else{
-			DealModel.find( { status : 'active' } )
-			.limit(10)
-			.sort("-created")
-			.populate("images")
-			.exec(function (err, deals) {
-				if (err) return handleError(err);
-				if(deals){
-					res.render('deals/home', {
-						title: 'Ofertas', 
-						deals:deals
-					});
-				}else{
-					res.render('not_found', {
-						title: 'No se encuentran ofertas'
-					});
-				}
-			});
-		}
+		CountryModel.find({}, function(err, countries){
+			if (err) throw err;
+			if(req.session.selected_franchise){
+				DealModel.find( { status : 'active'} )
+				.limit(10)
+				.where('franchises')
+				.populate("images")
+				.in([req.session.selected_franchise._id])
+				.sort("-created")
+				.exec(function (err, deals) {
+					if (err) return handleError(err);
+					if(deals){
+						res.render('deals/home', {
+							title 			: 'Ofertas', 
+							deals 			: deals,
+							countries 		: countries
+						});
+					}else{
+						res.render('not_found', {title: 'No se encuentran ofertas'});
+					}
+				});
+			}else{
+				DealModel.find( { status : 'active' } )
+				.limit(10)
+				.sort("-created")
+				.populate("images")
+				.exec(function (err, deals) {
+					if (err) return handleError(err);
+					if(deals){
+						res.render('deals/home', {
+							title 			: 'Ofertas', 
+							deals 			: deals,
+							countries 		: countries
+						});
+					}else{
+						res.render('not_found', {
+							title: 'No se encuentran ofertas'
+						});
+					}
+				});
+			}
+
+		});
 	});
 
 	//Agrega una nueva deal

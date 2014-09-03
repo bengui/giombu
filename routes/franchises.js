@@ -144,6 +144,15 @@ module.exports = function(app){
 		});
 	});
 
+
+	app.get('/franchises/select/:franchise_id', function(req, res, next){
+		FranchiseModel.findById(req.params.franchise_id, function(err, franchise){
+			if (err) throw err;
+			req.session.selected_franchise = franchise;
+			res.redirect('/');
+		});
+	});
+
 	app.get('/franchises/:id', function(req, res, next){
 		FranchiseModel.find({"franchisor":req.params.id}).sort("-name").exec( function(err, franchises){
 			if (err) throw err;
