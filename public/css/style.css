@@ -31,6 +31,10 @@ body {
 
 .content_body {margin-left: 2%;margin-right: 2%;}
 
+.body_container{
+	min-height: 400px;
+}
+
 /*Fondos de los encabezados del menu de la intranet */
 .titulos_menu {
 	background: #00a4cc; /* Old browsers */

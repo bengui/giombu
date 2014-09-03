@@ -1,26 +1,20 @@
 extends ../home
 
 block content
-	.body_container
-		if(deals.length > 0 )
-			-var images = deals[0].images
-			-var id = deals[0]._id
-			-var param = 'deals'
-			-var title = deals[0].title
-			-var tagline = deals[0].tagline
-			-var description = deals[0].characteristics
-			-var buy_box =true
-			include ../partials/images/carousel
-			.other_deals
-				-for (var i = 1; i < deals.length; i++)
-					-var deal = deals[i]
-					include ../partials/deals/deal
-		else
-			p No hay ofertas de esta categoría
-
-#footer
-	p
-		| Comercializadora Giombu, S.A. de C.V -
-		| San Juan de los Lagos No. 21 -
-		| Vallarta Poniente -
-		| Guadalajara, Jalisco, México (44110)  	
+	if(deals.length > 0 )
+		-var images = deals[0].images
+		-var id = deals[0]._id
+		-var param = 'deals'
+		-var title = deals[0].title
+		-var tagline = deals[0].tagline
+		-var description = deals[0].characteristics
+		-var buy_box =true
+		include ../partials/images/carousel
+		.other_deals
+			-for (var i = 1; i < deals.length; i++)
+				-var deal = deals[i]
+				include ../partials/deals/deal
+	else
+		br
+		br
+		h3.text-center.text-muted No hay ofertas de esta categoría
