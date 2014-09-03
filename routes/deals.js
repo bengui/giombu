@@ -123,29 +123,49 @@ module.exports = function (app){
 		});
 	});
 
+	app.post('/deals/select_franchise', function(req, res, next){
+		FranchiseModel.findById(req.body.franchise_id, function(err, franchise){
+			if (err) throw err;
+			req.session.selected_franchise = franchise;
+			res.redirect('/');
+		});
+	});
+
 	//Muestra deals activos.
 	app.get('/', function(req, res, next){
-		CountryModel.find({}, function(err, countries){
-			if (err) throw err;
+
 			if(req.session.selected_franchise){
-				DealModel.find( { status : 'active'} )
-				.limit(10)
-				.where('franchises')
-				.populate("images")
-				.in([req.session.selected_franchise._id])
-				.sort("-created")
-				.exec(function (err, deals) {
-					if (err) return handleError(err);
-					if(deals){
-						res.render('deals/home', {
-							title 			: 'Ofertas', 
-							deals 			: deals,
-							countries 		: countries
-						});
-					}else{
-						res.render('not_found', {title: 'No se encuentran ofertas'});
+				var branches_list = [];
+				StoreModel.aggregate()
+				.unwind('branches')
+				.match({ 'branches.franchise' :  mongoose.Types.ObjectId(req.session.selected_franchise._id) })
+				.group({ _id : '$branches.franchise', branches_list : { $push : '$branches._id'}})
+				.exec(function(err, results){
+					console.log('************************************');
+					console.log(results);
+					console.log();
+					if( results.length ){
+						branches_list = results[0].branches_list;
 					}
+					DealModel.find( { status : 'active', branches : { $in : branches_list }} )
+					.limit(10)
+					.where('franchises')
+					.populate("images")
+					.sort("-created")
+					.exec(function (err, deals) {
+						if (err) return handleError(err);
+						if(deals){
+							res.render('deals/home', {
+								title 			: 'Ofertas', 
+								deals 			: deals
+							});
+						}else{
+							res.render('not_found', {title: 'No se encuentran ofertas'});
+						}
+					});
+
 				});
+
 			}else{
 				DealModel.find( { status : 'active' } )
 				.limit(10)
@@ -156,8 +176,7 @@ module.exports = function (app){
 					if(deals){
 						res.render('deals/home', {
 							title 			: 'Ofertas', 
-							deals 			: deals,
-							countries 		: countries
+							deals 			: deals
 						});
 					}else{
 						res.render('not_found', {
@@ -166,8 +185,6 @@ module.exports = function (app){
 					}
 				});
 			}
-
-		});
 	});
 
 	//Agrega una nueva deal

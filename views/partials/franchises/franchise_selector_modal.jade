@@ -7,10 +7,12 @@ div(class='modal fade', id='SelectorFranchiseModal', tabindex='-1', role='dialog
 			div(class='modal-body')
 				.container-fluid
 					.col-md-6.col-md-offset-3
-						select.form-control#countries_select
-						br
-						br
-						select.form-control#franchises_select
+						form(method="POST", action="/deals/select_franchise", id="franchise_select_form")
+							select.form-control#countries_select
+							br
+							select(name='franchise_id', type='text').form-control#franchises_select
+							br
+							button(type="submit").btn.btn-default.center-block Cargar
 			div(class='modal-footer')
 				a(href="/users/create") Registrate en Giombu
 			

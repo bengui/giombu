@@ -23,7 +23,7 @@ var DealSchema = new mongoose.Schema({
 	giombu_percentage	: { type: Number, required: true, min:0, max:99 },
 	promoter_percentage	: { type: Number, required: true, min:0, max:99 },
 	status				: { type: String },
-	shipping_cost		: { type: Number},
+	shipping_cost		: { type: Number, default: 0},
 	branches   			: [{ type: mongoose.Schema.ObjectId, ref: 'Branch' }],
 	seller   			: { type: mongoose.Schema.ObjectId, ref: 'User' },
 	franchises  		: [{ type: mongoose.Schema.ObjectId, ref: 'Franchise' }],

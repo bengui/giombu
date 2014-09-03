@@ -6,6 +6,9 @@ body {
 .fright {float: right;}
 .clear {clear: both;}
 .center {float: center;}
+.center-block{
+	float:none;
+}
 
 .space{margin: 5px !important}
 

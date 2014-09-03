@@ -1,4 +1,5 @@
 var UserModel = require('../models/user').UserModel;
+var FranchiseModel = require('../models/franchise').FranchiseModel;
 
 cleanSockets();
 
