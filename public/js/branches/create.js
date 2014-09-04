@@ -56,6 +56,7 @@
 
 	$('#state_selector').trigger('change');
 	validateUser();
+	$('#form_create_branch').validate({})
 })();
 
 

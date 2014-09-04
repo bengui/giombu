@@ -56,7 +56,7 @@ branches = {};
 
 	$('#price').change(onMountChange);
 	$('#discount').change(onMountChange);
-
+	$('#deal_create').validate({});
 
 })();
 

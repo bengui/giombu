@@ -33,7 +33,11 @@
 			}
 		});
 	});
-	$('#select_country').trigger("change")
+	$('#select_country').trigger("change");
+
+	$("#users_register").validate({}); 
+
+	
 })();
 
 

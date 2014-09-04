@@ -84,6 +84,6 @@
 	});
 
 
-
+	$('#form_create_store_branch').validate({});
 
 })();

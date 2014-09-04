@@ -12,7 +12,7 @@ block content
 		.form-group
 			label.col-md-3.control-label Nombre:
 			.col-md-6
-				input(name='store[name]', type='text', class="form-control required")
+				input(name='store[name]', type='text', class="form-control required", minlength="3")
 		.form-group
 			label.col-md-3.control-label Email:
 			.col-md-6
@@ -42,15 +42,15 @@ block content
 		.form-group
 			label.col-md-3.control-label Nombre:
 			.col-md-6
-				input(name='branch[name]', type='text' ,class="form-control required")
+				input(name='branch[name]', type='text' ,class="form-control required", minlength="3")
 		.form-group
 			label.col-md-3.control-label Provincia:
 			.col-md-4
-				select(name="branch[state]", id="state_selector", class='form-control')
+				select(name="branch[state]", id="state_selector", class='form-control required')
 		.form-group
 			label.col-md-3.control-label Ciudad:
 			.col-md-4
-				select(name="branch[city]", id="city_selector", class='form-control')
+				select(name="branch[city]", id="city_selector", class='form-control required')
 		.form-group
 			label.col-md-3.control-label Franquicia:
 			.col-md-4
@@ -58,15 +58,15 @@ block content
 		.form-group
 			label.col-md-3.control-label Dirección:
 			.col-md-6
-				input(name='branch[address]', type='text',class='form-control')
+				input(name='branch[address]', type='text',class='form-control required')
 		.form-group
 			label.col-md-3.control-label Codigo Postal:
 			.col-md-3
-				input(name='branch[zip]', type='text', class='form-control')
+				input(name='branch[zip]', type='text', class='form-control required')
 		.form-group
 			label.col-md-3.control-label Teléfono:
 			.col-md-3
-				input(name='branch[phone]', type='text', class='form-control')
+				input(name='branch[phone]', type='text', class='form-control required')
 		.form-group
 			label.col-md-3.control-label Email:
 			.col-md-6

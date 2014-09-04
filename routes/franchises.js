@@ -135,13 +135,13 @@ module.exports = function(app){
 			if(typeof req.session.user.franchisor !== "undefined"){
 				if(req.session.user.franchisor.length>0){
 					franchisor = req.session.user.franchisor[0]._id
+					FranchiseModel.find({'franchisor':franchisor}).sort("-name").exec( function(err, franchises){
+						if (err) throw err;
+						res.json(franchises);
+					});
 				}
 			}
 		}
-		FranchiseModel.find({'franchisor':franchisor}).sort("-name").exec( function(err, franchises){
-			if (err) throw err;
-			res.json(franchises);
-		});
 	});
 
 

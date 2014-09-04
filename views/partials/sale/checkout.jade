@@ -15,7 +15,7 @@ script(rel='text/javascript', src='/js/checkout.js')
 					td.descripcion
 						h4 #{deal.title}
 					td.quantity
-						select(name='quantity', id="quantity") 
+						select(name='quantity', id="quantity").form-control
 								each item in list
 									option(value='#{item}') #{item}
 					td.multipliedBy x

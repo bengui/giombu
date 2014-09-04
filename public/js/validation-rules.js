@@ -16,7 +16,7 @@ $(document).ready(function(){
    $("#sellers_register").validate({});
    $("#stores_register").validate({});
    $("#stores_create_store_branch").validate({});
-   $("#users_register").validate({});  
+    
    $("#users_edit").validate({});
    $("#users_accept_invitation").validate({});
    $("#buy_form").validate({});

@@ -13,39 +13,39 @@ block content
 			.form-group
 				label.control-label.col-md-4 Nombre:
 				.col-md-8
-					input(name='branch[name]', type='text').form-control.input-sm.required
+					input(name='branch[name]', type='text', class="required", minlength="3").form-control.input-sm.required
 			.form-group
 				label.control-label.col-md-4 Provincia:
 				.col-md-3
-					select(name="branch[state]", id="state_selector").form-control.input-sm
+					select(name="branch[state]", id="state_selector", class="required").form-control.input-sm
 						-each state in states
 							option(value="#{state._id}") #{state.name}
 			.form-group
 				label.control-label.col-md-4 Ciudad:
 				.col-md-3
-					select(name="branch[city]", id="city_selector").form-control.input-sm
+					select(name="branch[city]", id="city_selector", class="required").form-control.input-sm
 			.form-group
 				label.control-label.col-md-4 Franquicia:
 				.col-md-3
-					select(name="branch[franchise]", id="franchise_selector").form-control.input-sm
+					select(name="branch[franchise]", id="franchise_selector", class="required").form-control.input-sm
 						-each franchise in franchises
 							option(value="#{franchise._id}") #{franchise.name}
 			.form-group
 				label.control-label.col-md-4 Dirección:
 				.col-md-8
-					input(name='branch[address]', type='text').form-control.input-sm.required
+					input(name='branch[address]', type='text', class="required").form-control.input-sm.required
 			.form-group
 				label.control-label.col-md-4 Cod. Postal:
 				.col-md-3
-					input(name='branch[zip]', type='text').form-control.input-sm
+					input(name='branch[zip]', type='text', class="required").form-control.input-sm
 			.form-group
 				label.control-label.col-md-4 Telefono:
 				.col-md-3
-					input(name='branch[phone]', type='text').form-control.input-sm
+					input(name='branch[phone]', type='text', class="required").form-control.input-sm
 			.form-group
 				label.control-label.col-md-4 Email:
 				.col-md-8
-					input(name='branch[email]', type='text').form-control.input-sm.required.email
+					input(name='branch[email]', type='text', class="required email").form-control.input-sm.required.email
 			.form-group
 				label.control-label.col-md-4 Web:
 				.col-md-8
