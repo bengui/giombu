@@ -1,6 +1,6 @@
 .col-md-3.well.deal
 	.thumbnail
-		a(href="/deals/view/#{deal._id}")
+		a(href="/deals/#{deal._id}")
 			if(typeof deal.images!== "undefined" )
 				if(typeof deal.images[0] !== "undefined" )
 					img.img_home( src="/photos/deals/#{deal.images[0].filename}", class="image")

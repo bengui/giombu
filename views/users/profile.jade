@@ -74,7 +74,7 @@ block content
 								a(href="/deals/#{deal._id}") #{deal.title}
 							td #{deal.sales.status}
 							td #{deal.sales.payment_method}
-							td #{deal.sales.created}
+							td=util.date_time_string(deal.sales.created)
 		.tab-pane.fade.in#missuscripciones
 			h3 Lista de Suscripciones
 			br

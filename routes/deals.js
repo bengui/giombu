@@ -193,75 +193,17 @@ module.exports = function (app){
 	app.post('/deals/select_franchise', function(req, res, next){
 		FranchiseModel.findById(req.body.franchise_id, function(err, franchise){
 			if (err) throw err;
-			req.session.selected_franchise = franchise;
+			req.session.expose.selected_franchise = franchise;
 			res.redirect('/');
 		});
 	});
 
-	//Muestra deals activos.
-	app.get('/', function(req, res, next){
 
-			if(req.session.selected_franchise){
-				var branches_list = [];
-				StoreModel.aggregate()
-				.unwind('branches')
-				.match({ 'branches.franchise' :  mongoose.Types.ObjectId(req.session.selected_franchise._id) })
-				.group({ _id : '$branches.franchise', branches_list : { $push : '$branches._id'}})
-				.exec(function(err, results){
-					console.log('************************************');
-					console.log(results);
-					console.log();
-					if( results.length ){
-						branches_list = results[0].branches_list;
-					}
-					DealModel.find( { status : 'active', branches : { $in : branches_list }} )
-					.limit(10)
-					.where('franchises')
-					.populate("images")
-					.sort("-created")
-					.exec(function (err, deals) {
-						if (err) return handleError(err);
-						if(deals){
-							res.render('deals/home', {
-								title 			: 'Ofertas', 
-								deals 			: deals
-							});
-						}else{
-							res.render('not_found', {title: 'No se encuentran ofertas'});
-						}
-					});
-
-				});
-
-			}else{
-				DealModel.find( { status : 'active' } )
-				.limit(10)
-				.sort("-created")
-				.populate("images")
-				.exec(function (err, deals) {
-					if (err) return handleError(err);
-					if(deals){
-						res.render('deals/home', {
-							title 			: 'Ofertas', 
-							deals 			: deals
-						});
-					}else{
-						res.render('not_found', {
-							title: 'No se encuentran ofertas'
-						});
-					}
-				});
-			}
-	});
 
 	//Agrega una nueva deal
 	app.post('/deals/add', function (req, res, next) {
 
 		var deal_new = req.body.deal;
-		console.log('*************************************************');
-		console.log('new deal');
-		console.log(deal_new);
-
 		//Fechas
 		deal_new.tagline = deal_new.tagline.split(",");
 		//Armo la fecha de inicio
@@ -555,7 +497,6 @@ module.exports = function (app){
 					.populate('user')
 					.populate('deal')
 					.exec( function(err, questions){
-						console.log(deal)
 						if(err) throw err;
 						var callback = function(){
 							res.render('deals/show', {
@@ -565,7 +506,7 @@ module.exports = function (app){
 								questions 		: questions
 							});
 						}
-						ImageModel.populate(deal, {path: 'store.images'}, callback)
+						ImageModel.populate(deal, {path: 'store.images'}, callback);
 					});
 				});
 			}else{
@@ -681,6 +622,70 @@ module.exports = function (app){
 		});
 	});
 
+
+
+	//Muestra deals activos.
+	app.get('/', function(req, res, next){
+			var search_query = '';
+			if(req.query.search_query){
+				search_query = req.query.search_query;
+			}
+			if(req.session.expose.selected_franchise){
+				var branches_list = [];
+				StoreModel.aggregate()
+				.unwind('branches')
+				.match({ 'branches.franchise' :  mongoose.Types.ObjectId(req.session.expose.selected_franchise._id) })
+				.group({ _id : '$branches.franchise', branches_list : { $push : '$branches._id'}})
+				.exec(function(err, results){
+					if( results.length ){
+						branches_list = results[0].branches_list;
+					}
+					DealModel.find( { 
+						status 		: 'active',
+						branches 	: { $in : branches_list },
+						title 		: {$regex : '.*' + search_query +'.*', $options : 'i'}
+					})
+					.limit(10)
+					.where('franchises')
+					.populate("images")
+					.sort("-created")
+					.exec(function (err, deals) {
+						if (err) return handleError(err);
+						if(deals){
+							res.render('deals/home', {
+								title 			: 'Ofertas', 
+								deals 			: deals
+							});
+						}else{
+							res.render('not_found', {title: 'No se encuentran ofertas'});
+						}
+					});
+
+				});
+
+			}else{
+				DealModel.find( { 
+					status 		: 'active',
+					title 		: {$regex : '.*' + search_query +'.*', $options : 'i'} 
+				})
+				.limit(10)
+				.sort("-created")
+				.populate("images")
+				.exec(function (err, deals) {
+					if (err) return handleError(err);
+					if(deals){
+						res.render('deals/home', {
+							title 			: 'Ofertas', 
+							deals 			: deals
+						});
+					}else{
+						res.render('not_found', {
+							title: 'No se encuentran ofertas'
+						});
+					}
+				});
+			}
+	});
 
 }
 

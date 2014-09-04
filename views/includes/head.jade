@@ -20,6 +20,13 @@
 							a(href="#") 
 								strong Ofertas de:  #{expose.selected_franchise.name}
 
+				form.navbar-form.navbar-left(role='search', method="GET", action="/")
+					.form-group
+						input.form-control(name="search_query", type='text', placeholder='Buscar oferta')
+						button.btn.btn-default(type='submit') Buscar
+
+				
+
 				ul.nav.navbar-nav.navbar-right
 					-if ((typeof expose.user) === "undefined")
 						li
