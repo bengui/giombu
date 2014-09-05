@@ -30,5 +30,41 @@
 		event.preventDefault();
 	});
 
-	
+
+	socket.emit('cities.get');
+	socket.on('cities.get', function(data){
+		var cities_select = $('#franchise_subscription');
+		for (var i = 0; i < data.length; i++) {
+			cities_select.append($('<option value="'+data[i]._id+'">'+data[i].name+'</option>'));
+		};
+	});
+
+	$('#email_subscriber').focus(function(){
+		$('#email_subscriber').parent().removeClass('has-error');
+	});
+
+	$('#name_subscription').focus(function(){
+		$('#name_subscription').parent().removeClass('has-error');
+	});
+
+	$('#franchise_subscription_form').submit(function(event){
+		var email = $('#email_subscriber');
+		var name = $('#name_subscription');
+		if(!IsEmail(email.val())){
+			email.parent().addClass('has-error');
+			event.preventDefault();
+		}
+
+		if(name.val().trim().length == 0){
+			name.parent().addClass('has-error');
+			event.preventDefault();
+		}
+
+	});
+
+	function IsEmail(email) {
+		var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+		return regex.test(email);
+	}
+	 
 })();

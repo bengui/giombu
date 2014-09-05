@@ -30,5 +30,6 @@ exports.handleSocketCalls = function(err, socket, session){
 	require('./users')(socket, session, io);
 	require('./news')(socket, session, io);
 	require('./countries')(socket, session, io);
+	require('./cities')(socket, session, io);
 
 };
