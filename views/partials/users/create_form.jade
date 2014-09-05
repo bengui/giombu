@@ -11,23 +11,23 @@
 				.form-group
 					label.col-md-5.control-label *Nombres:
 					.col-md-7
-						input(name='user[name]', type='text' ,class='form-control input-sm required') 
+						input(name='user[name]', type='text' , class='form-control input-sm required') 
 				.form-group
 					label.col-md-5.control-label *Apellido(s):
 					.col-md-7
-						input(name='user[lname]', type='text' ,class="form-control input-sm required") 
+						input(name='user[lname]', type='text' , class="form-control input-sm required") 
 				.form-group
 					label.col-md-5.control-label *Email:
 					.col-md-7
-						input(name='user[email]', type='text' ,class="form-control input-sm required email") 
+						input(name='user[email]', type='text' , class="form-control input-sm required email") 
 				.form-group
 					label.col-md-5.control-label *Contraseña:
 					.col-md-7
-						input(name='user[password]', type='password', class="form-control input-sm required") 
+						input(name='user[password]', id='password', type='password', class="form-control input-sm") 
 				.form-group
 					label.col-md-5.control-label *Confirmar contraseña:
 					.col-md-7
-						input(name='user[confirm_password]', type='password', class="form-control input-sm required") 
+						input(name='user[confirm_password]', id='confirm_password', type='password', class="form-control input-sm") 
 				.form-group
 					label.col-md-5.control-label *Fecha de nacimiento:
 					.col-md-7
@@ -81,8 +81,11 @@
 					.col-md-offset-5.col-md-7
 						button(name='submit', type='submit').btn.btn-info Registrarme
 	.col-md-5
+		br 
+		br
+		
 		h4 Ya estas registrado?
-		form(method='post', action='/users/login_user/').form-horizontal
+		form(method='post', action='/users/login/').form-horizontal
 			.form-group
 				label.col-md-5.control-label Usuario:
 				.col-md-7

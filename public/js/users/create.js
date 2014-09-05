@@ -35,7 +35,32 @@
 	});
 	$('#select_country').trigger("change");
 
-	$("#users_register").validate({}); 
+	$("#users_register").validate({
+		rules: {
+			'user[password]': {
+				required: true,
+				minlength: 5
+			},
+			'user[confirm_password]': {
+				required: true,
+				minlength: 5,
+				equalTo: "#password"
+			},
+		},
+		messages : {
+			'user[password]' : {
+				required: "Ingrese una contraseña",
+				minlength: "La contraseña debe ser de al menos 5 caracteres",
+				equalTo: "Las contraseñas ingresadas deben ser iguales"
+			},
+			'user[confirm_password]' : {
+				required: "Vuelva a ingresar la contraseña",
+				minlength: "La contraseña debe ser de al menos 5 caracteres",
+				equalTo: "Las contraseñas ingresadas deben ser iguales"
+			}
+		}
+
+	}); 
 
 	
 })();

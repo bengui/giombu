@@ -37,7 +37,38 @@ module.exports = function(app){
 			}else{
 				imageName = img.name;
 			}
-			
+			var source_file = img.path;
+			var destination_file = dir+"/"+req.params.param+"/"+imageName;
+
+			var is = fs.createReadStream(source_file);
+			var os = fs.createWriteStream(destination_file);
+
+			is.pipe(os);
+			is.on('end',function(err) {
+				fs.unlinkSync(source_file);
+				if(err){
+					console.log('Image Writing ERROR!');
+					console.log(err);
+				}
+				var image = new ImageModel();
+				image.filename =  imageName;
+				image.save(function(err){
+					console.log(image);
+					if(err) throw err;
+					Model.findOne({"_id" : req.params.elem_id }).exec(function(err, model){
+						model.images.push(image._id)
+						model.save(function(err){
+							if(err) throw err;
+							res.redirect("back");
+						})
+						
+					});
+					
+				});
+			});
+
+/*
+
 			fs.rename(img.path, dir+"/"+req.params.param+"/"+ imageName, function(err){
 				if(err){
 					console.log('Image Writing ERROR!');
@@ -46,21 +77,21 @@ module.exports = function(app){
 				var image = new ImageModel();
 				image.filename =  imageName;
 				image.save(function(err){
-					console.log(image)
-					if(err)
-						throw err
+					console.log(image);
+					if(err) throw err;
 					Model.findOne({"_id" : req.params.elem_id }).exec(function(err, model){
 						model.images.push(image._id)
 						model.save(function(err){
-							if(err)
-								throw err
-							res.redirect("back")
+							if(err) throw err;
+							res.redirect("back");
 						})
 						
 					});
 					
 				});
 			})
+
+*/
 			
 		}
 	}

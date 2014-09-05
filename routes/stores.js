@@ -151,8 +151,9 @@ module.exports = function(app){
 				goHome(res);
 				return;
 			}
-			//Solo el creador del Store puede editarlo
-			if(store.creator != req.session.user._id){
+
+			//Solo el creador del Store puede editarlo o un ADMIN
+			if( (store.creator != req.session.user._id) && (req.session.user.roles.indexOf(UserRoles.getAdmin()) == -1)){
 				goHome(res);
 				return;
 			}
@@ -519,8 +520,8 @@ module.exports = function(app){
 				return;
 			}
 
-			//Solo el creador del Store puede ver la vista de administracion
-			if(store.creator != req.session.user._id){
+			//Solo el creador del Store puede editarlo o un ADMIN
+			if( (store.creator != req.session.user._id) && (req.session.user.roles.indexOf(UserRoles.getAdmin()) == -1)){
 				goHome(res);
 				return;
 			}
