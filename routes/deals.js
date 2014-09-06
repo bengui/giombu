@@ -610,9 +610,9 @@ module.exports = function (app){
 						app.emit("redeemed_coupon",deal, sale, req.params.coupon_code, req.session.user._id);
 						app.emit("commission_event", "Commission_Seller", deal, commission_new, req.session.user);
 					});
-					res.redirect("/deals/review/"+deal._id)
+					res.redirect("/deals/"+deal._id);
 
-				})
+				});
 				
 			}else{
 				console.log('No se encontro el deal ( ' + req.body.deal_id +' )');

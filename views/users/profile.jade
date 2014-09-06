@@ -71,8 +71,14 @@ block content
 					-each deal in deals
 						tr
 							td
-								a(href="/deals/#{deal._id}") #{deal.title}
-							td #{deal.sales.status}
+								a(href="/sales/#{deal.sales._id}") #{deal.title}
+							-if(deal.sales.coupons.status)
+								-if(deal.sales.coupons.status == 'unredeemed')
+									td sin canjear
+								-else
+									td canjeado
+							-else
+								td sin canjear
 							td #{deal.sales.payment_method}
 							td=util.date_time_string(deal.sales.created)
 		.tab-pane.fade.in#missuscripciones

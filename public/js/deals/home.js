@@ -30,7 +30,6 @@
 		event.preventDefault();
 	});
 
-
 	socket.emit('cities.get');
 	socket.on('cities.get', function(data){
 		var cities_select = $('#franchise_subscription');

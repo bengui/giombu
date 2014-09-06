@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 var CouponSchema = exports.CouponSchema = new mongoose.Schema({
 	code				: { type: String ,trim:true, required:true},
-	status   			: { type: String },
+	status   			: { type: String, default: "unredeemed" },
 	created			    : { type: Date, required: true, default: Date.now },
     modified            : { type: Date, required: true, default: Date.now }	
 })
