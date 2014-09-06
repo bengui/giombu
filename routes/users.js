@@ -409,6 +409,7 @@ module.exports = function(app){
 	
 		DealModel.aggregate()
 		.unwind('sales')
+		.unwind('sales.coupons')
 		.match({ 'sales.user' : mongoose.Types.ObjectId(id)}).exec(function(err, deals){
 			UserModel.findOne({"_id" : id})
 			.populate('city').populate("images").populate("promoter_id")
@@ -426,6 +427,9 @@ module.exports = function(app){
 										CommissionModel.find( {"user" : id}).exec( function(err, commissions){
 											console.log(commissions)
 											if(!err){
+												console.log('*******************************************************')
+												console.log(deals)
+												
 												res.render('users/profile',{
 													title 	: 'Datos de usuario',
 													user 	: user,
