@@ -20,4 +20,64 @@ $(document).ready(function(){
         content: 'Este es nuestro logo. ¿Todavia no nos conoce?. Visite nuestro <a href="/nosotros"> perfil.</a>'+closureMessage
     });
 
+    $('.news').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Novedades relacionadas con el usuario'+closureMessage
+    });
+
+    $('.my_profile').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Aquí podrás acceder a tu perfil de usuario'+closureMessage
+    });
+
+    $('.my_stores').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Mis comercios cargados'+closureMessage
+    });
+
+    $('.my_deals').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Mis ofertas cargadas'+closureMessage
+    });
+
+    $('.invitations').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Invita gente a formar parte de nuestra comunidad!'+closureMessage
+    });
+
+    $('#misofertas').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Ofertas que has comprado'+closureMessage
+    });
+
+    $('#missuscripciones').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Franquicias a las que estas suscrito'+closureMessage
+    });
+
+    $('#miscomisiones').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Comisiones ganadas!'+closureMessage
+    });
+
+    $('#misbonos').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Bonos ganados como promotor!'+closureMessage
+    });
+
+    $('.summary_button').tooltipster({
+		contentAsHTML: true,
+		interactive: true,
+        content: 'Resumen de la oferta, detalles de compras'+closureMessage
+    });
+
 });

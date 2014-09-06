@@ -16,19 +16,19 @@
 		li.nav-header.titulos_menu
 			.glyphicon.glyphicon-th Menu
 		li
-			a(href='/news') Noticias
+			a(href='/news', class="news") Noticias
 		-if(RolesHelper.promoter(expose.user))
 			li.nav-header.titulos_menu
 				.glyphicon.glyphicon-user Promotores
 			li
-				a(href='/promoters/#{expose.user._id}') Mi perfil
+				a(href='/promoters/#{expose.user._id}', class="my_profile") Mi perfil
 			li
 				a(href='/promoters/register') Editar
 		-if(RolesHelper.partner(expose.user))
 			li.nav-header.titulos_menu
 				.glyphicon.glyphicon-th Socios
 			li
-				a(href='/stores') Mis tiendas
+				a(href='/stores', class="my_stores") Mis tiendas
 			-if(RolesHelper.admin(expose.user))
 				li
 					a(href='/stores/all') Lista
@@ -36,13 +36,13 @@
 			li.nav-header.titulos_menu
 				.glyphicon.glyphicon-shopping-cart Vendedores
 			li
-				a(href='/deals/mine') Mis Ofertas
+				a(href='/deals/mine', class="my_deals") Mis Ofertas
 		li.nav-header.titulos_menu
 			.glyphicon.glyphicon-user Contactos
 		li
 			a(href='/users/contacts') Listado
 		li
-			a(href='/invitations') Invitaciones
+			a(href='/invitations', class="invitations") Invitaciones
 		-if(RolesHelper.admin(expose.user))
 			li.nav-header.titulos_menu
 				.glyphicon.glyphicon-signal Administración
