@@ -27,22 +27,45 @@ var createStoreBranch = function(req, res, message){
 }
 
 var goHome = function(res){
-	res.redirect('/stores');
+	res.redirect('/stores/list');
 };
 
 module.exports = function(app){
 
 
-	app.get('/stores', CheckAuth.user, function(req, res, next){
+	app.get('/stores/list/:page_number?*', CheckAuth.user, function(req, res, next){
 
 		var query = {
 			status 		: 'active',
 			creator 	: req.session.user._id
 		};
 
-		StoreModel.find(query).populate("images").exec( function(err, stores){
+		var page_number = 0;
+		if(req.params.page_number){
+			page_number = parseInt(req.params.page_number);
+		}
+		var page_size = 5;
+		var skip = page_number * page_size;
+		var more_stores = true;
+		var next_page = page_number + 1;
+		var previous_page = page_number - 1;
+
+		StoreModel.find(query)
+		.skip(skip)
+		.limit(page_size)
+		.populate("images")
+		.exec( function(err, stores){
 			if(err) throw err;
-			res.render('stores/list', {title: 'Stores', stores : stores});
+			if(stores.length < page_size){
+				more_stores = false;
+			}
+			res.render('stores/list', {
+				title 		: 'Stores', 
+				stores  	: stores,
+				next_page		: next_page,
+				previous_page	: previous_page,
+				more_stores 		: more_stores
+			});
 		});
 	});
 
