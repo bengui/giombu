@@ -576,7 +576,7 @@ module.exports = function (app){
 	  });
 
 	});
-	app.get('/deals/redeem_coupon/:sale_id/:coupon_code', function(req, res, next){
+	app.get('/deals/redeem_coupon/:sale_id/:coupon_code', CheckAuth.user, function(req, res, next){
 		DealModel.findOne({"sales._id":req.params.sale_id})
 		.populate('store').populate("images")
 		.exec( function(err, deal){
