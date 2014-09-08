@@ -498,7 +498,10 @@ module.exports = function (app){
 					.populate('deal')
 					.exec( function(err, questions){
 						if(err) throw err;
+						console.log(questions)
 						var callback = function(){
+
+							console.log(questions)
 							res.render('deals/show', {
 								title 			: 'Oferta', 
 								deal  			: deal, 
@@ -507,7 +510,8 @@ module.exports = function (app){
 							});
 						}
 						var populatequestions = function(){
-							QuestionModel.populate(questions, {path: 'user.images'}, callback);
+							console.log(questions)
+							ImageModel.populate(questions, {path: 'user.images'}, callback);
 						}
 						ImageModel.populate(deal, {path: 'store.images'}, populatequestions);
 					});
