@@ -23,7 +23,7 @@
 						h4.media-heading  #{questions[i].user.username}
 						p #{questions[i].question}
 					-if(RolesHelper.isPartner(expose.user._id, deal.store)) //Partner
-						.media
+						.media(class="col-md-10")
 							-if(typeof questions[i].partner !== "undefined")
 								-if(questions[i].answer.length > 0)
 									a(class="pull-left", href="#") 
@@ -46,7 +46,7 @@
 												input(type="text", name="answer")
 												input(type="submit", class="btn btn-info", value="Responder")
 					-if(RolesHelper.admin(expose.user))
-						.media
+						.media(class="col-md-10")
 							a(class="pull-left", href="#") 
 								img(class= "answer_img", src="/img/logo_giombu.png")
 							.media-body
