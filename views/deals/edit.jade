@@ -40,15 +40,15 @@ block content
 		.form-group
 			label.col-md-2.control-label Precio:
 			.col-md-2
-				input(name='deal[price]', type='text',class="required number" ,minlength="1",maxlength="6", value="#{deal.price}").form-control.input-sm
+				input(name='deal[price]', type='text', id="price", class="required number" ,minlength="1",maxlength="6", value="#{deal.price}").form-control.input-sm
 		.form-group
 			label.col-md-2.control-label Descuento:
 			.col-md-2
-				input(name='deal[discount]', type='text',class="required number",minlength="1", maxlength="2", value="#{deal.discount}").form-control.input-sm
+				input(name='deal[discount]', type='text', id="discount", class="required number",minlength="1", maxlength="2", value="#{deal.discount}").form-control.input-sm
 		.form-group 
 			label.col-md-2.control-label Precio especial:
 			.col-md-2
-				input(name='deal[special_price]', type='text',class="required number" ,minlength="1",maxlength="6", value="#{deal.special_price}").form-control.input-sm
+				input(name='deal[special_price]', type='text', id="special_price", readonly="true", class="required number" ,minlength="1",maxlength="6", value="#{deal.special_price}").form-control.input-sm
 		.form-group
 			label.col-md-2.control-label Fecha de comienzo:
 			.col-md-3

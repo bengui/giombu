@@ -113,7 +113,7 @@ module.exports = function (app){
 
 			res.render('deals/list', {
 				title: 'Lista de ofertas activas', 
-				deals : deals,
+				deals 			: deals,
 				next_page		: next_page,
 				previous_page	: previous_page,
 				more_deals 		: more_deals
@@ -627,6 +627,7 @@ module.exports = function (app){
 	//Muestra deals activos.
 	app.get('/', function(req, res, next){
 			var search_query = '';
+			var today = new Date();
 			if(req.query.search_query){
 				search_query = req.query.search_query;
 			}
@@ -645,6 +646,8 @@ module.exports = function (app){
 						branches 	: { $in : branches_list },
 						title 		: {$regex : '.*' + search_query +'.*', $options : 'i'}
 					})
+					.where('start_date').lte(today)
+					.where('end_date').gte(today)
 					.limit(10)
 					.where('franchises')
 					.populate("images")
@@ -668,6 +671,8 @@ module.exports = function (app){
 					status 		: 'active',
 					title 		: {$regex : '.*' + search_query +'.*', $options : 'i'} 
 				})
+				.where('start_date').lte(today)
+				.where('end_date').gte(today)
 				.limit(10)
 				.sort("-created")
 				.populate("images")
