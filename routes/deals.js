@@ -506,7 +506,10 @@ module.exports = function (app){
 								questions 		: questions
 							});
 						}
-						ImageModel.populate(deal, {path: 'store.images'}, callback);
+						var populatequestions = function(){
+							QuestionModel.populate(questions, {path: 'user.images'}, callback);
+						}
+						ImageModel.populate(deal, {path: 'store.images'}, populatequestions);
 					});
 				});
 			}else{
